@@ -1,0 +1,163 @@
+
+/**
+ * Custom alert icons
+ */
+
+.alert-icon {
+	position: absolute;
+	top: 35px; left: 20px;
+	height: 64px; width: 64px;
+	background-position: 0 0; background-repeat: no-repeat;
+}
+
+.alert-icon-calendar {
+	background: url(./img/calendar.png);
+}
+
+.alert-icon-chat {
+	background: url(./img/chat.png);
+}
+
+.alert-icon-check {
+	background: url(./img/check.png);
+}
+
+.alert-icon-config {
+	background: url(./img/wrench.png);
+}
+
+.alert-icon-error {
+	background: url(./img/error.png);
+}
+
+.alert-icon-pen {
+	background: url(./img/pen.png);
+}
+
+.alert-icon-help {
+	background: url(./img/help.png);
+}
+
+.alert-icon-info {
+	background: url(./img/info.png);
+}
+
+.alert-icon-lamp {
+	background: url(./img/lamp.png);
+}
+
+.alert-icon-mail {
+	background: url(./img/mail.png);
+}
+
+.alert-icon-photo {
+	background: url(./img/camera.png);
+}
+
+.alert-icon-secure {
+	background: url(./img/unlock.png);
+}
+
+.alert-icon-trash {
+	background: url(./img/trash.png);
+}
+
+.alert-icon-user {
+	background: url(./img/user.png);
+}
+
+.alert-icon-up {
+	background: url(./img/up.png);
+}
+
+.alert-icon-down {
+	background: url(./img/down.png);
+}
+
+.alert-icon-left {
+	background: url(./img/left.png);
+}
+
+.alert-icon-right {
+	background: url(./img/right.png);
+}
+
+.alert-icon-at {
+	background: url(./img/at.png);
+}
+
+.alert-icon-bar {
+	background: url(./img/bars.png);
+}
+
+.alert-icon-book {
+	background: url(./img/book.png);
+}
+
+.alert-icon-chart {
+	background: url(./img/chart.png);
+}
+
+.alert-icon-clock {
+	background: url(./img/clock.png);
+}
+
+.alert-icon-gear {
+	background: url(./img/cog.png);
+}
+
+.alert-icon-document {
+	background: url(./img/document.png);
+}
+
+.alert-icon-folder {
+	background: url(./img/folder.png);
+}
+
+.alert-icon-heart {
+	background: url(./img/heart.png);
+}
+
+.alert-icon-home {
+	background: url(./img/home.png);
+}
+
+.alert-icon-key {
+	background: url(./img/key.png);
+}
+
+.alert-icon-magnifier {
+	background: url(./img/magnifier.png);
+}
+
+.alert-icon-pin {
+	background: url(./img/pin.png);
+}
+
+.alert-icon-minus {
+	background: url(./img/minus.png);
+}
+
+.alert-icon-window {
+	background: url(./img/window.png);
+}
+
+.alert-icon-plus {
+	background: url(./img/plus.png);
+}
+
+.alert-icon-reload {
+	background: url(./img/reload.png);
+}
+
+.alert-icon-quote {
+	background: url(./img/quote.png);
+}
+
+.alert-icon-star {
+	background: url(./img/star.png);
+}
+
+.alert-icon-tag {
+	background: url(./img/tag.png);
+}

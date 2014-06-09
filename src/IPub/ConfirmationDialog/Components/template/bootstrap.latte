@@ -1,0 +1,20 @@
+<div n:snippet="dialogArea">
+	<div n:if="$visible" id="confirmAction" class="modal fade display" tabindex="-1" role="dialog" aria-labelledby="confirmActionLabel">
+		<form n:name="form" class="form-horizontal ajax" data-ajax-off="['history','scrollTo']">
+			<div class="modal-content">
+				<div class="modal-header">
+					{button no, class => 'close', data-dismiss => 'modal', data-ajax-off => "['history','scrollTo']"}&times;{/button}
+					<h3 class="modal-title">{$heading}</h3>
+				</div>
+				<div class="modal-body">
+					<div n:if="$icon" class="alert-icon alert-icon-{$icon}">&nbsp;</div>
+					{$question}
+				</div>
+				<div class="modal-footer text-right">
+					{button yes, class => 'btn btn-danger', data-dismiss => 'modal', data-ajax-off => "['history','scrollTo']"}<i class="glyphicon glyphicon-ok"></i> {$form['yes']->getControl()->attrs['value']}{/button}
+					{button no, class => 'btn btn-default', data-dismiss => 'modal', data-ajax-off => "['history','scrollTo']"}<i class="glyphicon glyphicon-remove"></i> {$form['no']->getControl()->attrs['value']}{/button}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

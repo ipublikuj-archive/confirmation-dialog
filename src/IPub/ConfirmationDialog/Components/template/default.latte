@@ -1,0 +1,16 @@
+<div n:snippet="dialogArea">
+	<div n:if="$visible" class="overlay {$class}--overlay"></div>
+	<form n:if="$visible" n:name="form" class="{$class} modal ajax" data-ajax-off="['history','scrollTo']">
+		<div class="modal-header">
+			<h3 class="modal-title">{$heading}</h3>
+		</div>
+		<div class="modal-body">
+			<div n:if="$icon" class="alert-icon alert-icon-{$icon}">&nbsp;</div>
+			{$question}
+		</div>
+		<div class="modal-footer">
+			{button yes, class => 'btn btn-danger', data-ajax-off => "['history','scrollTo']"}{$form['yes']->getControl()->attrs['value']}{/button}
+			{button no, class => 'btn btn-default', data-ajax-off => "['history','scrollTo']"}{$form['no']->getControl()->attrs['value']}{/button}
+		</div>
+	</form>
+</div>

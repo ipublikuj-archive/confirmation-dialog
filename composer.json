@@ -1,0 +1,31 @@
+{
+	"name"			: "ipub/confirmationdialog",
+	"type"			: "library",
+	"description"	: "Nette extension for creating confirm action dialogs for various items on iPublikuj framework",
+	"keywords"		: ["confirm action", "nette dialog", "confirm dialog", "nette", "ipub", "framework", "tools"],
+	"homepage"		: "https://github.com/ipublikuj-eu/ConfirmationDialog",
+	"license"		: ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+
+	"authors": [
+		{
+			"name"		: "Adam Kadlec",
+			"homepage"	: "http://www.ipublikuj.eu/"
+		}
+	],
+
+	"support":{
+		"email"		:"support@ipublikuj.eu",
+		"issues"	:"https://github.com/ipublikuj-eu/ConfirmationDialog/issues"
+	},
+
+	"require": {
+		"php"				: ">=5.3.0",
+		"nette/nette"		: "2.1.*"
+	},
+
+	"autoload": {
+		"psr-0": {
+			"IPub\\ConfirmationDialog\\": "src/"
+		}
+	}
+}

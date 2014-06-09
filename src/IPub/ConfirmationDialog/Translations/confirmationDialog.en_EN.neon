@@ -1,0 +1,21 @@
+#
+# Confirmation dialog extension translations
+#
+# @language		EN
+#
+# @copyright	More in license.md
+# @license		http://www.ipublikuj.eu
+# @author		Adam Kadlec http://www.ipublikuj.eu
+# @package		iPublikuj:ConfirmationDialog!
+# @subpackage	Translations
+# @since		5.0
+#
+# @date			09.06.14
+#
+
+buttons:
+	bYes	: "Yes"
+	bNo		: "No"
+
+messages:
+	tokenIsExpired	: "Confirmation token has expired. Please try action again."
