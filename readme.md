@@ -9,7 +9,7 @@ The best way to install ipub/confirmationdialog is using  [Composer](http://getc
 ```json
 {
 	"require": {
-		"ipub/confirmationdialog": "dev-master"
+		"ipub/confirmationdialog": "dev-nette-2.1"
 	}
 }
 ```
@@ -17,7 +17,7 @@ The best way to install ipub/confirmationdialog is using  [Composer](http://getc
 or
 
 ```sh
-$ composer require ipub/confirmationdialog:@dev
+$ composer require ipub/confirmationdialog:@dev-nette-2.1
 ```
 
 After that you have to register extension in config.neon.
