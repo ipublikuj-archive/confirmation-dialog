@@ -19,8 +19,6 @@ use Nette\DI\Compiler;
 use Nette\DI\Configurator;
 use Nette\PhpGenerator as Code;
 
-use Kdyby\Translation\DI\ITranslationProvider;
-
 if (!class_exists('Nette\DI\CompilerExtension')) {
 	class_alias('Nette\Config\CompilerExtension', 'Nette\DI\CompilerExtension');
 	class_alias('Nette\Config\Compiler', 'Nette\DI\Compiler');
@@ -32,7 +30,7 @@ if (isset(Nette\Loaders\NetteLoader::getInstance()->renamed['Nette\Configurator'
 	class_alias('Nette\Config\Configurator', 'Nette\Configurator');
 }
 
-class ConfirmationDialogExtension extends Nette\DI\CompilerExtension implements ITranslationProvider
+class ConfirmationDialogExtension extends Nette\DI\CompilerExtension
 {
 	public function loadConfiguration()
 	{
@@ -58,17 +56,5 @@ class ConfirmationDialogExtension extends Nette\DI\CompilerExtension implements 
 		$config->onCompile[] = function (Configurator $config, Compiler $compiler) use ($extensionName) {
 			$compiler->addExtension($extensionName, new CommentsExtension());
 		};
-	}
-
-	/**
-	 * Return array of directories, that contain resources for translator.
-	 *
-	 * @return string[]
-	 */
-	function getTranslationResources()
-	{
-		return array(
-			__DIR__ . '/../Translations'
-		);
 	}
 }
