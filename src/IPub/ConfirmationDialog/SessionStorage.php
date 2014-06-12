@@ -15,34 +15,37 @@
 namespace IPub\ConfirmationDialog;
 
 use Nette;
+use Nette\Http;
 
 class SessionStorage extends Nette\Object
 {
 	/**
-	 * @var Nette\Http\SessionSection
+	 * @var Http\SessionSection
 	 */
 	protected $session;
 
 	/**
-	 * @param Nette\Http\Session $session
+	 * @param Http\Session $session
 	 */
-	public function __construct(Nette\Http\Session $session)
+	public function __construct(Http\Session $session)
 	{
-		$this->session = $session->getSection('ConfirmDialog');
+		$this->session = $session->getSection('ConfirmationDialog');
 	}
 
 	/**
 	 * Stores the given ($key, $value) pair, so that future calls to
-	 * getPersistentData($key) return $value. This call may be in another request.
+	 * get($key) return $value. This call may be in another request.
 	 *
-	 * Provides the implementations of the inherited abstract
-	 * methods.  The implementation uses PHP sessions to maintain
-	 * a store for authorization codes, user ids, CSRF states, and
-	 * access tokens.
+	 * @param string $key
+	 * @param mixed $value
+	 *
+	 * @return $this
 	 */
 	public function set($key, $value)
 	{
 		$this->session->$key = $value;
+
+		return $this;
 	}
 
 	/**
@@ -63,21 +66,25 @@ class SessionStorage extends Nette\Object
 	 *
 	 * @param string $key
 	 *
-	 * @return void
+	 * @return $this
 	 */
 	public function clear($key)
 	{
 		unset($this->session->$key);
+
+		return $this;
 	}
 
 	/**
 	 * Clear all data from the persistent storage
 	 *
-	 * @return void
+	 * @return $this
 	 */
 	public function clearAll()
 	{
 		$this->session->remove();
+
+		return $this;
 	}
 
 	/**
@@ -95,10 +102,14 @@ class SessionStorage extends Nette\Object
 	/**
 	 * @param string $name
 	 * @param mixed $value
+	 *
+	 * @return $this
 	 */
 	public function __set($name, $value)
 	{
 		$this->set($name, $value);
+
+		return $this;
 	}
 
 	/**
@@ -113,9 +124,13 @@ class SessionStorage extends Nette\Object
 
 	/**
 	 * @param string $name
+	 *
+	 * @return $this
 	 */
 	public function __unset($name)
 	{
 		$this->clear($name);
+
+		return $this;
 	}
 }

@@ -4,12 +4,12 @@ Add confirm action dialog on various items for [Nette Framework](http://nette.or
 
 ## Instalation
 
-The best way to install ipub/confirmationdialog is using  [Composer](http://getcomposer.org/):
+The best way to install ipub/confirmation-dialog is using  [Composer](http://getcomposer.org/):
 
 ```json
 {
 	"require": {
-		"ipub/confirmationdialog": "dev-master"
+		"ipub/confirmation-dialog": "dev-master"
 	}
 }
 ```
@@ -17,7 +17,7 @@ The best way to install ipub/confirmationdialog is using  [Composer](http://getc
 or
 
 ```sh
-$ composer require ipub/confirmationdialog:@dev
+$ composer require ipub/confirmation-dialog:@dev
 ```
 
 After that you have to register extension in config.neon.
