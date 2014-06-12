@@ -100,8 +100,11 @@ class Control extends Application\UI\Control
 		// Get session section for confirmer
 		$this->sessionStorage = $sessionStorage;
 
-		// Set control translator
-		$this->setTranslator($translator);
+		// If translator is loaded...
+		if ($translator instanceof Localization\ITranslator) {
+			// ...set control translator
+			$this->setTranslator($translator);
+		}
 
 		// Store instance
 		self::$instance = uniqid();
