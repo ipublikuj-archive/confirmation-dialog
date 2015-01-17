@@ -2,7 +2,7 @@
 
 Add confirm action dialog on various items for [Nette Framework](http://nette.org/)
 
-## Instalation
+## Installation
 
 The best way to install ipub/confirmation-dialog is using  [Composer](http://getcomposer.org/):
 
