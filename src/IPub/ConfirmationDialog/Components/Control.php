@@ -22,6 +22,7 @@ use Nette\Utils;
 
 use IPub;
 use IPub\ConfirmationDialog\SessionStorage;
+use Tracy\Debugger;
 
 class Control extends Application\UI\Control
 {
@@ -387,9 +388,9 @@ class Control extends Application\UI\Control
 	/**
 	 * Dynamically named signal receiver
 	 */
-	function _handleShow($id)
+	function _handleShow()
 	{
-		list($component, $signal) = $this->presenter->getSignal();
+		list($component, $signal) = $this->getPresenter()->getSignal();
 
 		$confirmName = (substr($signal, 7));
 		$confirmName{0} = strtolower($confirmName{0});
@@ -409,9 +410,9 @@ class Control extends Application\UI\Control
 		// Get submitted values from form
 		$values = $button->getForm(TRUE)->getValues();
 
-		if ($this->sessionStorage->get($values['secureToken'])) {
+		if (!$this->sessionStorage->get($values['secureToken'])) {
 			if (self::$_strings['expired'] != '') {
-				$this->presenter->flashMessage(self::$_strings['expired']);
+				$this->getPresenter()->flashMessage(self::$_strings['expired']);
 			}
 
 			$this->redrawControl();
@@ -429,10 +430,15 @@ class Control extends Application\UI\Control
 
 		$args = $action['params'];
 
-		$this->parent->tryCall($callback[1], $args);
+		if (method_exists($this->getParent(), 'tryCall')) {
+			call_user_func_array([$this->getParent(), 'tryCall'], ['method' => $callback[1], 'params' => $args]);
 
-		if (!$this->presenter->isAjax() && $this->visible == FALSE) {
-			$this->presenter->redirect('this');
+		} else {
+			call_user_func_array([$this->getParent(), $callback[1]], $args);
+		}
+
+		if (!$this->getPresenter()->isAjax() && $this->visible == FALSE) {
+			$this->getPresenter()->redirect('this');
 		}
 	}
 
@@ -453,8 +459,8 @@ class Control extends Application\UI\Control
 		$this->visible = FALSE;
 		$this->redrawControl();
 
-		if (!$this->presenter->isAjax()) {
-			$this->presenter->redirect('this');
+		if (!$this->getPresenter()->isAjax()) {
+			$this->getPresenter()->redirect('this');
 		}
 	}
 

@@ -11,7 +11,7 @@
 					{$question}
 				</div>
 				<div class="modal-footer text-right">
-					{button yes, class => 'btn btn-danger', data-dismiss => 'modal', data-ajax-off => "['history','scrollTo']"}<i class="glyphicon glyphicon-ok"></i> {$form['yes']->getControl()->attrs['value']}{/button}
+					{button yes, class => 'btn btn-danger', data-dismiss => 'modal', data-ajax-off => "['scrollTo']"}<i class="glyphicon glyphicon-ok"></i> {$form['yes']->getControl()->attrs['value']}{/button}
 					{button no, class => 'btn btn-default', data-dismiss => 'modal', data-ajax-off => "['history','scrollTo']"}<i class="glyphicon glyphicon-remove"></i> {$form['no']->getControl()->attrs['value']}{/button}
 				</div>
 			</div>
