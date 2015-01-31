@@ -43,14 +43,12 @@ class SomePresenter
 	/**
 	 * Component for action confirmation
 	 *
-	 * @param ConfirmationDialog\IControl $factory
-	 *
 	 * @return ConfirmationDialog\Control
 	 */
-	protected function createComponentConfirmAction(ConfirmationDialog\IControl $factory)
+	protected function createComponentConfirmAction()
 	{
 		// Init action confirm
-		$form = $factory->create();
+		$form = new ConfirmationDialog\Control;
 
 		// Define confirm windows
 		$form
