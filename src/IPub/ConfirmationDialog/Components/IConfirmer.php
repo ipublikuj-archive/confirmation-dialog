@@ -1,6 +1,6 @@
 <?php
 /**
- * IControl.php
+ * IConfirmer.php
  *
  * @copyright	More in license.md
  * @license		http://www.ipublikuj.eu
@@ -9,17 +9,17 @@
  * @subpackage	Components
  * @since		5.0
  *
- * @date		12.03.14
+ * @date		31.01.15
  */
 
 namespace IPub\ConfirmationDialog\Components;
 
-interface IControl
+interface IConfirmer
 {
 	/**
 	 * @param NULL $templateFile
 	 *
-	 * @return Control
+	 * @return Confirmer
 	 */
 	public function create($templateFile = NULL);
 }

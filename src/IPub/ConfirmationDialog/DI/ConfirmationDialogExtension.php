@@ -15,24 +15,10 @@
 namespace IPub\ConfirmationDialog\DI;
 
 use Nette;
-use Nette\DI\Compiler;
-use Nette\DI\Configurator;
+use Nette\DI;
 use Nette\PhpGenerator as Code;
 
-use Kdyby\Translation\DI\ITranslationProvider;
-
-if (!class_exists('Nette\DI\CompilerExtension')) {
-	class_alias('Nette\Config\CompilerExtension', 'Nette\DI\CompilerExtension');
-	class_alias('Nette\Config\Compiler', 'Nette\DI\Compiler');
-	class_alias('Nette\Config\Helpers', 'Nette\DI\Config\Helpers');
-}
-
-if (isset(Nette\Loaders\NetteLoader::getInstance()->renamed['Nette\Configurator']) || !class_exists('Nette\Configurator')) {
-	unset(Nette\Loaders\NetteLoader::getInstance()->renamed['Nette\Configurator']);
-	class_alias('Nette\Config\Configurator', 'Nette\Configurator');
-}
-
-class ConfirmationDialogExtension extends Nette\DI\CompilerExtension implements ITranslationProvider
+class ConfirmationDialogExtension extends DI\CompilerExtension
 {
 	public function loadConfiguration()
 	{
@@ -42,21 +28,28 @@ class ConfirmationDialogExtension extends Nette\DI\CompilerExtension implements 
 		$builder->addDefinition($this->prefix('session'))
 			->setClass('IPub\ConfirmationDialog\SessionStorage');
 
-		// Define components
+		// Define components factories
 		$builder->addDefinition($this->prefix('dialog'))
 			->setClass('IPub\ConfirmationDialog\Components\Control')
 			->setImplement('IPub\ConfirmationDialog\Components\IControl')
+			->setInject(TRUE)
+			->addTag('cms.components');
+
+		$builder->addDefinition($this->prefix('confirmer'))
+			->setClass('IPub\ConfirmationDialog\Components\Confirmer')
+			->setImplement('IPub\ConfirmationDialog\Components\IConfirmer')
+			->setInject(TRUE)
 			->addTag('cms.components');
 	}
 
 	/**
-	 * @param \Nette\Configurator $config
+	 * @param Nette\Configurator $config
 	 * @param string $extensionName
 	 */
 	public static function register(Nette\Configurator $config, $extensionName = 'confirmationDialog')
 	{
-		$config->onCompile[] = function (Configurator $config, Compiler $compiler) use ($extensionName) {
-			$compiler->addExtension($extensionName, new CommentsExtension());
+		$config->onCompile[] = function (Nette\Configurator $config, Nette\DI\Compiler $compiler) use ($extensionName) {
+			$compiler->addExtension($extensionName, new ConfirmationDialogExtension());
 		};
 	}
 

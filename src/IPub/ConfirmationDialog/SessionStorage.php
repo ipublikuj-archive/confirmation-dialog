@@ -29,7 +29,7 @@ class SessionStorage extends Nette\Object
 	 */
 	public function __construct(Http\Session $session)
 	{
-		$this->session = $session->getSection('ConfirmationDialog');
+		$this->session = $session->getSection('ipub.confirmation-dialog');
 	}
 
 	/**
