@@ -80,6 +80,11 @@ class Confirmer extends Application\UI\Control
 	protected $dialog;
 
 	/**
+	 * @var bool
+	 */
+	protected $useAjax = TRUE;
+
+	/**
 	 * @param Localization\ITranslator $translator
 	 */
 	public function injectTranslator(Localization\ITranslator $translator = NULL)
@@ -454,6 +459,26 @@ class Confirmer extends Application\UI\Control
 	}
 
 	/**
+	 * @return $this
+	 */
+	public function enableAjax()
+	{
+		$this->useAjax = TRUE;
+
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function disableAjax()
+	{
+		$this->useAjax = FALSE;
+
+		return $this;
+	}
+
+	/**
 	 * Render confirmer
 	 *
 	 * @throw Nette\InvalidStateException
@@ -466,6 +491,7 @@ class Confirmer extends Application\UI\Control
 		$this->template->icon		= $this->getIcon();
 		$this->template->question	= $this->getQuestion();
 		$this->template->heading	= $this->getHeading();
+		$this->template->useAjax	= $this->useAjax;
 
 		// Check if translator is available
 		if ($this->getTranslator() instanceof Localization\ITranslator) {

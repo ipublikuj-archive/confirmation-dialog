@@ -1,5 +1,5 @@
 <div n:class="confirmation-dialog, modal, fade, display, $class ? $class" tabindex="-1" role="dialog">
-	<form n:name="form" class="form-horizontal ajax" data-ajax-off="['history','scrollTo']">
+	<form n:name="form" n:class="form-horizontal, $useAjax ? ajax" data-ajax-off="['history','scrollTo']">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button n:name="no" class="close" data-dismiss="modal" data-ajax-off="['history','scrollTo']">&times;</button>

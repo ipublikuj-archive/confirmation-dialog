@@ -1,6 +1,6 @@
 <div n:class="confirmation-dialog, uk-modal, modal, display, $class ? $class" tabindex="-1" role="dialog">
 	<div class="uk-modal-dialog">
-		<form n:name="form" class="uk-form ajax" data-ajax-off="['history','scrollTo']">
+		<form n:name="form" n:class="uk-form, $useAjax ? ajax" data-ajax-off="['history','scrollTo']">
 			<button n:name="no" class="uk-modal-close uk-close" data-ajax-off="['history','scrollTo']" />
 			<h3 class="modal-title">{$heading}</h3>
 

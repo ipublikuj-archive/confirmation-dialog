@@ -52,6 +52,11 @@ class Control extends Application\UI\Control
 	protected $confirmer;
 
 	/**
+	 * @var bool
+	 */
+	protected $useAjax = TRUE;
+
+	/**
 	 * @param Localization\ITranslator $translator
 	 */
 	public function injectTranslator(Localization\ITranslator $translator = NULL)
@@ -241,6 +246,13 @@ class Control extends Application\UI\Control
 				throw new Exceptions\InvalidStateException("Confirmation control factory does not exist.");
 			}
 
+			if ($that->useAjax) {
+				$confirmer->enableAjax();
+
+			} else {
+				$confirmer->disableAjax();
+			}
+
 			return $confirmer;
 		}));
 	}
@@ -292,6 +304,26 @@ class Control extends Application\UI\Control
 		$params = $this->getParameters();
 
 		$this->showConfirm($name, $params);
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function enableAjax()
+	{
+		$this->useAjax = TRUE;
+
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function disableAjax()
+	{
+		$this->useAjax = FALSE;
+
+		return $this;
 	}
 
 	/**
