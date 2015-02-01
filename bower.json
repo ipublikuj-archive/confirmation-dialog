@@ -1,0 +1,14 @@
+{
+	"name": "ipub/confirmation-dialog",
+	"main": [
+		"client-side/css/ipub.confirmationDialog.css"
+	],
+	"ignore": [
+		"src",
+		"tests",
+		".gitignore",
+		".travis.composer.php",
+		".travis.yml",
+		"composer.json"
+	]
+}
