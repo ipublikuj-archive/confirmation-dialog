@@ -1,5 +1,9 @@
 # Confirmation dialog
 
+[![Build Status](https://img.shields.io/travis/iPublikuj/confirmation-dialog.svg?style=flat-square)](https://travis-ci.org/iPublikuj/confirmation-dialog)
+[![Latest Stable Version](https://img.shields.io/packagist/v/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
+[![Composer Downloads](https://img.shields.io/packagist/dt/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
+
 Add confirm action dialog on various items for [Nette Framework](http://nette.org/)
 
 ## Installation
@@ -27,6 +31,19 @@ extensions:
 	confirmationDialog: IPub\ConfirmationDialog\DI\ConfirmationDialogExtension
 ```
 
+Package contains trait, which you will have to use in presenters or components to implement Confirmation Dialog component factory. This works only for PHP 5.4+, for older version you can simply copy trait content and paste it into class where you want to use it.
+
+```php
+<?php
+
+class BasePresenter extends Nette\Application\UI\Presenter
+{
+
+	use IPub\ConfirmationDialog\TConfirmationDialog;
+
+}
+```
+
 ## Usage
 
 ### Create component in Presenter or Control
@@ -36,10 +53,15 @@ Extension create component factory which could be used to create confirmation di
 ```php
 namespace Your\Coool\Namespace\Presenter;
 
-use IPub\ConfirmationDialog\Components as ConfirmationDialog;
+use IPub\ConfirmationDialog;
 
 class SomePresenter
 {
+	/**
+	 * Insert extension trait (only for PHP 5.4+
+	 */
+	use ConfirmationDialog\TConfirmationDialog;
+
 	/**
 	 * Component for action confirmation
 	 *
@@ -48,10 +70,10 @@ class SomePresenter
 	protected function createComponentConfirmAction()
 	{
 		// Init action confirm
-		$form = new ConfirmationDialog\Control;
+		$dialog = $this->confirmationDialogFactory->create();
 
 		// Define confirm windows
-		$form
+		$dialog
 			// First confirmation window
 			->addConfirmer(
 				'confirmerName',
@@ -74,15 +96,15 @@ class SomePresenter
 	/**
 	 * Create question for confirmation dialog
 	 *
-	 * @param ConfirmationDialog\Control $dialog
+	 * @param ConfirmationDialog\Components\Confirmer $confirmer
 	 * @param $params
 	 *
 	 * @return bool|string
 	 */
-	public function questionCallback(ConfirmationDialog\Control $dialog, $params)
+	public function questionCallback(ConfirmationDialog\Components\Confirmer $confirmer, $params)
 	{
 		// Set dialog icon
-		$dialog->setIcon('trash');
+		$confirmer->setIcon('trash');
 
 		// Find item to do some action
 		if ($item = $this->dataModel->findOneByIdentifier($params['id'])) {
@@ -124,4 +146,4 @@ And finally you have to add confirmer to the template.
 {/foreach}
 ```
 
-The link signal is always created with prefix "confirm" like in example!
+The link for signal is always created with prefix "confirm" like in example!
