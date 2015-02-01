@@ -353,6 +353,8 @@ class Confirmer extends Application\UI\Control
 	 * Confirm YES clicked
 	 *
 	 * @param Forms\Controls\SubmitButton $button
+	 *
+	 * @throws Exceptions\InvalidStateException
 	 */
 	public function confirmClicked(Forms\Controls\SubmitButton $button)
 	{
@@ -387,10 +389,14 @@ class Confirmer extends Application\UI\Control
 		$this->redrawControl();
 
 		if (method_exists($this->getDialog()->getParent(), 'tryCall')) {
-			call_user_func_array([$this->getDialog()->getParent(), 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $values['params']]);
+			if (call_user_func_array([$this->getDialog()->getParent(), 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $values['params']]) === FALSE) {
+				throw new Exceptions\InvalidStateException('Confirm action callback was not successful.');
+			}
 
 		} else {
-			call_user_func_array([$this->getDialog()->getParent(), $this->getHandler()[1]], $values['params']);
+			if (call_user_func_array([$this->getDialog()->getParent(), $this->getHandler()[1]], $values['params']) === FALSE) {
+				throw new Exceptions\InvalidStateException('Confirm action callback was not successful.');
+			}
 		}
 
 		// Check if request is done via ajax...
