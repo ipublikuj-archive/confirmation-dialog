@@ -88,17 +88,6 @@ class Confirmer extends Application\UI\Control
 	}
 
 	/**
-	 * @param Nette\ComponentModel\IContainer $parent
-	 * @param null $name
-	 */
-	public function __construct(
-		Nette\ComponentModel\IContainer $parent = NULL, $name = NULL
-	) {
-		// TODO: remove, only for tests
-		parent::__construct(NULL, NULL);
-	}
-
-	/**
 	 * @param ConfirmationDialog\SessionStorage $sessionStorage
 	 */
 	public function injectSessionStorage(ConfirmationDialog\SessionStorage $sessionStorage)
