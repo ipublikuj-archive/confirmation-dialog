@@ -321,6 +321,13 @@ abstract class ConfirmerAttributes extends Control
 	protected function getConfirmerValues($token)
 	{
 		// Get values stored in session
-		return $this->sessionStorage->get($token);
+		$values = $this->sessionStorage->get($token);
+
+		// Check for correct values
+		if (!is_array($values) || empty($values) || !isset($values['confirmer']) || !isset($values['params'])) {
+			throw new Exceptions\InvalidStateException('Confirmer is not configured!');
+		}
+
+		return $values;
 	}
 }

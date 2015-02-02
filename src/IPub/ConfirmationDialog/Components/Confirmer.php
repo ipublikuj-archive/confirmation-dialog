@@ -98,7 +98,13 @@ class Confirmer extends ConfirmerAttributes
 		// Get token from post
 		$token = $values->secureToken;
 
-		if (!$this->getConfirmerValues($token)) {
+		try {
+			// Get values stored in session
+			$values = $this->getConfirmerValues($token);
+			// Remove session data for current confirmer
+			$this->sessionStorage->clear($token);
+
+		} catch (Exceptions\InvalidStateException $ex) {
 			if (self::$strings['expired'] != '' && $this->getPresenter() instanceof Application\UI\Presenter) {
 				$this->getPresenter()->flashMessage(self::$strings['expired']);
 			}
@@ -108,11 +114,6 @@ class Confirmer extends ConfirmerAttributes
 
 			return;
 		}
-
-		// Get values stored in session
-		$values = $this->getConfirmerValues($token);
-		// Remove session data for current confirmer
-		$this->sessionStorage->clear($token);
 
 		// Invalidate all snippets
 		$this->redrawControls();
