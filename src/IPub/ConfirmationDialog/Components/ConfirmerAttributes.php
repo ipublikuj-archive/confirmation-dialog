@@ -324,7 +324,7 @@ abstract class ConfirmerAttributes extends Control
 		$values = $this->sessionStorage->get($token);
 
 		// Check for correct values
-		if (!is_array($values) || empty($values) || !isset($values['confirmer']) || !isset($values['params'])) {
+		if (!is_array($values) || !isset($values['confirmer']) || !isset($values['params'])) {
 			throw new Exceptions\InvalidStateException('Confirmer is not configured!');
 		}
 
