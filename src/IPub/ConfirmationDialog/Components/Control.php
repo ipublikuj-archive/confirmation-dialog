@@ -31,10 +31,18 @@ use IPub\ConfirmationDialog\Exceptions;
  */
 abstract class Control extends Application\UI\Control
 {
+	const TEMPLATE_LAYOUT		= 'layout';
+	const TEMPLATE_CONFIRMER	= 'template';
+
 	/**
 	 * @var null|string
 	 */
 	protected $templatePath = NULL;
+
+	/**
+	 * @var null|string
+	 */
+	protected $layoutPath = NULL;
 
 	/**
 	 * @var Localization\ITranslator
@@ -53,13 +61,19 @@ abstract class Control extends Application\UI\Control
 	 * Change default control template path
 	 *
 	 * @param string $templatePath
+	 * @param string $type
 	 *
 	 * @return $this
 	 *
 	 * @throws Exceptions\FileNotFoundException
+	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function setTemplateFile($templatePath)
+	public function setTemplateFilePath($templatePath, $type)
 	{
+		if (!in_array((string) $type, [self::TEMPLATE_CONFIRMER, self::TEMPLATE_LAYOUT])) {
+			throw new Exceptions\InvalidArgumentException('Wrong template type');
+		}
+
 		// Check if template file exists...
 		if (!is_file($templatePath)) {
 			// ...check if extension template is used
@@ -72,7 +86,12 @@ abstract class Control extends Application\UI\Control
 			}
 		}
 
-		$this->templatePath = $templatePath;
+		if ($type == self::TEMPLATE_LAYOUT) {
+			$this->layoutPath = $templatePath;
+
+		} else {
+			$this->templatePath = $templatePath;
+		}
 
 		return $this;
 	}

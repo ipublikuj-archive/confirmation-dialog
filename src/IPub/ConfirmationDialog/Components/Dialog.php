@@ -31,11 +31,6 @@ use IPub\ConfirmationDialog\Exceptions;
 class Dialog extends Control
 {
 	/**
-	 * @var null|string
-	 */
-	protected $layoutPath = NULL;
-
-	/**
 	 * @var IConfirmer
 	 */
 	protected $confirmerFactory;
@@ -79,19 +74,21 @@ class Dialog extends Control
 	 */
 	public function setLayoutFile($layoutPath)
 	{
-		// Check if template file exists...
-		if (!is_file($layoutPath)) {
-			// ...check if extension template is used
-			if (is_file(__DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $layoutPath)) {
-				$layoutPath = __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $layoutPath;
+		parent::setTemplateFilePath($layoutPath, self::TEMPLATE_LAYOUT);
 
-			} else {
-				// ...if not throw exception
-				throw new Exceptions\FileNotFoundException('Layout file "'. $layoutPath .'" was not found.');
-			}
-		}
+		return $this;
+	}
 
-		$this->layoutPath = $layoutPath;
+	/**
+	 * Change default confirmer template path
+	 *
+	 * @param string $layoutPath
+	 *
+	 * @return $this
+	 */
+	public function setTemplateFile($layoutPath)
+	{
+		parent::setTemplateFilePath($layoutPath, self::TEMPLATE_CONFIRMER);
 
 		return $this;
 	}

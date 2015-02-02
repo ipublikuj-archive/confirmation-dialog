@@ -221,6 +221,20 @@ class Confirmer extends ConfirmerAttributes
 	}
 
 	/**
+	 * Change default confirmer template path
+	 *
+	 * @param string $layoutPath
+	 *
+	 * @return $this
+	 */
+	public function setTemplateFile($layoutPath)
+	{
+		parent::setTemplateFilePath($layoutPath, self::TEMPLATE_CONFIRMER);
+
+		return $this;
+	}
+
+	/**
 	 * Generate unique token key
 	 *
 	 * @return string
