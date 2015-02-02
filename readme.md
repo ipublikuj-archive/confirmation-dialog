@@ -89,7 +89,7 @@ class SomePresenter
 				'Heading of the second window'
 			);
 
-		return $form;
+		return $dialog;
 	}
 
 
