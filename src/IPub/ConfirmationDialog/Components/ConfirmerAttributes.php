@@ -235,7 +235,7 @@ abstract class ConfirmerAttributes extends Control
 	 *
 	 * @return mixed
 	 *
-	 * @throws Exceptions\InvalidStateException
+	 * @throws Exceptions\HandlerNotCallableException
 	 */
 	public function callHandler($obj, array $params)
 	{
@@ -244,6 +244,10 @@ abstract class ConfirmerAttributes extends Control
 
 		} else {
 			$result = call_user_func_array([$obj, $this->getHandler()[1]], $params);
+		}
+
+		if ($result === FALSE) {
+			throw new Exceptions\HandlerNotCallableException('Confirm action callback was not successful.');
 		}
 
 		return $result;

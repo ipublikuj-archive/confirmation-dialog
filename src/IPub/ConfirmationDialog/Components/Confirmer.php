@@ -103,9 +103,7 @@ class Confirmer extends ConfirmerAttributes
 
 			$this->getDialog()->resetConfirmer();
 
-			if ($this->callHandler($this->getDialog()->getParent(), $values['params']) === FALSE) {
-				throw new Exceptions\HandlerNotCallableException('Confirm action callback was not successful.');
-			}
+			$this->callHandler($this->getDialog()->getParent(), $values['params']);
 
 		} catch (Exceptions\InvalidStateException $ex) {
 			if (self::$strings['expired'] != '' && $this->getPresenter() instanceof Application\UI\Presenter) {
