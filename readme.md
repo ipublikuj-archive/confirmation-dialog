@@ -1,7 +1,6 @@
 # Confirmation dialog
 
 [![Build Status](https://img.shields.io/travis/iPublikuj/confirmation-dialog.svg?style=flat-square)](https://travis-ci.org/iPublikuj/confirmation-dialog)
-[![Coverage Status](https://coveralls.io/repos/iPublikuj/confirmation-dialog/badge.svg)](https://coveralls.io/r/iPublikuj/confirmation-dialog)
 [![Latest Stable Version](https://img.shields.io/packagist/v/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
 [![Composer Downloads](https://img.shields.io/packagist/dt/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
 
