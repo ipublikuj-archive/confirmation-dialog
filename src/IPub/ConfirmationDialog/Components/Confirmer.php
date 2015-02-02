@@ -195,7 +195,7 @@ class Confirmer extends Application\UI\Control
 	public function getQuestion()
 	{
 		// Check if attribute is callable
-		if (is_callable($this->heading)) {
+		if (is_callable($this->question)) {
 			$question = (string) $this->callCallableAttribute($this->question);
 
 		} else {
@@ -236,7 +236,7 @@ class Confirmer extends Application\UI\Control
 	public function getIcon()
 	{
 		// Check if attribute is callable
-		if (is_callable($this->heading)) {
+		if (is_callable($this->icon)) {
 			$icon = (string) $this->callCallableAttribute($this->icon);
 
 		} else {
