@@ -29,7 +29,6 @@ use IPub\ConfirmationDialog\Exceptions;
  * @package		iPublikuj:ConfirmationDialog!
  * @subpackage	Components
  *
- * @property-read Application\UI\ITemplate $template
  * @property-read string $name
  */
 class Confirmer extends Control
@@ -417,33 +416,34 @@ class Confirmer extends Control
 	 */
 	public function render()
 	{
-		parent::render();
+		// Create template
+		$template = parent::render();
 
 		// Check if control has template
-		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
+		if ($template instanceof Nette\Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
-			$this->template->name		= $this->name;
-			$this->template->class		= $this->cssClass;
-			$this->template->icon		= $this->getIcon();
-			$this->template->question	= $this->getQuestion();
-			$this->template->heading	= $this->getHeading();
-			$this->template->useAjax	= $this->useAjax;
+			$template->name		= $this->name;
+			$template->class	= $this->cssClass;
+			$template->icon		= $this->getIcon();
+			$template->question	= $this->getQuestion();
+			$template->heading	= $this->getHeading();
+			$template->useAjax	= $this->useAjax;
 
 			// If template was not defined before...
-			if ($this->template->getFile() === NULL) {
+			if ($template->getFile() === NULL) {
 				// ...try to get base component template file
-				if (!empty($this->templatePath)) {
+				if (!empty($templatePath)) {
 					$templatePath = $this->templatePath;
 
 				} else {
 					$templatePath = $this->getDialog()->getTemplateFile();
 				}
 
-				$this->template->setFile($templatePath);
+				$template->setFile($templatePath);
 			}
 
 			// Render component template
-			$this->template->render();
+			$template->render();
 
 		} else {
 			throw new Exceptions\InvalidStateException('Confirmer control is without template.');

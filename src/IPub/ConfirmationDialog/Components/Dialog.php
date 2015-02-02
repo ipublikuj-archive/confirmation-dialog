@@ -27,9 +27,6 @@ use IPub\ConfirmationDialog\Exceptions;
  *
  * @package		iPublikuj:ConfirmationDialog!
  * @subpackage	Components
- *
- * @property-read Application\UI\ITemplate $template
- * @property-read string $name
  */
 class Dialog extends Control
 {
@@ -142,25 +139,24 @@ class Dialog extends Control
 		// Confirmer name could be only A-z
 		if (!preg_match('/[A-Za-z_]+/', $name)) {
 			throw new Exceptions\InvalidArgumentException("Confirmation control name contain invalid characters.");
-		}
 
 		// Check confirmer
-		if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer) {
+		} else if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer) {
 			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' could not be created.");
-		}
 
 		// Check confirmer
-		if ($confirmer->isConfigured()) {
+		} else if ($confirmer->isConfigured()) {
 			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' already exists.");
-		}
 
-		$confirmer
-			// Set confirmer handler
-			->setHandler($handler)
-			// Set dialog heading
-			->setHeading($heading)
-			// Set dialog question
-			->setQuestion($question);
+		} else {
+			$confirmer
+				// Set confirmer handler
+				->setHandler($handler)
+				// Set confirmer heading
+				->setHeading($heading)
+				// Set confirmer question
+				->setQuestion($question);
+		}
 
 		return $this;
 	}
@@ -278,22 +274,23 @@ class Dialog extends Control
 	 */
 	public function render()
 	{
-		parent::render();
+		// Create template
+		$template = parent::render();
 
 		// Check if control has template
-		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
+		if ($template instanceof Nette\Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
-			$this->template->confirmer = $this->confirmer;
+			$template->confirmer = $this->confirmer;
 
 			// If layout was not defined before...
-			if ($this->template->getFile() === NULL) {
+			if ($template->getFile() === NULL) {
 				// ...try to get default component layout file
 				$layoutPath = !empty($this->layoutPath) ? $this->layoutPath : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
-				$this->template->setFile($layoutPath);
+				$template->setFile($layoutPath);
 			}
 
 			// Render component template
-			$this->template->render();
+			$template->render();
 
 		} else {
 			throw new Exceptions\InvalidStateException('Dialog control is without template.');

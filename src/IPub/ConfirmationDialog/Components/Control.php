@@ -104,6 +104,8 @@ abstract class Control extends Application\UI\Control
 	/**
 	 * Render control
 	 *
+	 * @return Application\UI\ITemplate
+	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
 	public function render()
@@ -114,6 +116,8 @@ abstract class Control extends Application\UI\Control
 			if ($this->getTranslator() instanceof Localization\ITranslator) {
 				$this->template->setTranslator($this->getTranslator());
 			}
+
+			return $this->template;
 
 		} else {
 			throw new Exceptions\InvalidStateException('Control is without template.');
