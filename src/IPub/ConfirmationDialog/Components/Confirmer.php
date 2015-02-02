@@ -369,7 +369,7 @@ class Confirmer extends Application\UI\Control
 		// Get token from post
 		$token = $values->secureToken;
 
-		if (!$this->sessionStorage->get($token)) {
+		if (!$this->getConfirmerValues($token)) {
 			if (self::$strings['expired'] != '') {
 				if ($this->getPresenter() instanceof Application\UI\Presenter) {
 					$this->getPresenter()->flashMessage(self::$strings['expired']);
@@ -385,7 +385,7 @@ class Confirmer extends Application\UI\Control
 		}
 
 		// Get values stored in session
-		$values = $this->sessionStorage->get($token);
+		$values = $this->getConfirmerValues($token);
 		// Remove session data for current confirmer
 		$this->sessionStorage->clear($token);
 
@@ -426,7 +426,7 @@ class Confirmer extends Application\UI\Control
 		// Get token from post
 		$token = $values->secureToken;
 
-		if ($this->sessionStorage->get($token)) {
+		if ($this->getConfirmerValues($token)) {
 			$this->sessionStorage->clear($token);
 		}
 
@@ -621,14 +621,14 @@ class Confirmer extends Application\UI\Control
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	protected function getConfirmerValues()
+	protected function getConfirmerValues($token)
 	{
 		// Get values stored in session
-		return $this->sessionStorage->get($this->getToken());
+		return $this->sessionStorage->get($token);
 	}
 
 	/**
@@ -639,7 +639,7 @@ class Confirmer extends Application\UI\Control
 	protected function callCallableAttribute($attribute)
 	{
 		// Get values stored in session
-		$values = $this->getConfirmerValues();
+		$values = $this->getConfirmerValues($this->getToken());
 
 		return call_user_func_array($attribute, [$this, $values['params']]);
 	}
