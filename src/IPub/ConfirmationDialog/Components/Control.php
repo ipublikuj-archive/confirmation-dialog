@@ -21,7 +21,6 @@ use Nette\Localization;
 use Nette\Utils;
 
 use IPub;
-use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
 
 /**
