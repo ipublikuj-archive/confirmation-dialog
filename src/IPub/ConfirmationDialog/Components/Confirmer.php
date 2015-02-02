@@ -117,9 +117,6 @@ class Confirmer extends Control
 		if ($this->checkCallableOrString($heading)) {
 			// Update confirmation heading
 			$this->heading = $heading;
-
-			// Redraw confirmation snippets
-			$this->getDialog()->redrawControl();
 		}
 
 		return $this;
@@ -160,9 +157,6 @@ class Confirmer extends Control
 		if ($this->checkCallableOrString($question)) {
 			// Update confirmation question
 			$this->question = $question;
-
-			// Redraw confirmation snippets
-			$this->getDialog()->redrawControl();
 		}
 
 		return $this;
@@ -201,9 +195,6 @@ class Confirmer extends Control
 		if ($this->checkCallableOrString($icon)) {
 			// Update confirmation icon
 			$this->icon = $icon;
-
-			// Redraw confirmation snippets
-			$this->getDialog()->redrawControl();
 		}
 
 		return $this;
@@ -277,8 +268,8 @@ class Confirmer extends Control
 			'params'	=> $params,
 		]);
 
-		// Invalidate confirmer snippets
-		$this->redrawControl();
+		// Invalidate all snippets
+		$this->redrawControls();
 
 		return $this;
 	}
@@ -299,16 +290,12 @@ class Confirmer extends Control
 		$token = $values->secureToken;
 
 		if (!$this->getConfirmerValues($token)) {
-			if (self::$strings['expired'] != '') {
-				if ($this->getPresenter() instanceof Application\UI\Presenter) {
-					$this->getPresenter()->flashMessage(self::$strings['expired']);
-				}
+			if (self::$strings['expired'] != '' && $this->getPresenter() instanceof Application\UI\Presenter) {
+				$this->getPresenter()->flashMessage(self::$strings['expired']);
 			}
 
-			// Invalidate dialog snippets
-			$this->getDialog()->redrawControl();
-			// Invalidate confirmer snippets
-			$this->redrawControl();
+			// Invalidate all snippets
+			$this->redrawControls();
 
 			return;
 		}
@@ -318,21 +305,18 @@ class Confirmer extends Control
 		// Remove session data for current confirmer
 		$this->sessionStorage->clear($token);
 
-		$this->getDialog()
-			// Invalidate dialog snippets
-			->redrawControl();
-		// Invalidate confirmer snippets
-		$this->redrawControl();
+		// Invalidate all snippets
+		$this->redrawControls();
 
 		if (method_exists($this->getDialog()->getParent(), 'tryCall')) {
-			if (call_user_func_array([$this->getDialog()->getParent(), 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $values['params']]) === FALSE) {
-				throw new Exceptions\InvalidStateException('Confirm action callback was not successful.');
-			}
+			$result = call_user_func_array([$this->getDialog()->getParent(), 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $values['params']]);
 
 		} else {
-			if (call_user_func_array([$this->getDialog()->getParent(), $this->getHandler()[1]], $values['params']) === FALSE) {
-				throw new Exceptions\InvalidStateException('Confirm action callback was not successful.');
-			}
+			$result = call_user_func_array([$this->getDialog()->getParent(), $this->getHandler()[1]], $values['params']);
+		}
+
+		if ($result === FALSE) {
+			throw new Exceptions\InvalidStateException('Confirm action callback was not successful.');
 		}
 
 		// Check if request is done via ajax...
@@ -359,11 +343,8 @@ class Confirmer extends Control
 			$this->sessionStorage->clear($token);
 		}
 
-		$this->getDialog()
-			// Invalidate dialog snippets
-			->redrawControl();
-		// Invalidate confirmer snippets
-		$this->redrawControl();
+		// Invalidate all snippets
+		$this->redrawControls();
 
 		// Check if request is done via ajax...
 		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
@@ -569,5 +550,24 @@ class Confirmer extends Control
 		$values = $this->getConfirmerValues($this->getToken());
 
 		return call_user_func_array($attribute, [$this, $values['params']]);
+	}
+
+	/**
+	 * Redraw all confirmer & dialog snippets
+	 *
+	 * @return $this
+	 *
+	 * @throws Exceptions\InvalidStateException
+	 */
+	protected function redrawControls()
+	{
+		$this->getDialog()
+			// Invalidate dialog snippets
+			->redrawControl();
+
+		// Invalidate confirmer snippets
+		$this->redrawControl();
+
+		return $this;
 	}
 }
