@@ -200,14 +200,14 @@ class Control extends Application\UI\Control
 	 *
 	 * @param string $name Confirmation/signal name
 	 * @param callback|Nette\Callback $handler Callback called when confirmation succeed
-	 * @param callback|string $question Callback ($confirmForm, $params) or string containing question text
-	 * @param callback|string $heading Callback ($confirmForm, $params) or string containing heading text
+	 * @param callback|string $question Callback ($confirmer, $params) or string containing question text
+	 * @param callback|string $heading Callback ($confirmer, $params) or string containing heading text
 	 *
 	 * @return $this
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function addConfirmer($name, $handler, $question, $heading = NULL)
+	public function addConfirmer($name, $handler, $question, $heading)
 	{
 		// Confirmer name could be only A-z
 		if (!preg_match('/[A-Za-z_]+/', $name)) {
