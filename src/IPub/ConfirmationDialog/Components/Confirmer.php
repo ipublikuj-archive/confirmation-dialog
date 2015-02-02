@@ -30,48 +30,11 @@ use IPub\ConfirmationDialog\Exceptions;
  * @subpackage	Components
  *
  * @property-read string $name
+ * @property-read string $cssClass
+ * @property-read string $useAjax
  */
-class Confirmer extends Control
+class Confirmer extends ConfirmerAttributes
 {
-	/**
-	 * @var array localization strings
-	 */
-	public static $strings = [
-		'yes'		=> 'Yes',
-		'no'		=> 'No',
-		'expired'	=> 'Confirmation token has expired. Please try action again.',
-	];
-
-	/**
-	 * @var string
-	 */
-	protected $cssClass;
-
-	/**
-	 * @var string|callable heading
-	 */
-	protected $heading;
-
-	/**
-	 * @var string|callable question
-	 */
-	protected $question;
-
-	/**
-	 * @var string|callable icon
-	 */
-	protected $icon = FALSE;
-
-	/**
-	 * @var callable
-	 */
-	protected $handler;
-
-	/**
-	 * @var ConfirmationDialog\SessionStorage
-	 */
-	protected $sessionStorage;
-
 	/**
 	 * @var Dialog|Nette\ComponentModel\IContainer
 	 */
@@ -91,160 +54,6 @@ class Confirmer extends Control
 	) {
 		// TODO: remove, only for tests
 		parent::__construct(NULL, NULL);
-	}
-
-	/**
-	 * @param ConfirmationDialog\SessionStorage $sessionStorage
-	 */
-	public function injectSessionStorage(ConfirmationDialog\SessionStorage $sessionStorage)
-	{
-		// Get session section for confirmer
-		$this->sessionStorage = $sessionStorage;
-	}
-
-	/**
-	 * Set dialog heading
-	 *
-	 * @param string|callable $heading
-	 *
-	 * @return $this
-	 *
-	 * @throws Exceptions\InvalidArgumentException
-	 */
-	public function setHeading($heading)
-	{
-		// Check variable type
-		if ($this->checkCallableOrString($heading)) {
-			// Update confirmation heading
-			$this->heading = $heading;
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Get dialog heding
-	 *
-	 * @return string
-	 *
-	 * @throws Exceptions\InvalidStateException
-	 */
-	public function getHeading()
-	{
-		// Check if attribute is callable
-		if (is_callable($this->heading)) {
-			$heading = (string) $this->callCallableAttribute($this->heading);
-
-		} else {
-			$heading = (string) $this->heading;
-		}
-
-		return $heading;
-	}
-
-	/**
-	 * Set dialog question
-	 *
-	 * @param string|callable $question
-	 *
-	 * @return $this
-	 *
-	 * @throws Exceptions\InvalidArgumentException
-	 */
-	public function setQuestion($question)
-	{
-		// Check variable type
-		if ($this->checkCallableOrString($question)) {
-			// Update confirmation question
-			$this->question = $question;
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 *
-	 * @throws Exceptions\InvalidStateException
-	 */
-	public function getQuestion()
-	{
-		// Check if attribute is callable
-		if (is_callable($this->question)) {
-			$question = (string) $this->callCallableAttribute($this->question);
-
-		} else {
-			$question = (string) $this->question;
-		}
-
-		return $question;
-	}
-
-	/**
-	 * Set dialog icon
-	 *
-	 * @param string|callable $icon
-	 *
-	 * @return $this
-	 *
-	 * @throws Exceptions\InvalidArgumentException
-	 */
-	public function setIcon($icon)
-	{
-		// Check variable type
-		if ($this->checkCallableOrString($icon)) {
-			// Update confirmation icon
-			$this->icon = $icon;
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 *
-	 * @throws Exceptions\InvalidStateException
-	 */
-	public function getIcon()
-	{
-		// Check if attribute is callable
-		if (is_callable($this->icon)) {
-			$icon = (string) $this->callCallableAttribute($this->icon);
-
-		} else {
-			$icon = (string) $this->icon;
-		}
-
-		return $icon;
-	}
-
-	/**
-	 * Set dialog handler
-	 *
-	 * @param callable $handler
-	 *
-	 * @return $this
-	 *
-	 * @throws Exceptions\InvalidArgumentException
-	 */
-	public function setHandler($handler)
-	{
-		if (!is_callable($handler)) {
-			throw new Exceptions\InvalidArgumentException('$handler must be callable.');
-		}
-
-		// Update confirmation handler
-		$this->handler = $handler;
-
-		return $this;
-	}
-
-	/**
-	 * @return callable
-	 */
-	public function getHandler()
-	{
-		return $this->handler;
 	}
 
 	/**
@@ -371,26 +180,6 @@ class Confirmer extends Control
 	}
 
 	/**
-	 * @return $this
-	 */
-	public function enableAjax()
-	{
-		$this->useAjax = TRUE;
-
-		return $this;
-	}
-
-	/**
-	 * @return $this
-	 */
-	public function disableAjax()
-	{
-		$this->useAjax = FALSE;
-
-		return $this;
-	}
-
-	/**
 	 * Render confirmer
 	 *
 	 * @throws Exceptions\InvalidStateException
@@ -432,30 +221,6 @@ class Confirmer extends Control
 	}
 
 	/**
-	 * @return Application\UI\Form
-	 */
-	protected function createComponentForm()
-	{
-		// Create confirmation form
-		$form = new Application\UI\Form();
-
-		// Security field
-		$form->addHidden('secureToken');
-
-		// Form protection
-		$form->addProtection($this->translator ? $this->translator->translate('confirmationDialog.messages.tokenIsExpired') : self::$strings['expired']);
-
-		// Confirm buttons
-		$form->addSubmit('yes', $this->translator ? $this->translator->translate('confirmationDialog.buttons.bYes') : self::$strings['yes'])
-			->onClick[] = [$this, 'confirmClicked'];
-
-		$form->addSubmit('no', $this->translator ? $this->translator->translate('confirmationDialog.buttons.bNo') : self::$strings['no'])
-			->onClick[] = [$this, 'cancelClicked'];
-
-		return $form;
-	}
-
-	/**
 	 * Generate unique token key
 	 *
 	 * @return string
@@ -463,22 +228,6 @@ class Confirmer extends Control
 	protected function generateToken()
 	{
 		return base_convert(md5(uniqid('confirm' . $this->getName(), TRUE)), 16, 36);
-	}
-
-	/**
-	 * Get generated token key
-	 *
-	 * @return string
-	 *
-	 * @throws Exceptions\InvalidStateException
-	 */
-	protected function getToken()
-	{
-		if ($this['form']['secureToken']->value === NULL) {
-			throw new Exceptions\InvalidStateException('Token is not set!');
-		}
-
-		return $this['form']['secureToken']->value;
 	}
 
 	/**
@@ -510,46 +259,6 @@ class Confirmer extends Control
 		}
 
 		return $this->dialog;
-	}
-
-	/**
-	 * @param callable|string $var
-	 *
-	 * @return bool
-	 *
-	 * @throws Exceptions\InvalidArgumentException
-	 */
-	protected function checkCallableOrString($var)
-	{
-		if (!is_callable($var) && !is_string($var)) {
-			throw new Exceptions\InvalidArgumentException('$var must be callback or string.');
-		}
-
-		return TRUE;
-	}
-
-	/**
-	 * @return array
-	 *
-	 * @throws Exceptions\InvalidStateException
-	 */
-	protected function getConfirmerValues($token)
-	{
-		// Get values stored in session
-		return $this->sessionStorage->get($token);
-	}
-
-	/**
-	 * @param callable $attribute
-	 *
-	 * @return string
-	 */
-	protected function callCallableAttribute($attribute)
-	{
-		// Get values stored in session
-		$values = $this->getConfirmerValues($this->getToken());
-
-		return call_user_func_array($attribute, [$this, $values['params']]);
 	}
 
 	/**
