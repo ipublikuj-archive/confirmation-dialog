@@ -72,8 +72,10 @@ class Confirmer extends ConfirmerAttributes
 			'params'	=> $params,
 		]);
 
-		// Invalidate all snippets
-		$this->redrawControls();
+		// Invalidate confirmer snippets
+		$this->redrawControl();
+		// Invalidate dialog snippets
+		$this->getDialog()->redrawControl();
 
 		return $this;
 	}
@@ -83,7 +85,7 @@ class Confirmer extends ConfirmerAttributes
 	 *
 	 * @param Forms\Controls\SubmitButton $button
 	 *
-	 * @throws Exceptions\InvalidStateException
+	 * @throws Exceptions\HandlerNotCallableException
 	 */
 	public function confirmClicked(Forms\Controls\SubmitButton $button)
 	{
@@ -99,6 +101,8 @@ class Confirmer extends ConfirmerAttributes
 			// Remove session data for current confirmer
 			$this->sessionStorage->clear($token);
 
+			$this->getDialog()->resetConfirmer();
+
 			if ($this->callHandler($this->getDialog()->getParent(), $values['params']) === FALSE) {
 				throw new Exceptions\HandlerNotCallableException('Confirm action callback was not successful.');
 			}
@@ -113,10 +117,6 @@ class Confirmer extends ConfirmerAttributes
 		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
 			// ...if not redirect to actual page
 			$this->getPresenter()->redirect('this');
-
-		} else {
-			// Invalidate all snippets
-			$this->redrawControls();
 		}
 	}
 
@@ -137,8 +137,7 @@ class Confirmer extends ConfirmerAttributes
 			$this->sessionStorage->clear($token);
 		}
 
-		// Invalidate all snippets
-		$this->redrawControls();
+		$this->getDialog()->resetConfirmer();
 
 		// Check if request is done via ajax...
 		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
@@ -258,24 +257,5 @@ class Confirmer extends ConfirmerAttributes
 		}
 
 		return $this->dialog;
-	}
-
-	/**
-	 * Redraw all confirmer & dialog snippets
-	 *
-	 * @return $this
-	 *
-	 * @throws Exceptions\InvalidStateException
-	 */
-	protected function redrawControls()
-	{
-		$this->getDialog()
-			// Invalidate dialog snippets
-			->redrawControl();
-
-		// Invalidate confirmer snippets
-		$this->redrawControl();
-
-		return $this;
 	}
 }

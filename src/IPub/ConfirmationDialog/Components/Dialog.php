@@ -155,6 +155,19 @@ class Dialog extends Control
 	}
 
 	/**
+	 * @return $this
+	 */
+	public function resetConfirmer()
+	{
+		$this->confirmer = NULL;
+
+		// Invalidate dialog snippets
+		$this->redrawControl();
+
+		return $this;
+	}
+
+	/**
 	 * @return Application\UI\Multiplier
 	 *
 	 * @throws Exceptions\InvalidArgumentException
