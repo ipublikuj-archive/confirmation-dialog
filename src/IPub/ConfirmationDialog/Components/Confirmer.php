@@ -419,29 +419,35 @@ class Confirmer extends Control
 	{
 		parent::render();
 
-		// Assign vars to template
-		$this->template->name		= $this->name;
-		$this->template->class		= $this->cssClass;
-		$this->template->icon		= $this->getIcon();
-		$this->template->question	= $this->getQuestion();
-		$this->template->heading	= $this->getHeading();
-		$this->template->useAjax	= $this->useAjax;
+		// Check if control has template
+		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
+			// Assign vars to template
+			$this->template->name		= $this->name;
+			$this->template->class		= $this->cssClass;
+			$this->template->icon		= $this->getIcon();
+			$this->template->question	= $this->getQuestion();
+			$this->template->heading	= $this->getHeading();
+			$this->template->useAjax	= $this->useAjax;
 
-		// If template was not defined before...
-		if ($this->template->getFile() === NULL) {
-			// ...try to get base component template file
-			if (!empty($this->templatePath)) {
-				$templatePath = $this->templatePath;
+			// If template was not defined before...
+			if ($this->template->getFile() === NULL) {
+				// ...try to get base component template file
+				if (!empty($this->templatePath)) {
+					$templatePath = $this->templatePath;
 
-			} else {
-				$templatePath = $this->getDialog()->getTemplateFile();
+				} else {
+					$templatePath = $this->getDialog()->getTemplateFile();
+				}
+
+				$this->template->setFile($templatePath);
 			}
 
-			$this->template->setFile($templatePath);
-		}
+			// Render component template
+			$this->template->render();
 
-		// Render component template
-		$this->template->render();
+		} else {
+			throw new Exceptions\InvalidStateException('Dialog control is without template.');
+		}
 	}
 
 	/**

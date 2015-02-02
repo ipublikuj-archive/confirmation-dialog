@@ -280,17 +280,23 @@ class Dialog extends Control
 	{
 		parent::render();
 
-		// Assign vars to template
-		$this->template->confirmer = $this->confirmer;
+		// Check if control has template
+		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
+			// Assign vars to template
+			$this->template->confirmer = $this->confirmer;
 
-		// If layout was not defined before...
-		if ($this->template->getFile() === NULL) {
-			// ...try to get default component layout file
-			$layoutPath = !empty($this->layoutPath) ? $this->layoutPath : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
-			$this->template->setFile($layoutPath);
+			// If layout was not defined before...
+			if ($this->template->getFile() === NULL) {
+				// ...try to get default component layout file
+				$layoutPath = !empty($this->layoutPath) ? $this->layoutPath : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
+				$this->template->setFile($layoutPath);
+			}
+
+			// Render component template
+			$this->template->render();
+
+		} else {
+			throw new Exceptions\InvalidStateException('Dialog control is without template.');
 		}
-
-		// Render component template
-		$this->template->render();
 	}
 }
