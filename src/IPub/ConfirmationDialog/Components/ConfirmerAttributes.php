@@ -71,11 +71,6 @@ abstract class ConfirmerAttributes extends Control
 	protected $useAjax = TRUE;
 
 	/**
-	 * @var Dialog|Nette\ComponentModel\IContainer
-	 */
-	protected $dialog;
-
-	/**
 	 * @var ConfirmationDialog\SessionStorage
 	 */
 	protected $sessionStorage;
@@ -244,7 +239,7 @@ abstract class ConfirmerAttributes extends Control
 	 */
 	public function callHandler($obj, array $params)
 	{
-		if (method_exists($this->getDialog()->getParent(), 'tryCall')) {
+		if (method_exists($obj, 'tryCall')) {
 			$result = call_user_func_array([$obj, 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $params]);
 
 		} else {
