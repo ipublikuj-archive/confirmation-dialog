@@ -153,14 +153,12 @@ class Confirmer extends Application\UI\Control
 	 */
 	public function getHeading()
 	{
-		// Get values stored in session
-		$values = $this->getConfirmerValues();
-
+		// Check if attribute is callable
 		if (is_callable($this->heading)) {
-			$heading = call_user_func_array($this->heading, [$this, $values['params']]);
+			$heading = (string) $this->callCallableAttribute($this->heading);
 
 		} else {
-			$heading = $this->heading;
+			$heading = (string) $this->heading;
 		}
 
 		return $heading;
@@ -196,14 +194,12 @@ class Confirmer extends Application\UI\Control
 	 */
 	public function getQuestion()
 	{
-		// Get values stored in session
-		$values = $this->getConfirmerValues();
-
-		if (is_callable($this->question)) {
-			$question = call_user_func_array($this->question, [$this, $values['params']]);
+		// Check if attribute is callable
+		if (is_callable($this->heading)) {
+			$question = (string) $this->callCallableAttribute($this->question);
 
 		} else {
-			$question = $this->question;
+			$question = (string) $this->question;
 		}
 
 		return $question;
@@ -239,14 +235,12 @@ class Confirmer extends Application\UI\Control
 	 */
 	public function getIcon()
 	{
-		// Get values stored in session
-		$values = $this->getConfirmerValues();
-
-		if (is_callable($this->icon)) {
-			$icon = call_user_func_array($this->icon, [$this, $values['params']]);
+		// Check if attribute is callable
+		if (is_callable($this->heading)) {
+			$icon = (string) $this->callCallableAttribute($this->icon);
 
 		} else {
-			$icon = $this->icon;
+			$icon = (string) $this->icon;
 		}
 
 		return $icon;
@@ -635,5 +629,18 @@ class Confirmer extends Application\UI\Control
 	{
 		// Get values stored in session
 		return $this->sessionStorage->get($this->getToken());
+	}
+
+	/**
+	 * @param callable $attribute
+	 *
+	 * @return string
+	 */
+	protected function callCallableAttribute($attribute)
+	{
+		// Get values stored in session
+		$values = $this->getConfirmerValues();
+
+		return call_user_func_array($attribute, [$this, $values['params']]);
 	}
 }
