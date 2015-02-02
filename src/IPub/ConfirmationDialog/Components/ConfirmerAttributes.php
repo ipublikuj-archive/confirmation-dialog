@@ -16,8 +16,6 @@ namespace IPub\ConfirmationDialog\Components;
 
 use Nette;
 use Nette\Application;
-use Nette\Forms;
-use Nette\Localization;
 
 use IPub;
 use IPub\ConfirmationDialog;
@@ -237,6 +235,7 @@ abstract class ConfirmerAttributes extends Control
 	}
 
 	/**
+	 * @param Nette\ComponentModel\IContainer $obj
 	 * @param array $params
 	 *
 	 * @return mixed
@@ -246,10 +245,10 @@ abstract class ConfirmerAttributes extends Control
 	public function callHandler($obj, array $params)
 	{
 		if (method_exists($this->getDialog()->getParent(), 'tryCall')) {
-			$result = call_user_func_array([$this->getDialog()->getParent(), 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $params]);
+			$result = call_user_func_array([$obj, 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $params]);
 
 		} else {
-			$result = call_user_func_array([$this->getDialog()->getParent(), $this->getHandler()[1]], $params);
+			$result = call_user_func_array([$obj, $this->getHandler()[1]], $params);
 		}
 
 		return $result;
