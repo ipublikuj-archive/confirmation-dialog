@@ -63,7 +63,7 @@ class Confirmer extends ConfirmerAttributes
 	 *
 	 * @return $this
 	 */
-	public function showConfirm($params = [])
+	public function showConfirm(array $params = [])
 	{
 		// Generate protection token
 		$token = $this->generateToken();

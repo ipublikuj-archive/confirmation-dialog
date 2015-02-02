@@ -141,12 +141,8 @@ class Dialog extends Control
 			throw new Exceptions\InvalidArgumentException("Confirmation control name contain invalid characters.");
 
 		// Check confirmer
-		} else if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer) {
+		} else if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer || $confirmer->isConfigured()) {
 			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' could not be created.");
-
-		// Check confirmer
-		} else if ($confirmer->isConfigured()) {
-			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' already exists.");
 
 		} else {
 			$confirmer
@@ -199,25 +195,18 @@ class Dialog extends Control
 	 * @throws Exceptions\InvalidArgumentException
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function showConfirm($name, $params = [])
+	public function showConfirm($name, array $params = [])
 	{
 		if (!is_string($name)) {
 			throw new Exceptions\InvalidArgumentException('$name must be string.');
 		}
 
 		if ((!$this->confirmer = $this['confirmer-'. $name]) || !$this->confirmer->isConfigured()) {
-			throw new Exceptions\InvalidStateException("confirmation '$name' do not exist.");
-		}
-
-		if (!is_array($params)) {
-			throw new Exceptions\InvalidArgumentException('$params must be array.');
+			throw new Exceptions\InvalidStateException("Confirmer '$name' do not exist.");
 		}
 
 		// Prepare confirmer for displaying
 		$this->confirmer->showConfirm($params);
-
-		// Invalidate confirm dialog snippets
-		$this->redrawControl();
 	}
 
 	/**
