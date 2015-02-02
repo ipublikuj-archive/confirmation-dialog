@@ -84,7 +84,7 @@ class Confirmer extends Application\UI\Control
 	protected $translator;
 
 	/**
-	 * @var Control
+	 * @var Control|Nette\ComponentModel\IContainer
 	 */
 	protected $dialog;
 
