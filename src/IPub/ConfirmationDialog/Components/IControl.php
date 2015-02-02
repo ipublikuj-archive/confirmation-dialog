@@ -17,7 +17,7 @@ namespace IPub\ConfirmationDialog\Components;
 interface IControl
 {
 	/**
-	 * @param NULL $templateFile
+	 * @param null|string $templateFile
 	 *
 	 * @return Control
 	 */

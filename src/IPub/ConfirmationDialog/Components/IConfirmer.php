@@ -17,7 +17,7 @@ namespace IPub\ConfirmationDialog\Components;
 interface IConfirmer
 {
 	/**
-	 * @param NULL $templateFile
+	 * @param null|string $templateFile
 	 *
 	 * @return Confirmer
 	 */
