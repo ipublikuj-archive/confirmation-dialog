@@ -36,6 +36,11 @@ use IPub\ConfirmationDialog\Exceptions;
 class Confirmer extends ConfirmerAttributes
 {
 	/**
+	 * @var Dialog|Nette\ComponentModel\IContainer
+	 */
+	protected $dialog;
+
+	/**
 	 * @param Nette\ComponentModel\IContainer $parent
 	 * @param null $name
 	 */
@@ -94,19 +99,14 @@ class Confirmer extends ConfirmerAttributes
 			// Remove session data for current confirmer
 			$this->sessionStorage->clear($token);
 
+			if ($this->callHandler($this->getDialog()->getParent(), $values['params']) === FALSE) {
+				throw new Exceptions\HandlerNotCallableException('Confirm action callback was not successful.');
+			}
+
 		} catch (Exceptions\InvalidStateException $ex) {
 			if (self::$strings['expired'] != '' && $this->getPresenter() instanceof Application\UI\Presenter) {
 				$this->getPresenter()->flashMessage(self::$strings['expired']);
 			}
-
-			// Invalidate all snippets
-			$this->redrawControls();
-
-			return;
-		}
-
-		if ($this->callHandler($values['params']) === FALSE) {
-			throw new Exceptions\InvalidStateException('Confirm action callback was not successful.');
 		}
 
 		// Check if request is done via ajax...
@@ -227,6 +227,37 @@ class Confirmer extends ConfirmerAttributes
 	protected function generateToken()
 	{
 		return base_convert(md5(uniqid('confirm' . $this->getName(), TRUE)), 16, 36);
+	}
+
+	/**
+	 * Get parent dialog control
+	 *
+	 * @return Dialog
+	 *
+	 * @throws Exceptions\InvalidStateException
+	 */
+	protected function getDialog()
+	{
+		// Check if confirm dialog was loaded before...
+		if (!$this->dialog) {
+			// ...if not try to lookup for it
+			$multiplier = $this->getParent();
+
+			// Check if confirmer is in multiplier
+			if ($multiplier instanceof Application\UI\Multiplier) {
+				$this->dialog = $multiplier->getParent();
+
+				// Check if parent is right
+				if (!$this->dialog instanceof Dialog) {
+					throw new Exceptions\InvalidStateException('Confirmer is not attached to parent control!');
+				}
+
+			} else {
+				throw new Exceptions\InvalidStateException('Confirmer is not attached to multiplier!');
+			}
+		}
+
+		return $this->dialog;
 	}
 
 	/**
