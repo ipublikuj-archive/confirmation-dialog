@@ -488,7 +488,7 @@ class Confirmer extends Application\UI\Control
 	public function render()
 	{
 		// Check if control has template
-		if ($this->template instanceof Application\UI\ITemplate) {
+		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
 			$this->template->name		= $this->name;
 			$this->template->class		= $this->cssClass;
