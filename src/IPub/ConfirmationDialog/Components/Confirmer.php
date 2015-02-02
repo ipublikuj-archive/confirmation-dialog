@@ -132,15 +132,14 @@ class Confirmer extends Application\UI\Control
 	 */
 	public function setHeading($heading)
 	{
-		if (!is_callable($heading) && !is_string($heading)) {
-			throw new Exceptions\InvalidArgumentException('$heading must be callback or string.');
+		// Check variable type
+		if ($this->checkCallableOrString($heading)) {
+			// Update confirmation heading
+			$this->heading = $heading;
+
+			// Redraw confirmation snippets
+			$this->getDialog()->redrawControl();
 		}
-
-		// Update confirmation heading
-		$this->heading = $heading;
-
-		// Redraw confirmation snippets
-		$this->getDialog()->redrawControl();
 
 		return $this;
 	}
@@ -155,7 +154,7 @@ class Confirmer extends Application\UI\Control
 	public function getHeading()
 	{
 		// Get values stored in session
-		$values = $this->sessionStorage->get($this->getToken());
+		$values = $this->getConfirmerValues();
 
 		if (is_callable($this->heading)) {
 			$heading = call_user_func_array($this->heading, [$this, $values['params']]);
@@ -178,15 +177,14 @@ class Confirmer extends Application\UI\Control
 	 */
 	public function setQuestion($question)
 	{
-		if (!is_callable($question) && !is_string($question)) {
-			throw new Exceptions\InvalidArgumentException('$question must be callback or string.');
+		// Check variable type
+		if ($this->checkCallableOrString($question)) {
+			// Update confirmation question
+			$this->question = $question;
+
+			// Redraw confirmation snippets
+			$this->getDialog()->redrawControl();
 		}
-
-		// Update confirmation question
-		$this->question = $question;
-
-		// Redraw confirmation snippets
-		$this->getDialog()->redrawControl();
 
 		return $this;
 	}
@@ -199,7 +197,7 @@ class Confirmer extends Application\UI\Control
 	public function getQuestion()
 	{
 		// Get values stored in session
-		$values = $this->sessionStorage->get($this->getToken());
+		$values = $this->getConfirmerValues();
 
 		if (is_callable($this->question)) {
 			$question = call_user_func_array($this->question, [$this, $values['params']]);
@@ -222,15 +220,14 @@ class Confirmer extends Application\UI\Control
 	 */
 	public function setIcon($icon)
 	{
-		if (!is_callable($icon) && !is_string($icon)) {
-			throw new Exceptions\InvalidArgumentException('$icon must be callback or string.');
+		// Check variable type
+		if ($this->checkCallableOrString($icon)) {
+			// Update confirmation icon
+			$this->icon = $icon;
+
+			// Redraw confirmation snippets
+			$this->getDialog()->redrawControl();
 		}
-
-		// Update confirmation icon
-		$this->icon = $icon;
-
-		// Redraw confirmation snippets
-		$this->getDialog()->redrawControl();
 
 		return $this;
 	}
@@ -243,7 +240,7 @@ class Confirmer extends Application\UI\Control
 	public function getIcon()
 	{
 		// Get values stored in session
-		$values = $this->sessionStorage->get($this->getToken());
+		$values = $this->getConfirmerValues();
 
 		if (is_callable($this->icon)) {
 			$icon = call_user_func_array($this->icon, [$this, $values['params']]);
@@ -611,5 +608,32 @@ class Confirmer extends Application\UI\Control
 		}
 
 		return $this->dialog;
+	}
+
+	/**
+	 * @param callable|string $var
+	 *
+	 * @return bool
+	 *
+	 * @throws Exceptions\InvalidArgumentException
+	 */
+	protected function checkCallableOrString($var)
+	{
+		if (!is_callable($var) && !is_string($var)) {
+			throw new Exceptions\InvalidArgumentException('$var must be callback or string.');
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * @return mixed
+	 *
+	 * @throws Exceptions\InvalidStateException
+	 */
+	protected function getConfirmerValues()
+	{
+		// Get values stored in session
+		return $this->sessionStorage->get($this->getToken());
 	}
 }
