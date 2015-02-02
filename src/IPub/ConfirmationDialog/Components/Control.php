@@ -34,12 +34,12 @@ use IPub\ConfirmationDialog\Exceptions;
 class Control extends Application\UI\Control
 {
 	/**
-	 * @var string
+	 * @var null|string
 	 */
 	protected $templatePath = NULL;
 
 	/**
-	 * @var string
+	 * @var null|string
 	 */
 	protected $layoutPath = NULL;
 
@@ -299,7 +299,12 @@ class Control extends Application\UI\Control
 	 */
 	public function handleShowConfirmer()
 	{
-		list(, $signal) = $this->getPresenter()->getSignal();
+		if ($this->getPresenter() instanceof Application\UI\Presenter) {
+			list(, $signal) = $this->getPresenter()->getSignal();
+
+		} else {
+			throw new Nette\InvalidArgumentException('Confirmer is not attached to presenter.');
+		}
 
 		$name = Utils\Strings::substring($signal, 7);
 		$name{0} = strtolower($name{0});

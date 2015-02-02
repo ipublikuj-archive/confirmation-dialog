@@ -74,7 +74,7 @@ class Confirmer extends Application\UI\Control
 	protected $sessionStorage;
 
 	/**
-	 * @var string
+	 * @var null|string
 	 */
 	protected $templatePath = NULL;
 
@@ -380,7 +380,9 @@ class Confirmer extends Application\UI\Control
 
 		if (!$this->sessionStorage->get($token)) {
 			if (self::$strings['expired'] != '') {
-				$this->getPresenter()->flashMessage(self::$strings['expired']);
+				if ($this->getPresenter() instanceof Application\UI\Presenter) {
+					$this->getPresenter()->flashMessage(self::$strings['expired']);
+				}
 			}
 
 			// Invalidate dialog snippets
@@ -414,7 +416,7 @@ class Confirmer extends Application\UI\Control
 		}
 
 		// Check if request is done via ajax...
-		if (!$this->getPresenter()->isAjax()) {
+		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
 			// ...if not redirect to actual page
 			$this->getPresenter()->redirect('this');
 		}
@@ -444,7 +446,7 @@ class Confirmer extends Application\UI\Control
 		$this->redrawControl();
 
 		// Check if request is done via ajax...
-		if (!$this->getPresenter()->isAjax()) {
+		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
 			// ...if not redirect to actual page
 			$this->getPresenter()->redirect('this');
 		}
