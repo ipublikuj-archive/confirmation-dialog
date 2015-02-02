@@ -16,7 +16,6 @@ namespace IPub\ConfirmationDialog\Components;
 
 use Nette;
 use Nette\Application;
-use Nette\Forms;
 use Nette\Localization;
 use Nette\Utils;
 

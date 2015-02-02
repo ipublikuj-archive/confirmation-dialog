@@ -578,7 +578,7 @@ class Confirmer extends Application\UI\Control
 	 * Get parent dialog control
 	 *
 	 * @return Control
-	 * 
+	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
 	protected function getDialog()
@@ -586,11 +586,19 @@ class Confirmer extends Application\UI\Control
 		// Check if confirm dialog was loaded before...
 		if (!$this->dialog) {
 			// ...if not try to lookup for it
-			$this->dialog = $this->getParent()->getParent();
+			$multiplier = $this->getParent();
 
-			// Check if parent is right
-			if (!$this->dialog instanceof Control) {
-				throw new Exceptions\InvalidStateException('Confirmer is not attached to parent control!');
+			// Check if confirmer is in multiplier
+			if ($multiplier instanceof Application\UI\Multiplier) {
+				$this->dialog = $multiplier->getParent();
+
+				// Check if parent is right
+				if (!$this->dialog instanceof Control) {
+					throw new Exceptions\InvalidStateException('Confirmer is not attached to parent control!');
+				}
+
+			} else {
+				throw new Exceptions\InvalidStateException('Confirmer is not attached to multiplier!');
 			}
 		}
 
