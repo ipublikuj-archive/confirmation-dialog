@@ -24,17 +24,26 @@ use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
 
+/**
+ * Confirmation dialog control
+ *
+ * @package		iPublikuj:ConfirmationDialog!
+ * @subpackage	Components
+ *
+ * @property-read Application\UI\ITemplate $template
+ * @property-read string $name
+ */
 class Control extends Application\UI\Control
 {
 	/**
 	 * @var string
 	 */
-	protected $templatePath;
+	protected $templatePath = NULL;
 
 	/**
 	 * @var string
 	 */
-	protected $layoutPath;
+	protected $layoutPath = NULL;
 
 	/**
 	 * @var Localization\ITranslator
@@ -292,7 +301,7 @@ class Control extends Application\UI\Control
 	 */
 	public function handleShowConfirmer()
 	{
-		list($component, $signal) = $this->getPresenter()->getSignal();
+		list(, $signal) = $this->getPresenter()->getSignal();
 
 		$name = Utils\Strings::substring($signal, 7);
 		$name{0} = strtolower($name{0});

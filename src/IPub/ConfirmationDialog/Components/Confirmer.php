@@ -23,6 +23,15 @@ use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
 
+/**
+ * Confirmation dialog confirmer control
+ *
+ * @package		iPublikuj:ConfirmationDialog!
+ * @subpackage	Components
+ *
+ * @property-read Application\UI\ITemplate $template
+ * @property-read string $name
+ */
 class Confirmer extends Application\UI\Control
 {
 	/**
@@ -67,7 +76,7 @@ class Confirmer extends Application\UI\Control
 	/**
 	 * @var string
 	 */
-	protected $templatePath;
+	protected $templatePath = NULL;
 
 	/**
 	 * @var Localization\ITranslator
@@ -575,7 +584,7 @@ class Confirmer extends Application\UI\Control
 		// Check if confirm dialog was loaded before...
 		if (!$this->dialog) {
 			// ...if not try to lookup for it
-			$this->dialog = $this->lookup('IPub\ConfirmationDialog\Components\Control');
+			$this->dialog = $this->lookup('\IPub\ConfirmationDialog\Components\Control');
 		}
 
 		return $this->dialog;
