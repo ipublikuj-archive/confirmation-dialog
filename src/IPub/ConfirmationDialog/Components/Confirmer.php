@@ -492,38 +492,44 @@ class Confirmer extends Application\UI\Control
 	/**
 	 * Render confirmer
 	 *
-	 * @throw Nette\InvalidStateException
+	 * @throws Exceptions\InvalidStateException
 	 */
 	public function render()
 	{
-		// Assign vars to template
-		$this->template->name		= $this->name;
-		$this->template->class		= $this->cssClass;
-		$this->template->icon		= $this->getIcon();
-		$this->template->question	= $this->getQuestion();
-		$this->template->heading	= $this->getHeading();
-		$this->template->useAjax	= $this->useAjax;
+		// Check if control has template
+		if ($this->template instanceof Application\UI\ITemplate) {
+			// Assign vars to template
+			$this->template->name		= $this->name;
+			$this->template->class		= $this->cssClass;
+			$this->template->icon		= $this->getIcon();
+			$this->template->question	= $this->getQuestion();
+			$this->template->heading	= $this->getHeading();
+			$this->template->useAjax	= $this->useAjax;
 
-		// Check if translator is available
-		if ($this->getTranslator() instanceof Localization\ITranslator) {
-			$this->template->setTranslator($this->getTranslator());
-		}
-
-		// If template was not defined before...
-		if ($this->template->getFile() === NULL) {
-			// ...try to get base component template file
-			if (!empty($this->templatePath)) {
-				$templatePath = $this->templatePath;
-
-			} else {
-				$templatePath = $this->getDialog()->getTemplateFile();
+			// Check if translator is available
+			if ($this->getTranslator() instanceof Localization\ITranslator) {
+				$this->template->setTranslator($this->getTranslator());
 			}
 
-			$this->template->setFile($templatePath);
-		}
+			// If template was not defined before...
+			if ($this->template->getFile() === NULL) {
+				// ...try to get base component template file
+				if (!empty($this->templatePath)) {
+					$templatePath = $this->templatePath;
 
-		// Render component template
-		$this->template->render();
+				} else {
+					$templatePath = $this->getDialog()->getTemplateFile();
+				}
+
+				$this->template->setFile($templatePath);
+			}
+
+			// Render component template
+			$this->template->render();
+
+		} else {
+			throw new Exceptions\InvalidStateException('Dialog control is without template.');
+		}
 	}
 
 	/**

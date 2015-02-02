@@ -296,6 +296,9 @@ class Control extends Application\UI\Control
 
 	/**
 	 * Dynamically named signal receiver
+	 *
+	 * @throws Exceptions\InvalidArgumentException
+	 * @throws Exceptions\InvalidStateException
 	 */
 	public function handleShowConfirmer()
 	{
@@ -303,14 +306,14 @@ class Control extends Application\UI\Control
 			list(, $signal) = $this->getPresenter()->getSignal();
 
 		} else {
-			throw new Nette\InvalidArgumentException('Confirmer is not attached to presenter.');
+			throw new Exceptions\InvalidArgumentException('Confirmer is not attached to presenter.');
 		}
 
 		$name = Utils\Strings::substring($signal, 7);
 		$name{0} = strtolower($name{0});
 
 		if (!$this['confirmer-'. $name]->isConfigured()) {
-			throw new Nette\InvalidArgumentException('Invalid confirmation control.');
+			throw new Exceptions\InvalidArgumentException('Invalid confirmation control.');
 		}
 
 		$params = $this->getParameters();
@@ -340,25 +343,33 @@ class Control extends Application\UI\Control
 
 	/**
 	 * Render control
+	 *
+	 * @throws Exceptions\InvalidStateException
 	 */
 	public function render()
 	{
-		// Assign vars to template
-		$this->template->confirmer	= $this->confirmer;
+		// Check if control has template
+		if ($this->template instanceof Application\UI\ITemplate) {
+			// Assign vars to template
+			$this->template->confirmer = $this->confirmer;
 
-		// Check if translator is available
-		if ($this->getTranslator() instanceof Localization\ITranslator) {
-			$this->template->setTranslator($this->getTranslator());
+			// Check if translator is available
+			if ($this->getTranslator() instanceof Localization\ITranslator) {
+				$this->template->setTranslator($this->getTranslator());
+			}
+
+			// If layout was not defined before...
+			if ($this->template->getFile() === NULL) {
+				// ...try to get default component layout file
+				$layoutPath = !empty($this->layoutPath) ? $this->layoutPath : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
+				$this->template->setFile($layoutPath);
+			}
+
+			// Render component template
+			$this->template->render();
+
+		} else {
+			throw new Exceptions\InvalidStateException('Dialog control is without template.');
 		}
-
-		// If layout was not defined before...
-		if ($this->template->getFile() === NULL) {
-			// ...try to get default component layout file
-			$layoutPath = !empty($this->layoutPath) ? $this->layoutPath : __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR .'layout.latte';
-			$this->template->setFile($layoutPath);
-		}
-
-		// Render component template
-		$this->template->render();
 	}
 }
