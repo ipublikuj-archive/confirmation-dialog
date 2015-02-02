@@ -30,7 +30,7 @@ trait TConfirmationDialog
 	/**
 	 * @param Components\IControl $confirmationDialogFactory
 	 */
-	public function injectConfirmationDialogFactory(Components\IControl $confirmationDialogFactory) {
+	public function injectConfirmationDialog(Components\IControl $confirmationDialogFactory) {
 		$this->confirmationDialogFactory = $confirmationDialogFactory;
 	}
 }
