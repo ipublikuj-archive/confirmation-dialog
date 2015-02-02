@@ -170,7 +170,7 @@ class TestPresenter extends UI\Presenter
 	/**
 	 * @param ConfirmationDialog\Components\IControl $factory
 	 */
-	public function injectDialogFactory(ConfirmationDialog\Components\IControl $factory)
+	public function injectDialogFactory(ConfirmationDialog\Components\IDialog $factory)
 	{
 		$this->factory = $factory;
 	}
