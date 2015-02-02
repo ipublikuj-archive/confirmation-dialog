@@ -1,6 +1,6 @@
 <?php
 /**
- * IControl.php
+ * IDialog.php
  *
  * @copyright	More in license.md
  * @license		http://www.ipublikuj.eu
@@ -14,12 +14,12 @@
 
 namespace IPub\ConfirmationDialog\Components;
 
-interface IControl
+interface IDialog
 {
 	/**
 	 * @param null|string $templateFile
 	 *
-	 * @return Control
+	 * @return Dialog
 	 */
 	public function create($templateFile = NULL);
 }

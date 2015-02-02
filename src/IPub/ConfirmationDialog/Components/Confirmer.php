@@ -32,7 +32,7 @@ use IPub\ConfirmationDialog\Exceptions;
  * @property-read Application\UI\ITemplate $template
  * @property-read string $name
  */
-class Confirmer extends Application\UI\Control
+class Confirmer extends Control
 {
 	/**
 	 * @var array localization strings
@@ -74,17 +74,7 @@ class Confirmer extends Application\UI\Control
 	protected $sessionStorage;
 
 	/**
-	 * @var null|string
-	 */
-	protected $templatePath = NULL;
-
-	/**
-	 * @var Localization\ITranslator
-	 */
-	protected $translator;
-
-	/**
-	 * @var Control|Nette\ComponentModel\IContainer
+	 * @var Dialog|Nette\ComponentModel\IContainer
 	 */
 	protected $dialog;
 
@@ -92,14 +82,6 @@ class Confirmer extends Application\UI\Control
 	 * @var bool
 	 */
 	protected $useAjax = TRUE;
-
-	/**
-	 * @param Localization\ITranslator $translator
-	 */
-	public function injectTranslator(Localization\ITranslator $translator = NULL)
-	{
-		$this->translator = $translator;
-	}
 
 	/**
 	 * @param Nette\ComponentModel\IContainer $parent
@@ -276,58 +258,6 @@ class Confirmer extends Application\UI\Control
 	}
 
 	/**
-	 * Change default control template path
-	 *
-	 * @param string $templatePath
-	 *
-	 * @return $this
-	 *
-	 * @throws Exceptions\FileNotFoundException
-	 */
-	public function setTemplateFile($templatePath)
-	{
-		// Check if template file exists...
-		if (!is_file($templatePath)) {
-			// ...check if extension template is used
-			if (is_file(__DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templatePath)) {
-				$templatePath = __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templatePath;
-
-			} else {
-				// ...if not throw exception
-				throw new Exceptions\FileNotFoundException('Template file "'. $templatePath .'" was not found.');
-			}
-		}
-
-		$this->templatePath = $templatePath;
-
-		return $this;
-	}
-
-	/**
-	 * @param Localization\ITranslator $translator
-	 *
-	 * @return $this
-	 */
-	public function setTranslator(Localization\ITranslator $translator)
-	{
-		$this->translator = $translator;
-
-		return $this;
-	}
-
-	/**
-	 * @return Localization\ITranslator|null
-	 */
-	public function getTranslator()
-	{
-		if ($this->translator instanceof Localization\ITranslator) {
-			return $this->translator;
-		}
-
-		return NULL;
-	}
-
-	/**
 	 * Show current confirmer
 	 *
 	 * @param array $params
@@ -487,40 +417,31 @@ class Confirmer extends Application\UI\Control
 	 */
 	public function render()
 	{
-		// Check if control has template
-		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
-			// Assign vars to template
-			$this->template->name		= $this->name;
-			$this->template->class		= $this->cssClass;
-			$this->template->icon		= $this->getIcon();
-			$this->template->question	= $this->getQuestion();
-			$this->template->heading	= $this->getHeading();
-			$this->template->useAjax	= $this->useAjax;
+		parent::render();
 
-			// Check if translator is available
-			if ($this->getTranslator() instanceof Localization\ITranslator) {
-				$this->template->setTranslator($this->getTranslator());
+		// Assign vars to template
+		$this->template->name		= $this->name;
+		$this->template->class		= $this->cssClass;
+		$this->template->icon		= $this->getIcon();
+		$this->template->question	= $this->getQuestion();
+		$this->template->heading	= $this->getHeading();
+		$this->template->useAjax	= $this->useAjax;
+
+		// If template was not defined before...
+		if ($this->template->getFile() === NULL) {
+			// ...try to get base component template file
+			if (!empty($this->templatePath)) {
+				$templatePath = $this->templatePath;
+
+			} else {
+				$templatePath = $this->getDialog()->getTemplateFile();
 			}
 
-			// If template was not defined before...
-			if ($this->template->getFile() === NULL) {
-				// ...try to get base component template file
-				if (!empty($this->templatePath)) {
-					$templatePath = $this->templatePath;
-
-				} else {
-					$templatePath = $this->getDialog()->getTemplateFile();
-				}
-
-				$this->template->setFile($templatePath);
-			}
-
-			// Render component template
-			$this->template->render();
-
-		} else {
-			throw new Exceptions\InvalidStateException('Dialog control is without template.');
+			$this->template->setFile($templatePath);
 		}
+
+		// Render component template
+		$this->template->render();
 	}
 
 	/**
@@ -576,7 +497,7 @@ class Confirmer extends Application\UI\Control
 	/**
 	 * Get parent dialog control
 	 *
-	 * @return Control
+	 * @return Dialog
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
@@ -592,7 +513,7 @@ class Confirmer extends Application\UI\Control
 				$this->dialog = $multiplier->getParent();
 
 				// Check if parent is right
-				if (!$this->dialog instanceof Control) {
+				if (!$this->dialog instanceof Dialog) {
 					throw new Exceptions\InvalidStateException('Confirmer is not attached to parent control!');
 				}
 
