@@ -139,7 +139,7 @@ class ComponentTest extends Tester\TestCase
 class TestPresenter extends UI\Presenter
 {
 	/**
-	 * @var ConfirmationDialog\Components\IControl
+	 * @var ConfirmationDialog\Components\IDialog
 	 */
 	protected $factory;
 
@@ -168,7 +168,7 @@ class TestPresenter extends UI\Presenter
 	}
 
 	/**
-	 * @param ConfirmationDialog\Components\IControl $factory
+	 * @param ConfirmationDialog\Components\IDialog $factory
 	 */
 	public function injectDialogFactory(ConfirmationDialog\Components\IDialog $factory)
 	{
