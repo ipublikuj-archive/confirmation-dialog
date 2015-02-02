@@ -36,16 +36,6 @@ use IPub\ConfirmationDialog\Exceptions;
 class Confirmer extends ConfirmerAttributes
 {
 	/**
-	 * @var Dialog|Nette\ComponentModel\IContainer
-	 */
-	protected $dialog;
-
-	/**
-	 * @var bool
-	 */
-	protected $useAjax = TRUE;
-
-	/**
 	 * @param Nette\ComponentModel\IContainer $parent
 	 * @param null $name
 	 */
@@ -115,17 +105,7 @@ class Confirmer extends ConfirmerAttributes
 			return;
 		}
 
-		// Invalidate all snippets
-		$this->redrawControls();
-
-		if (method_exists($this->getDialog()->getParent(), 'tryCall')) {
-			$result = call_user_func_array([$this->getDialog()->getParent(), 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $values['params']]);
-
-		} else {
-			$result = call_user_func_array([$this->getDialog()->getParent(), $this->getHandler()[1]], $values['params']);
-		}
-
-		if ($result === FALSE) {
+		if ($this->callHandler($values['params']) === FALSE) {
 			throw new Exceptions\InvalidStateException('Confirm action callback was not successful.');
 		}
 
@@ -133,6 +113,10 @@ class Confirmer extends ConfirmerAttributes
 		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
 			// ...if not redirect to actual page
 			$this->getPresenter()->redirect('this');
+
+		} else {
+			// Invalidate all snippets
+			$this->redrawControls();
 		}
 	}
 
@@ -243,37 +227,6 @@ class Confirmer extends ConfirmerAttributes
 	protected function generateToken()
 	{
 		return base_convert(md5(uniqid('confirm' . $this->getName(), TRUE)), 16, 36);
-	}
-
-	/**
-	 * Get parent dialog control
-	 *
-	 * @return Dialog
-	 *
-	 * @throws Exceptions\InvalidStateException
-	 */
-	protected function getDialog()
-	{
-		// Check if confirm dialog was loaded before...
-		if (!$this->dialog) {
-			// ...if not try to lookup for it
-			$multiplier = $this->getParent();
-
-			// Check if confirmer is in multiplier
-			if ($multiplier instanceof Application\UI\Multiplier) {
-				$this->dialog = $multiplier->getParent();
-
-				// Check if parent is right
-				if (!$this->dialog instanceof Dialog) {
-					throw new Exceptions\InvalidStateException('Confirmer is not attached to parent control!');
-				}
-
-			} else {
-				throw new Exceptions\InvalidStateException('Confirmer is not attached to multiplier!');
-			}
-		}
-
-		return $this->dialog;
 	}
 
 	/**

@@ -73,6 +73,11 @@ abstract class ConfirmerAttributes extends Control
 	protected $useAjax = TRUE;
 
 	/**
+	 * @var Dialog|Nette\ComponentModel\IContainer
+	 */
+	protected $dialog;
+
+	/**
 	 * @var ConfirmationDialog\SessionStorage
 	 */
 	protected $sessionStorage;
@@ -232,6 +237,25 @@ abstract class ConfirmerAttributes extends Control
 	}
 
 	/**
+	 * @param array $params
+	 *
+	 * @return mixed
+	 *
+	 * @throws Exceptions\InvalidStateException
+	 */
+	public function callHandler(array $params)
+	{
+		if (method_exists($this->getDialog()->getParent(), 'tryCall')) {
+			$result = call_user_func_array([$this->getDialog()->getParent(), 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $params]);
+
+		} else {
+			$result = call_user_func_array([$this->getDialog()->getParent(), $this->getHandler()[1]], $params);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * @return $this
 	 */
 	public function enableAjax()
@@ -329,5 +353,36 @@ abstract class ConfirmerAttributes extends Control
 		}
 
 		return $values;
+	}
+
+	/**
+	 * Get parent dialog control
+	 *
+	 * @return Dialog
+	 *
+	 * @throws Exceptions\InvalidStateException
+	 */
+	protected function getDialog()
+	{
+		// Check if confirm dialog was loaded before...
+		if (!$this->dialog) {
+			// ...if not try to lookup for it
+			$multiplier = $this->getParent();
+
+			// Check if confirmer is in multiplier
+			if ($multiplier instanceof Application\UI\Multiplier) {
+				$this->dialog = $multiplier->getParent();
+
+				// Check if parent is right
+				if (!$this->dialog instanceof Dialog) {
+					throw new Exceptions\InvalidStateException('Confirmer is not attached to parent control!');
+				}
+
+			} else {
+				throw new Exceptions\InvalidStateException('Confirmer is not attached to multiplier!');
+			}
+		}
+
+		return $this->dialog;
 	}
 }
