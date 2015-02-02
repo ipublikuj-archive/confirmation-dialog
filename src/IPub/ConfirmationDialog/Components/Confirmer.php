@@ -446,7 +446,7 @@ class Confirmer extends Control
 			$this->template->render();
 
 		} else {
-			throw new Exceptions\InvalidStateException('Dialog control is without template.');
+			throw new Exceptions\InvalidStateException('Confirmer control is without template.');
 		}
 	}
 

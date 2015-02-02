@@ -21,6 +21,14 @@ use Nette\Localization;
 use IPub;
 use IPub\ConfirmationDialog\Exceptions;
 
+/**
+ * Abstract control definition
+ *
+ * @package		iPublikuj:ConfirmationDialog!
+ * @subpackage	Components
+ *
+ * @property-read Application\UI\ITemplate $template
+ */
 abstract class Control extends Application\UI\Control
 {
 	/**
@@ -108,7 +116,7 @@ abstract class Control extends Application\UI\Control
 			}
 
 		} else {
-			throw new Exceptions\InvalidStateException('Dialog control is without template.');
+			throw new Exceptions\InvalidStateException('Control is without template.');
 		}
 	}
 }
