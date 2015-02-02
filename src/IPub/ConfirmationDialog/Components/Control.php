@@ -215,7 +215,7 @@ class Control extends Application\UI\Control
 		}
 
 		// Check confirmer
-		if (!$confirmer = $this->getComponent('confirmer-'. $name)) {
+		if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer) {
 			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' could not be created.");
 		}
 
