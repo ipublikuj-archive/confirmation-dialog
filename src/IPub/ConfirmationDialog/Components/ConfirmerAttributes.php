@@ -29,7 +29,7 @@ use IPub\ConfirmationDialog\Exceptions;
  *
  * @property-read string $name
  */
-abstract class ConfirmerAttributes extends Control
+abstract class ConfirmerAttributes extends BaseControl
 {
 	/**
 	 * @var array localization strings

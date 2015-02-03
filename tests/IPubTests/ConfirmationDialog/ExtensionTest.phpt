@@ -47,7 +47,7 @@ class ExtensionTest extends Tester\TestCase
 		// Get component factory
 		$factory = $dic->getService('confirmationDialog.dialog');
 
-		Assert::true($factory instanceof IPub\ConfirmationDialog\Components\IDialog);
+		Assert::true($factory instanceof IPub\ConfirmationDialog\Components\IControl);
 		Assert::true($factory->create() instanceof IPub\ConfirmationDialog\Components\Control);
 
 		// Get confirmer factory

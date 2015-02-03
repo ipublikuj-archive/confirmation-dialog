@@ -30,8 +30,8 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 
 		// Define components factories
 		$builder->addDefinition($this->prefix('dialog'))
-			->setClass('IPub\ConfirmationDialog\Components\Dialog')
-			->setImplement('IPub\ConfirmationDialog\Components\IDialog')
+			->setClass('IPub\ConfirmationDialog\Components\Control')
+			->setImplement('IPub\ConfirmationDialog\Components\IControl')
 			->setInject(TRUE)
 			->addTag('cms.components');
 

@@ -36,7 +36,7 @@ use IPub\ConfirmationDialog\Exceptions;
 class Confirmer extends ConfirmerAttributes
 {
 	/**
-	 * @var Dialog|Nette\ComponentModel\IContainer
+	 * @var Control|Nette\ComponentModel\IContainer
 	 */
 	protected $dialog;
 
@@ -229,7 +229,7 @@ class Confirmer extends ConfirmerAttributes
 	/**
 	 * Get parent dialog control
 	 *
-	 * @return Dialog
+	 * @return Control
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
@@ -245,7 +245,7 @@ class Confirmer extends ConfirmerAttributes
 				$this->dialog = $multiplier->getParent();
 
 				// Check if parent is right
-				if (!$this->dialog instanceof Dialog) {
+				if (!$this->dialog instanceof Control) {
 					throw new Exceptions\InvalidStateException('Confirmer is not attached to parent control!');
 				}
 

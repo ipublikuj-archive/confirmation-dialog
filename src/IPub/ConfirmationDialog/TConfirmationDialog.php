@@ -23,14 +23,14 @@ use IPub\ConfirmationDialog\Components;
 trait TConfirmationDialog
 {
 	/**
-	 * @var Components\IDialog
+	 * @var Components\IControl
 	 */
 	protected $confirmationDialogFactory;
 
 	/**
-	 * @param Components\IDialog $confirmationDialogFactory
+	 * @param Components\IControl $confirmationDialogFactory
 	 */
-	public function injectConfirmationDialog(Components\IDialog $confirmationDialogFactory) {
+	public function injectConfirmationDialog(Components\IControl $confirmationDialogFactory) {
 		$this->confirmationDialogFactory = $confirmationDialogFactory;
 	}
 }
