@@ -107,6 +107,85 @@ class ComponentTest extends Tester\TestCase
 		Assert::match('Really delete this item?', trim((string) $question[0]));
 	}
 
+	public function testClickYes()
+	{
+		// Create test presenter
+		$presenter = $this->createPresenter();
+
+		// Create GET request
+		$request = new Application\Request('Test', 'GET', array('action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete'));
+		// & fire presenter & catch response
+		$response = $presenter->run($request);
+
+		$dq = Tester\DomQuery::fromHtml((string) $response->getSource());
+
+		Assert::true($dq->has('form[class*="confirmation-dialog"]'));
+
+		$secureToken = $dq->find('input[name="secureToken"]');
+		$secureToken = (string) $secureToken[0]->attributes()->{'value'};
+
+		$token = $dq->find('input[name="_token_"]');
+		$token = (string) $token[0]->attributes()->{'value'};
+
+		$do = $dq->find('input[name="do"]');
+		$do = (string) $do[0]->attributes()->{'value'};
+
+		// Create test presenter
+		$presenter = $this->createPresenter();
+
+		// Create GET request
+		$request = new Application\Request('Test', 'POST', ['action' => 'openDialog'], [
+			'do'			=> $do,
+			'secureToken'	=> $secureToken,
+			'_token_'		=> $token,
+			'yes'			=> 'confirmationDialog.buttons.bNo'
+		]);
+		// & fire presenter & catch response
+		$response = $presenter->run($request);
+
+		Assert::equal('deleting', (string) $response->getSource());
+	}
+
+	/**
+	 * @throws \Nette\Application\UI\InvalidLinkException
+	 */
+	public function testClickNo()
+	{
+		// Create test presenter
+		$presenter = $this->createPresenter();
+
+		// Create GET request
+		$request = new Application\Request('Test', 'GET', array('action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete'));
+		// & fire presenter & catch response
+		$response = $presenter->run($request);
+
+		$dq = Tester\DomQuery::fromHtml((string) $response->getSource());
+
+		Assert::true($dq->has('form[class*="confirmation-dialog"]'));
+
+		$secureToken = $dq->find('input[name="secureToken"]');
+		$secureToken = (string) $secureToken[0]->attributes()->{'value'};
+
+		$token = $dq->find('input[name="_token_"]');
+		$token = (string) $token[0]->attributes()->{'value'};
+
+		$do = $dq->find('input[name="do"]');
+		$do = (string) $do[0]->attributes()->{'value'};
+
+		// Create test presenter
+		$presenter = $this->createPresenter();
+
+		// Create GET request
+		$request = new Application\Request('Test', 'POST', ['action' => 'openDialog', 'headers' => ['X-Requested-With' => 'XMLHttpRequest']], [
+			'do'			=> $do,
+			'secureToken'	=> $secureToken,
+			'_token_'		=> $token,
+			'no'			=> 'confirmationDialog.buttons.bNo'
+		]);
+		// & fire presenter
+		$presenter->run($request);
+	}
+
 	/**
 	 * @return Application\IPresenter
 	 */
@@ -189,7 +268,7 @@ class TestPresenter extends UI\Presenter
 			// Add first confirmer
 			->addConfirmer(
 				'delete',
-				[$this, 'deleteItem'],
+				[$this, 'handleDeleteItem'],
 				'Really delete this item?',
 				'Delete item'
 			)
@@ -224,6 +303,11 @@ class TestPresenter extends UI\Presenter
 	public function headingEnable(ConfirmationDialog\Components\Confirmer $confirmer, $params)
 	{
 		return 'Enable item';
+	}
+
+	public function handleDeleteItem()
+	{
+		$this->sendResponse(new Application\Responses\TextResponse('deleting'));
 	}
 }
 
