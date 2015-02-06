@@ -155,6 +155,22 @@ class Control extends BaseControl
 	}
 
 	/**
+	 * @param string $name
+	 *
+	 * @return Confirmer
+	 *
+	 * @throws Exceptions\InvalidArgumentException
+	 */
+	public function getConfirmer($name)
+	{
+		if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer || $confirmer->isConfigured()) {
+			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' does not exists.");
+		}
+
+		return $confirmer;
+	}
+
+	/**
 	 * @return $this
 	 */
 	public function resetConfirmer()
