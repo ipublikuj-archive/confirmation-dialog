@@ -59,7 +59,7 @@ use IPub\ConfirmationDialog;
 class SomePresenter
 {
 	/**
-	 * Insert extension trait (only for PHP 5.4+
+	 * Insert extension trait (only for PHP 5.4+)
 	 */
 	use ConfirmationDialog\TConfirmationDialog;
 
@@ -92,7 +92,6 @@ class SomePresenter
 
 		return $dialog;
 	}
-
 
 	/**
 	 * Create question for confirmation dialog
