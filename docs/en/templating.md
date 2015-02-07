@@ -31,7 +31,7 @@ class SomePresenter
 		$dialog = $this->confirmationDialogFactory->create();
 
         // Define template
-        $dialog->setTemplateFile('bootstrap');
+        $dialog->setTemplateFile('bootstrap.latte');
         
 		// Define confirm windows
 		$dialog
@@ -101,10 +101,10 @@ class SomePresenter
 			);
 
         // Define template for first confirmer
-        $dialog->getConfirmer('confirmerName')->setTemplateFile('bootstrap');
+        $dialog->getConfirmer('confirmerName')->setTemplateFile('bootstrap.latte');
 
         // Define template for second confirmer
-        $dialog->getConfirmer('nextConfirmerName')->setTemplateFile('default');
+        $dialog->getConfirmer('nextConfirmerName')->setTemplateFile('default.latte');
 
 		return $dialog;
 	}
