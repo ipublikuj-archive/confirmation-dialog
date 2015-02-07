@@ -20,8 +20,16 @@ use Nette\PhpGenerator as Code;
 
 class ConfirmationDialogExtension extends DI\CompilerExtension
 {
+	/**
+	 * @var array
+	 */
+	protected $defaults = [
+		'templateFile'	=> NULL
+	];
+
 	public function loadConfiguration()
 	{
+		$config = $this->getConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
 
 		// Session storage
@@ -29,9 +37,10 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 			->setClass('IPub\ConfirmationDialog\SessionStorage');
 
 		// Define components factories
-		$builder->addDefinition($this->prefix('dialog'))
+		$dialog = $builder->addDefinition($this->prefix('dialog'))
 			->setClass('IPub\ConfirmationDialog\Components\Control')
 			->setImplement('IPub\ConfirmationDialog\Components\IControl')
+			->setArguments([new Nette\PhpGenerator\PhpLiteral('$templateFile')])
 			->setInject(TRUE)
 			->addTag('cms.components');
 
@@ -40,6 +49,10 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 			->setImplement('IPub\ConfirmationDialog\Components\IConfirmer')
 			->setInject(TRUE)
 			->addTag('cms.components');
+
+		if ($config['templateFile']) {
+			$dialog->addSetup('$service->setTemplateFile(?)', [$config['templateFile']]);
+		}
 	}
 
 	/**

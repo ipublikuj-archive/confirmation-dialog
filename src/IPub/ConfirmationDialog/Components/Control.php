@@ -55,14 +55,20 @@ class Control extends BaseControl
 	}
 
 	/**
+	 * @param NULL|string $templateFile
 	 * @param Nette\ComponentModel\IContainer $parent
 	 * @param null $name
 	 */
 	public function __construct(
+		$templateFile = NULL,
 		Nette\ComponentModel\IContainer $parent = NULL, $name = NULL
 	) {
 		// TODO: remove, only for tests
 		parent::__construct(NULL, NULL);
+
+		if ($templateFile) {
+			$this->setTemplateFile($templateFile);
+		}
 	}
 
 	/**
