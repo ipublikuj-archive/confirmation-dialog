@@ -122,7 +122,7 @@ class Control extends BaseControl
 			return 'handleShowConfirmer';
 		}
 
-		parent::formatSignalMethod($signal);
+		return parent::formatSignalMethod($signal);
 	}
 
 	/**
