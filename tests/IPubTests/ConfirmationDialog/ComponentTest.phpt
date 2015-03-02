@@ -186,7 +186,8 @@ class ComponentTest extends Tester\TestCase
 		// & fire presenter
 		$response = $presenter->run($request);
 
-		var_dump($response);
+		Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
+		Assert::same(302, $response->getCode());
 	}
 
 	/**
