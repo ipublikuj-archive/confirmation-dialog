@@ -147,9 +147,6 @@ class ComponentTest extends Tester\TestCase
 		Assert::equal('deleting', (string) $response->getSource());
 	}
 
-	/**
-	 * @throws \Nette\Application\UI\InvalidLinkException
-	 */
 	public function testClickNo()
 	{
 		// Create test presenter
