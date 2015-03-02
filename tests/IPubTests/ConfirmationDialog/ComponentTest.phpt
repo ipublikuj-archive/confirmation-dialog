@@ -184,7 +184,9 @@ class ComponentTest extends Tester\TestCase
 			'no'			=> 'confirmationDialog.buttons.bNo'
 		]);
 		// & fire presenter
-		$presenter->run($request);
+		$response = $presenter->run($request);
+
+		var_dump($response);
 	}
 
 	/**
