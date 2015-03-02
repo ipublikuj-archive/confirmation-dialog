@@ -5,5 +5,7 @@ nette:
 
 services:
 	# Test presenter
- 	presenters.test:
- 		class: IPubTests\ConfirmationDialog\TestPresenter
+	presenters.test:
+		class: IPubTests\ConfirmationDialog\TestPresenter
+
+	router: IPubTests\ConfirmationDialog\RouterFactory::createRouter

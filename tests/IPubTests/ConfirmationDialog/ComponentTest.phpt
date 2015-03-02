@@ -17,6 +17,7 @@ namespace IPubTests\ConfirmationDialog;
 
 use Nette;
 use Nette\Application;
+use Nette\Application\Routers;
 use Nette\Application\UI;
 use Nette\Utils;
 
@@ -308,6 +309,20 @@ class TestPresenter extends UI\Presenter
 	public function handleDeleteItem()
 	{
 		$this->sendResponse(new Application\Responses\TextResponse('deleting'));
+	}
+}
+
+class RouterFactory
+{
+	/**
+	 * @return \Nette\Application\IRouter
+	 */
+	public static function createRouter()
+	{
+		$router = new Routers\  RouteList();
+		$router[] = new Routers\Route('<presenter>/<action>[/<id>]', 'Test:default');
+
+		return $router;
 	}
 }
 
