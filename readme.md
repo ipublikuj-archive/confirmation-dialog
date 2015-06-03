@@ -5,7 +5,7 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
 [![Composer Downloads](https://img.shields.io/packagist/dt/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
 
-Add confirm action dialog on various items for [Nette Framework](http://nette.org/)
+Extension for creating confirm action dialogs for various items for [Nette Framework](http://nette.org/)
 
 ## Installation
 
