@@ -23,7 +23,7 @@ before_script:
   - mkdir -p build/logs
 
 script:
-  - vendor/bin/tester tests -p php --coverage build/logs/clover.xml --coverage-src src -d extension=xdebug.so
+  - vendor/bin/tester tests -p php -c ./tests/php.ini-unix --coverage build/logs/clover.xml --coverage-src src
 
 after_failure:
   - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'
