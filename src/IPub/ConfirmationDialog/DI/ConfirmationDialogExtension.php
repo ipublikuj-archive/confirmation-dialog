@@ -18,12 +18,15 @@ use Nette;
 use Nette\DI;
 use Nette\PhpGenerator as Code;
 
+use IPub\ConfirmationDialog;
+
 class ConfirmationDialogExtension extends DI\CompilerExtension
 {
 	/**
 	 * @var array
 	 */
 	protected $defaults = [
+		'layoutFile'	=> NULL,
 		'templateFile'	=> NULL
 	];
 
@@ -34,21 +37,26 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 
 		// Session storage
 		$builder->addDefinition($this->prefix('session'))
-			->setClass('IPub\ConfirmationDialog\SessionStorage');
+			->setClass(ConfirmationDialog\SessionStorage::CLASSNAME);
 
 		// Define components factories
 		$dialog = $builder->addDefinition($this->prefix('dialog'))
-			->setClass('IPub\ConfirmationDialog\Components\Control')
-			->setImplement('IPub\ConfirmationDialog\Components\IControl')
-			->setArguments([new Nette\PhpGenerator\PhpLiteral('$templateFile')])
+			->setClass(ConfirmationDialog\Components\Control::CLASSNAME)
+			->setImplement(ConfirmationDialog\Components\IControl::CLASSNAME)
+			->setArguments([new Nette\PhpGenerator\PhpLiteral('$layoutFile'), new Nette\PhpGenerator\PhpLiteral('$templateFile')])
 			->setInject(TRUE)
 			->addTag('cms.components');
 
 		$builder->addDefinition($this->prefix('confirmer'))
-			->setClass('IPub\ConfirmationDialog\Components\Confirmer')
-			->setImplement('IPub\ConfirmationDialog\Components\IConfirmer')
+			->setClass(ConfirmationDialog\Components\Confirmer::CLASSNAME)
+			->setImplement(ConfirmationDialog\Components\IConfirmer::CLASSNAME)
+			->setArguments([new Nette\PhpGenerator\PhpLiteral('$templateFile')])
 			->setInject(TRUE)
 			->addTag('cms.components');
+
+		if ($config['layoutFile']) {
+			$dialog->addSetup('$service->setLayoutFile(?)', [$config['layoutFile']]);
+		}
 
 		if ($config['templateFile']) {
 			$dialog->addSetup('$service->setTemplateFile(?)', [$config['templateFile']]);

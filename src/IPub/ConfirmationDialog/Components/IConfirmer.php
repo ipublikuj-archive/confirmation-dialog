@@ -16,6 +16,8 @@ namespace IPub\ConfirmationDialog\Components;
 
 interface IConfirmer
 {
+	const CLASSNAME = __CLASS__;
+
 	/**
 	 * @param null|string $templateFile
 	 *

@@ -60,7 +60,7 @@ abstract class BaseControl extends Application\UI\Control
 	/**
 	 * Change default control template path
 	 *
-	 * @param string $templatePath
+	 * @param string $templateFile
 	 * @param string $type
 	 *
 	 * @return $this
@@ -68,29 +68,35 @@ abstract class BaseControl extends Application\UI\Control
 	 * @throws Exceptions\FileNotFoundException
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function setTemplateFilePath($templatePath, $type)
+	public function setTemplateFilePath($templateFile, $type)
 	{
 		if (!in_array((string) $type, [self::TEMPLATE_CONFIRMER, self::TEMPLATE_LAYOUT])) {
 			throw new Exceptions\InvalidArgumentException('Wrong template type');
 		}
 
 		// Check if template file exists...
-		if (!is_file($templatePath)) {
+		if (!is_file($templateFile)) {
+			// Get component actual dir
+			$dir = dirname($this->getReflection()->getFileName());
+
 			// ...check if extension template is used
-			if (is_file(__DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templatePath)) {
-				$templatePath = __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templatePath;
+			if (is_file($dir . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templateFile)) {
+				$templateFile = $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile;
+
+			} else if (is_file($dir . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templateFile .'.latte')) {
+				$templateFile = $dir . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templateFile .'.latte';
 
 			} else {
 				// ...if not throw exception
-				throw new Exceptions\FileNotFoundException('Template file "'. $templatePath .'" was not found.');
+				throw new Exceptions\FileNotFoundException(sprintf('Template file "%s" was not found.', $templateFile));
 			}
 		}
 
 		if ($type == self::TEMPLATE_LAYOUT) {
-			$this->layoutPath = $templatePath;
+			$this->layoutPath = $templateFile;
 
 		} else {
-			$this->templatePath = $templatePath;
+			$this->templatePath = $templateFile;
 		}
 
 		return $this;
@@ -136,6 +142,7 @@ abstract class BaseControl extends Application\UI\Control
 				$this->template->setTranslator($this->getTranslator());
 			}
 
+			// Render component template
 			return $this->template;
 
 		} else {

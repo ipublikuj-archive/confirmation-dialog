@@ -16,10 +16,13 @@ namespace IPub\ConfirmationDialog\Components;
 
 interface IControl
 {
+	const CLASSNAME = __CLASS__;
+
 	/**
+	 * @param null|string $layoutFile
 	 * @param null|string $templateFile
 	 *
 	 * @return Control
 	 */
-	public function create($templateFile = NULL);
+	public function create($layoutFile = NULL, $templateFile = NULL);
 }

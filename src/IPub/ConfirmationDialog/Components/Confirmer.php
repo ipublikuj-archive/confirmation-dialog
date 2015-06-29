@@ -35,16 +35,20 @@ use IPub\ConfirmationDialog\Exceptions;
  */
 class Confirmer extends ConfirmerAttributes
 {
+	const CLASSNAME = __CLASS__;
+
 	/**
 	 * @var Control|Nette\ComponentModel\IContainer
 	 */
 	protected $dialog;
 
 	/**
+	 * @param NULL|string $templateFile
 	 * @param Nette\ComponentModel\IContainer $parent
 	 * @param null $name
 	 */
 	public function __construct(
+		$templateFile = NULL,
 		Nette\ComponentModel\IContainer $parent = NULL, $name = NULL
 	) {
 		// TODO: remove, only for tests
@@ -184,13 +188,7 @@ class Confirmer extends ConfirmerAttributes
 			// If template was not defined before...
 			if ($template->getFile() === NULL) {
 				// ...try to get base component template file
-				if (!empty($templatePath)) {
-					$templatePath = $this->templatePath;
-
-				} else {
-					$templatePath = $this->getDialog()->getTemplateFile();
-				}
-
+				$templatePath = !empty($this->templatePath) ? $this->templatePath : $this->getDialog()->getTemplateFile();
 				$template->setFile($templatePath);
 			}
 
@@ -211,7 +209,7 @@ class Confirmer extends ConfirmerAttributes
 	 */
 	public function setTemplateFile($layoutPath)
 	{
-		parent::setTemplateFilePath($layoutPath, self::TEMPLATE_CONFIRMER);
+		$this->setTemplateFilePath($layoutPath, self::TEMPLATE_CONFIRMER);
 
 		return $this;
 	}

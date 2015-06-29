@@ -30,6 +30,8 @@ use IPub\ConfirmationDialog\Exceptions;
  */
 class Control extends BaseControl
 {
+	const CLASSNAME = __CLASS__;
+
 	/**
 	 * @var IConfirmer
 	 */
@@ -55,18 +57,24 @@ class Control extends BaseControl
 	}
 
 	/**
+	 * @param NULL|string $layoutFile
 	 * @param NULL|string $templateFile
 	 * @param Nette\ComponentModel\IContainer $parent
 	 * @param null $name
 	 */
 	public function __construct(
+		$layoutFile = NULL,
 		$templateFile = NULL,
 		Nette\ComponentModel\IContainer $parent = NULL, $name = NULL
 	) {
 		// TODO: remove, only for tests
 		parent::__construct(NULL, NULL);
 
-		if ($templateFile) {
+		if ($layoutFile !== NULL) {
+			$this->setLayoutFile($layoutFile);
+		}
+
+		if ($templateFile !== NULL) {
 			$this->setTemplateFile($templateFile);
 		}
 	}
@@ -80,7 +88,7 @@ class Control extends BaseControl
 	 */
 	public function setLayoutFile($layoutPath)
 	{
-		parent::setTemplateFilePath($layoutPath, self::TEMPLATE_LAYOUT);
+		$this->setTemplateFilePath($layoutPath, self::TEMPLATE_LAYOUT);
 
 		return $this;
 	}
@@ -94,7 +102,7 @@ class Control extends BaseControl
 	 */
 	public function setTemplateFile($layoutPath)
 	{
-		parent::setTemplateFilePath($layoutPath, self::TEMPLATE_CONFIRMER);
+		$this->setTemplateFilePath($layoutPath, self::TEMPLATE_CONFIRMER);
 
 		return $this;
 	}
@@ -303,9 +311,9 @@ class Control extends BaseControl
 			// Assign vars to template
 			$template->confirmer = $this->confirmer;
 
-			// If layout was not defined before...
+			// If template was not defined before...
 			if ($template->getFile() === NULL) {
-				// ...try to get default component layout file
+				// ...try to get base component template file
 				$layoutPath = !empty($this->layoutPath) ? $this->layoutPath : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
 				$template->setFile($layoutPath);
 			}

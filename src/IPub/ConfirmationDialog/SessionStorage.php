@@ -19,6 +19,8 @@ use Nette\Http;
 
 class SessionStorage extends Nette\Object
 {
+	const CLASSNAME = __CLASS__;
+
 	/**
 	 * @var Http\SessionSection
 	 */
