@@ -8,11 +8,15 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
   - hhvm
+  - hhvm-nightly
 
 matrix:
   allow_failures:
+    - php: 7.0
     - php: hhvm
+    - php: hhvm-nightly
 
 before_install:
   - composer self-update
@@ -20,10 +24,9 @@ before_install:
 before_script:
   - php .travis.composer.php
   - composer install --no-interaction --prefer-source --dev
-  - mkdir -p build/logs
 
 script:
-  - vendor/bin/tester tests -p php
+  - vendor/bin/tester -s -p php -c ./tests/php.ini-unix tests
 
 after_failure:
   - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'
