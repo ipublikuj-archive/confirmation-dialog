@@ -1,5 +1,8 @@
 build:
     tests:
+        before:
+            -
+                command: 'mkdir -p build/logs'
         override:
             -
                 command: 'vendor/bin/tester tests -p php -c ./tests/php.ini-unix --coverage build/logs/clover.xml --coverage-src src'
