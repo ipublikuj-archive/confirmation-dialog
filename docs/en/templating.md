@@ -180,3 +180,57 @@ class SomePresenter
 ```
 
 Your custom layout file have to have structure as [default layout](https://github.com/iPublikuj/confirmation-dialog/blob/master/src/IPub/ConfirmationDialog/Components/template/layout.latte), check it out.
+
+## Define template with factory
+
+Factory which is creating component can pass info about what template should be used. So if you know which template use when you are creating confirmer container or confirmer component, you can pass it:
+
+```php
+namespace Your\Coool\Namespace\Presenter;
+
+use IPub\ConfirmationDialog;
+
+class SomePresenter
+{
+	/**
+	 * Insert extension trait (only for PHP 5.4+)
+	 */
+	use ConfirmationDialog\TConfirmationDialog;
+
+	/**
+	 * Component for displaying messages
+	 *
+	 * @return ConfirmationDialog\Control
+	 */
+	protected function createComponentConfirmAction()
+	{
+		// Create control
+		$control = $this->confirmationDialogFactory->create('customlayout.latte', 'bootstrap.latte');
+
+		// or
+
+		$control = $this->confirmationDialogFactory->create('path/to/your/custom/layout.latte', 'path/to/your/template.latte');
+
+		// or
+		
+		$control = $this->confirmationDialogFactory->create('customlayout.latte');
+		$control = $this->confirmationDialogFactory->create(NULL, 'bootstrap.latte');
+
+		$control = $this->confirmationDialogFactory->create('path/to/your/custom/layout.latte');
+		$control = $this->confirmationDialogFactory->create(NULL, 'path/to/your/template.latte');
+		....
+	}
+}
+```
+
+## Define template in the configuration
+
+Another way how to configure template is in extension configuration.
+
+```neon
+	confirmationDialog:
+		layoutFile		: /path/to/your/layout/template.latte
+		templateFile	: bootstrap.latte // uikit.latte // default.latte // or/path/to/your/template.latte
+```
+
+System will automatically asset this template into components
