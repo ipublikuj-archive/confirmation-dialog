@@ -239,11 +239,16 @@ abstract class ConfirmerAttributes extends BaseControl
 	 */
 	public function callHandler($obj, array $params)
 	{
-		if (method_exists($obj, 'tryCall')) {
-			$result = call_user_func_array([$obj, 'tryCall'], ['method' => $this->getHandler()[1], 'params' => $params]);
+		$callback = $this->getHandler();
+
+		if ($callback instanceof \Closure) {
+			$result = call_user_func_array($callback, $params);
+
+		} elseif (method_exists($obj, 'tryCall')) {
+			$result = call_user_func_array([$obj, 'tryCall'], ['method' => $callback[1], 'params' => $params]);
 
 		} else {
-			$result = call_user_func_array([$obj, $this->getHandler()[1]], $params);
+			$result = call_user_func_array([$obj, $callback[1]], $params);
 		}
 
 		if ($result === FALSE) {
