@@ -76,10 +76,12 @@ class Confirmer extends ConfirmerAttributes
 			'params'	=> $params,
 		]);
 
-		// Invalidate confirmer snippets
-		$this->redrawControl();
-		// Invalidate dialog snippets
-		$this->getDialog()->redrawControl();
+		if ($this->getQuestion() !== FALSE) {
+			// Invalidate confirmer snippets
+			$this->redrawControl();
+			// Invalidate dialog snippets
+			$this->getDialog()->redrawControl();
+		}
 
 		return $this;
 	}
@@ -188,8 +190,8 @@ class Confirmer extends ConfirmerAttributes
 			// If template was not defined before...
 			if ($template->getFile() === NULL) {
 				// ...try to get base component template file
-				$templatePath = !empty($this->templatePath) ? $this->templatePath : $this->getDialog()->getTemplateFile();
-				$template->setFile($templatePath);
+				$templateFile = !empty($this->templateFile) ? $this->templateFile : $this->getDialog()->getTemplateFile();
+				$template->setFile($templateFile);
 			}
 
 			// Render component template
@@ -203,13 +205,13 @@ class Confirmer extends ConfirmerAttributes
 	/**
 	 * Change default confirmer template path
 	 *
-	 * @param string $layoutPath
+	 * @param string $layoutFile
 	 *
 	 * @return $this
 	 */
-	public function setTemplateFile($layoutPath)
+	public function setTemplateFile($layoutFile)
 	{
-		$this->setTemplateFilePath($layoutPath, self::TEMPLATE_CONFIRMER);
+		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_CONFIRMER);
 
 		return $this;
 	}

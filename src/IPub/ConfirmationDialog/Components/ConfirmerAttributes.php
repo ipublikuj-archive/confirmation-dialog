@@ -153,9 +153,13 @@ abstract class ConfirmerAttributes extends BaseControl
 	{
 		// Check if attribute is callable
 		if (is_callable($this->question)) {
-			$question = (string) $this->callCallableAttribute($this->question);
+			$question = $this->callCallableAttribute($this->question);
 
-		} else {
+			if (!is_bool($question)) {
+				$question = (string) $question;
+			}
+
+		} else if (!is_bool($this->question)) {
 			$question = (string) $this->question;
 		}
 

@@ -27,7 +27,7 @@ use IPub\ConfirmationDialog\Exceptions;
  * @package		iPublikuj:ConfirmationDialog!
  * @subpackage	Components
  *
- * @property-read Application\UI\ITemplate $template
+ * @property Application\UI\ITemplate $template
  */
 abstract class BaseControl extends Application\UI\Control
 {
@@ -37,12 +37,12 @@ abstract class BaseControl extends Application\UI\Control
 	/**
 	 * @var null|string
 	 */
-	protected $templatePath = NULL;
+	protected $templateFile = NULL;
 
 	/**
 	 * @var null|string
 	 */
-	protected $layoutPath = NULL;
+	protected $layoutFile = NULL;
 
 	/**
 	 * @var Localization\ITranslator
@@ -93,10 +93,10 @@ abstract class BaseControl extends Application\UI\Control
 		}
 
 		if ($type == self::TEMPLATE_LAYOUT) {
-			$this->layoutPath = $templateFile;
+			$this->layoutFile = $templateFile;
 
 		} else {
-			$this->templatePath = $templateFile;
+			$this->templateFile = $templateFile;
 		}
 
 		return $this;

@@ -82,13 +82,13 @@ class Control extends BaseControl
 	/**
 	 * Change default dialog layout path
 	 *
-	 * @param string $layoutPath
+	 * @param string $layoutFile
 	 *
 	 * @return $this
 	 */
-	public function setLayoutFile($layoutPath)
+	public function setLayoutFile($layoutFile)
 	{
-		$this->setTemplateFilePath($layoutPath, self::TEMPLATE_LAYOUT);
+		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_LAYOUT);
 
 		return $this;
 	}
@@ -96,13 +96,13 @@ class Control extends BaseControl
 	/**
 	 * Change default confirmer template path
 	 *
-	 * @param string $layoutPath
+	 * @param string $layoutFile
 	 *
 	 * @return $this
 	 */
-	public function setTemplateFile($layoutPath)
+	public function setTemplateFile($layoutFile)
 	{
-		$this->setTemplateFilePath($layoutPath, self::TEMPLATE_CONFIRMER);
+		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_CONFIRMER);
 
 		return $this;
 	}
@@ -113,7 +113,7 @@ class Control extends BaseControl
 	public function getTemplateFile()
 	{
 		// ...try to get default component layout file
-		return !empty($this->templatePath) ? $this->templatePath : __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR .'default.latte';
+		return !empty($this->templateFile) ? $this->templateFile : __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR .'default.latte';
 	}
 
 	/**
@@ -209,7 +209,7 @@ class Control extends BaseControl
 		return new Application\UI\Multiplier((function() use ($that) {
 			// Check if confirmer factory is available
 			if ($that->confirmerFactory) {
-				$confirmer = $that->confirmerFactory->create($that->templatePath);
+				$confirmer = $that->confirmerFactory->create($that->templateFile);
 
 			} else {
 				throw new Exceptions\InvalidStateException("Confirmation control factory does not exist.");
@@ -314,8 +314,8 @@ class Control extends BaseControl
 			// If template was not defined before...
 			if ($template->getFile() === NULL) {
 				// ...try to get base component template file
-				$layoutPath = !empty($this->layoutPath) ? $this->layoutPath : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
-				$template->setFile($layoutPath);
+				$layoutFile = !empty($this->layoutFile) ? $this->layoutFile : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
+				$template->setFile($layoutFile);
 			}
 
 			// Render component template
