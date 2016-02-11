@@ -177,7 +177,7 @@ class Control extends BaseControl
 	 */
 	public function getConfirmer($name)
 	{
-		if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer || $confirmer->isConfigured()) {
+		if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer || !$confirmer->isConfigured()) {
 			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' does not exists.");
 		}
 
