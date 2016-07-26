@@ -73,7 +73,7 @@ class ComponentTest extends Tester\TestCase
 	}
 
 	/**
-	 * @throws Exceptions\FileNotFoundException
+	 * @throws IPub\ConfirmationDialog\Exceptions\FileNotFoundException
 	 */
 	public function testSetInvalidTemplate()
 	{
@@ -213,7 +213,7 @@ class ComponentTest extends Tester\TestCase
 
 		ConfirmationDialog\DI\ConfirmationDialogExtension::register($config);
 
-		$config->addConfig(__DIR__ . '/files/presenters.neon', $config::NONE);
+		$config->addConfig(__DIR__ . '/files/presenters.neon');
 
 		return $config->createContainer();
 	}

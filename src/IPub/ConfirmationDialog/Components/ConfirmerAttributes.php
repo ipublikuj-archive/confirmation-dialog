@@ -112,7 +112,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function getHeading() : string
+	public function getHeading()
 	{
 		// Check if attribute is callable
 		if (is_callable($this->heading)) {
@@ -190,7 +190,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function getIcon() : string
+	public function getIcon()
 	{
 		// Check if attribute is callable
 		if (is_callable($this->icon)) {
