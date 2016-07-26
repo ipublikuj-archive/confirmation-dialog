@@ -114,15 +114,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 */
 	public function getHeading()
 	{
-		// Check if attribute is callable
-		if (is_callable($this->heading)) {
-			return (string) $this->callCallableAttribute($this->heading);
-
-		} elseif ($this->heading) {
-			return (string) $this->heading;
-		}
-
-		return NULL;
+		return $this->getAttribute('heading');
 	}
 
 	/**
@@ -192,15 +184,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 */
 	public function getIcon()
 	{
-		// Check if attribute is callable
-		if (is_callable($this->icon)) {
-			return (string) $this->callCallableAttribute($this->icon);
-
-		} elseif ($this->icon) {
-			return (string) $this->icon;
-		}
-
-		return NULL;
+		return $this->getAttribute('icon');
 	}
 
 	/**
@@ -355,5 +339,24 @@ abstract class ConfirmerAttributes extends BaseControl
 		}
 
 		return $values;
+	}
+
+	/**
+	 * @param string $attribute
+	 *
+	 * @return string|NULL
+	 * @throws Exceptions\InvalidStateException
+	 */
+	private function getAttribute(string $attribute)
+	{
+		// Check if attribute is callable
+		if (is_callable($this->{$attribute})) {
+			return (string) $this->callCallableAttribute($this->{$attribute});
+
+		} elseif ($this->{$attribute}) {
+			return (string) $this->{$attribute};
+		}
+
+		return NULL;
 	}
 }

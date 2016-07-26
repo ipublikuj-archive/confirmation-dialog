@@ -89,7 +89,7 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 	 *
 	 * @return string[]
 	 */
-	function getTranslationResources()
+	public function getTranslationResources()
 	{
 		return [
 			__DIR__ . '/../Translations'

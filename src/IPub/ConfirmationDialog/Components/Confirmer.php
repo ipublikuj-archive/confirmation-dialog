@@ -98,6 +98,7 @@ final class Confirmer extends ConfirmerAttributes
 	 * @return void
 	 *
 	 * @throws Exceptions\HandlerNotCallableException
+	 * @throws Exceptions\InvalidStateException
 	 */
 	public function confirmClicked(Forms\Controls\SubmitButton $button)
 	{
@@ -115,11 +116,20 @@ final class Confirmer extends ConfirmerAttributes
 
 			$this->getDialog()->resetConfirmer();
 
-			$this->callHandler($this->getDialog()->getParent(), $values['params']);
+			$control = $this->getDialog()->getParent();
+
+			if ($control === NULL) {
+				throw new Exceptions\InvalidStateException('Confirmer is not attached to parent control.');
+			}
+
+			$this->callHandler($control, $values['params']);
 
 		} catch (Exceptions\InvalidStateException $ex) {
 			if (self::$strings['expired'] != '' && $this->getPresenter() instanceof Application\UI\Presenter) {
 				$this->getPresenter()->flashMessage(self::$strings['expired']);
+
+			} else {
+				throw $ex;
 			}
 		}
 
