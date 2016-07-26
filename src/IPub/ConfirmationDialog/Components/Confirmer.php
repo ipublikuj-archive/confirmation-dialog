@@ -133,11 +133,7 @@ final class Confirmer extends ConfirmerAttributes
 			}
 		}
 
-		// Check if request is done via ajax...
-		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
-			// ...if not redirect to actual page
-			$this->getPresenter()->redirect('this');
-		}
+		$this->refreshPage();
 	}
 
 	/**
@@ -161,11 +157,7 @@ final class Confirmer extends ConfirmerAttributes
 
 		$this->getDialog()->resetConfirmer();
 
-		// Check if request is done via ajax...
-		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
-			// ...if not redirect to actual page
-			$this->getPresenter()->redirect('this');
-		}
+		$this->refreshPage();
 	}
 
 	/**
@@ -273,5 +265,17 @@ final class Confirmer extends ConfirmerAttributes
 		}
 
 		return $this->dialog;
+	}
+
+	/**
+	 * @return void
+	 */
+	private function refreshPage()
+	{
+		// Check if request is done via ajax...
+		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {
+			// ...if not redirect to actual page
+			$this->getPresenter()->redirect('this');
+		}
 	}
 }
