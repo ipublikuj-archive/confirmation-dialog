@@ -47,8 +47,7 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 
 		// Session storage
 		$builder->addDefinition($this->prefix('storage'))
-			->setClass(ConfirmationDialog\Storage\Session::CLASS_NAME)
-			->setImplement(ConfirmationDialog\Storage\IStorage::INTERFACE_NAME);
+			->setClass(ConfirmationDialog\Storage\Session::CLASS_NAME);
 
 		// Define components factories
 		$dialog = $builder->addDefinition($this->prefix('dialog'))
