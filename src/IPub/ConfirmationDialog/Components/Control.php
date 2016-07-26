@@ -301,7 +301,7 @@ final class Control extends BaseControl
 		// Check if control has template
 		if ($template instanceof Nette\Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
-			$template->add('confirmer', $this->confirmer);
+			$template->confirmer = $this->confirmer;
 
 			// If template was not defined before...
 			if ($template->getFile() === NULL) {
