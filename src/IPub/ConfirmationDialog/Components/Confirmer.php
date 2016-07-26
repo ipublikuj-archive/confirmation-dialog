@@ -2,15 +2,17 @@
 /**
  * Confirmer.php
  *
- * @copyright	More in license.md
- * @license		http://www.ipublikuj.eu
- * @author		Adam Kadlec http://www.ipublikuj.eu
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
- * @since		5.0
+ * @copyright      More in license.md
+ * @license        http://www.ipublikuj.eu
+ * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
+ * @since          1.0.0
  *
- * @date		31.03.14
+ * @date           31.03.14
  */
+
+declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
@@ -26,41 +28,45 @@ use IPub\ConfirmationDialog\Exceptions;
 /**
  * Confirmation dialog confirmer control
  *
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
  *
  * @property-read string $name
  * @property-read string $cssClass
  * @property-read string $useAjax
  */
-class Confirmer extends ConfirmerAttributes
+final class Confirmer extends ConfirmerAttributes
 {
-	const CLASSNAME = __CLASS__;
+	/**
+	 * Define class name
+	 */
+	const CLASS_NAME = __CLASS__;
 
 	/**
 	 * @var Control|Nette\ComponentModel\IContainer
 	 */
-	protected $dialog;
+	private $dialog;
 
 	/**
 	 * @param NULL|string $templateFile
-	 * @param Nette\ComponentModel\IContainer $parent
-	 * @param null $name
 	 */
-	public function __construct(
-		$templateFile = NULL,
-		Nette\ComponentModel\IContainer $parent = NULL, $name = NULL
-	) {
-		// TODO: remove, only for tests
-		parent::__construct(NULL, NULL);
+	public function __construct(string $templateFile = NULL)
+	{
+		list(, $parent, $name) = func_get_args() + [NULL, NULL, NULL];
+
+		parent::__construct($parent, $name);
+
+		if ($templateFile !== NULL) {
+			$this->setTemplateFile($templateFile);
+		}
 	}
 
 	/**
 	 * Show current confirmer
 	 *
 	 * @param array $params
-	 *
-	 * @return $this
+	 * 
+	 * @return void
 	 */
 	public function showConfirm(array $params = [])
 	{
@@ -70,10 +76,10 @@ class Confirmer extends ConfirmerAttributes
 		// Set generated token to form
 		$this['form']['secureToken']->value = $token;
 
-		// Store token to session
-		$this->sessionStorage->set($token, [
-			'confirmer'	=> $this->getName(),
-			'params'	=> $params,
+		// Store token to storage
+		$this->storage->set($token, [
+			'confirmer' => $this->getName(),
+			'params'    => $params,
 		]);
 
 		if ($this->getQuestion() !== FALSE) {
@@ -82,14 +88,14 @@ class Confirmer extends ConfirmerAttributes
 			// Invalidate dialog snippets
 			$this->getDialog()->redrawControl();
 		}
-
-		return $this;
 	}
 
 	/**
 	 * Confirm YES clicked
 	 *
 	 * @param Forms\Controls\SubmitButton $button
+	 * 
+	 * @return void
 	 *
 	 * @throws Exceptions\HandlerNotCallableException
 	 */
@@ -102,10 +108,10 @@ class Confirmer extends ConfirmerAttributes
 		$token = $values->secureToken;
 
 		try {
-			// Get values stored in session
+			// Get values stored in confirmer storage
 			$values = $this->getConfirmerValues($token);
-			// Remove session data for current confirmer
-			$this->sessionStorage->clear($token);
+			// Remove storage data for current confirmer
+			$this->storage->clear($token);
 
 			$this->getDialog()->resetConfirmer();
 
@@ -126,6 +132,8 @@ class Confirmer extends ConfirmerAttributes
 
 	/**
 	 * Confirm NO clicked
+	 * 
+	 * @return void
 	 *
 	 * @param Forms\Controls\SubmitButton $button
 	 */
@@ -138,7 +146,7 @@ class Confirmer extends ConfirmerAttributes
 		$token = $values->secureToken;
 
 		if ($this->getConfirmerValues($token)) {
-			$this->sessionStorage->clear($token);
+			$this->storage->clear($token);
 		}
 
 		$this->getDialog()->resetConfirmer();
@@ -155,7 +163,7 @@ class Confirmer extends ConfirmerAttributes
 	 *
 	 * @return bool
 	 */
-	public function isConfigured()
+	public function isConfigured() : bool
 	{
 		if ((is_string($this->heading) || is_callable($this->heading)) &&
 			(is_string($this->question) || is_callable($this->question)) &&
@@ -169,6 +177,8 @@ class Confirmer extends ConfirmerAttributes
 
 	/**
 	 * Render confirmer
+	 * 
+	 * @return void
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
@@ -180,12 +190,12 @@ class Confirmer extends ConfirmerAttributes
 		// Check if control has template
 		if ($template instanceof Nette\Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
-			$template->name		= $this->name;
-			$template->class	= $this->cssClass;
-			$template->icon		= $this->getIcon();
-			$template->question	= $this->getQuestion();
-			$template->heading	= $this->getHeading();
-			$template->useAjax	= $this->useAjax;
+			$template->add('name', $this->name);
+			$template->add('class', $this->cssClass);
+			$template->add('icon', $this->getIcon());
+			$template->add('question', $this->getQuestion());
+			$template->add('heading', $this->getHeading());
+			$template->add('useAjax', $this->useAjax);
 
 			// If template was not defined before...
 			if ($template->getFile() === NULL) {
@@ -206,14 +216,12 @@ class Confirmer extends ConfirmerAttributes
 	 * Change default confirmer template path
 	 *
 	 * @param string $layoutFile
-	 *
-	 * @return $this
+	 * 
+	 * @return void
 	 */
-	public function setTemplateFile($layoutFile)
+	public function setTemplateFile(string $layoutFile)
 	{
 		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_CONFIRMER);
-
-		return $this;
 	}
 
 	/**
@@ -221,7 +229,7 @@ class Confirmer extends ConfirmerAttributes
 	 *
 	 * @return string
 	 */
-	protected function generateToken()
+	protected function generateToken() : string
 	{
 		return base_convert(md5(uniqid('confirm' . $this->getName(), TRUE)), 16, 36);
 	}
@@ -233,7 +241,7 @@ class Confirmer extends ConfirmerAttributes
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	protected function getDialog()
+	protected function getDialog() : Control
 	{
 		// Check if confirm dialog was loaded before...
 		if (!$this->dialog) {

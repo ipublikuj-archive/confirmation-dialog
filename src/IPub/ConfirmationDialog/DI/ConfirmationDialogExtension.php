@@ -2,15 +2,17 @@
 /**
  * ConfirmationDialogExtension.php
  *
- * @copyright	More in license.md
- * @license		http://www.ipublikuj.eu
- * @author		Adam Kadlec http://www.ipublikuj.eu
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	DI
- * @since		5.0
+ * @copyright      More in license.md
+ * @license        http://www.ipublikuj.eu
+ * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     DI
+ * @since          1.0.0
  *
- * @date		08.06.14
+ * @date           08.06.14
  */
+
+declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\DI;
 
@@ -20,14 +22,22 @@ use Nette\PhpGenerator as Code;
 
 use IPub\ConfirmationDialog;
 
+/**
+ * Confirmation dialog extension container
+ *
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     DI
+ *
+ * @author         Adam Kadlec <adam.kadlec@fastybird.com>
+ */
 class ConfirmationDialogExtension extends DI\CompilerExtension
 {
 	/**
 	 * @var array
 	 */
 	protected $defaults = [
-		'layoutFile'	=> NULL,
-		'templateFile'	=> NULL
+		'layoutFile'   => NULL,
+		'templateFile' => NULL
 	];
 
 	public function loadConfiguration()
@@ -36,20 +46,20 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		// Session storage
-		$builder->addDefinition($this->prefix('session'))
-			->setClass(ConfirmationDialog\SessionStorage::CLASSNAME);
+		$builder->addDefinition($this->prefix('storage'))
+			->setClass(ConfirmationDialog\Storage\Session::CLASS_NAME);
 
 		// Define components factories
 		$dialog = $builder->addDefinition($this->prefix('dialog'))
-			->setClass(ConfirmationDialog\Components\Control::CLASSNAME)
-			->setImplement(ConfirmationDialog\Components\IControl::CLASSNAME)
+			->setClass(ConfirmationDialog\Components\Control::CLASS_NAME)
+			->setImplement(ConfirmationDialog\Components\IControl::INTERFACE_NAME)
 			->setArguments([new Nette\PhpGenerator\PhpLiteral('$layoutFile'), new Nette\PhpGenerator\PhpLiteral('$templateFile')])
 			->setInject(TRUE)
 			->addTag('cms.components');
 
 		$builder->addDefinition($this->prefix('confirmer'))
-			->setClass(ConfirmationDialog\Components\Confirmer::CLASSNAME)
-			->setImplement(ConfirmationDialog\Components\IConfirmer::CLASSNAME)
+			->setClass(ConfirmationDialog\Components\Confirmer::CLASS_NAME)
+			->setImplement(ConfirmationDialog\Components\IConfirmer::INTERFACE_NAME)
 			->setArguments([new Nette\PhpGenerator\PhpLiteral('$templateFile')])
 			->setInject(TRUE)
 			->addTag('cms.components');
@@ -81,8 +91,8 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 	 */
 	function getTranslationResources()
 	{
-		return array(
+		return [
 			__DIR__ . '/../Translations'
-		);
+		];
 	}
 }

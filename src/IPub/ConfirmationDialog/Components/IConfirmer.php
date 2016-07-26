@@ -2,26 +2,31 @@
 /**
  * IConfirmer.php
  *
- * @copyright	More in license.md
- * @license		http://www.ipublikuj.eu
- * @author		Adam Kadlec http://www.ipublikuj.eu
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
- * @since		5.0
+ * @copyright      More in license.md
+ * @license        http://www.ipublikuj.eu
+ * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
+ * @since          1.0.0
  *
- * @date		31.01.15
+ * @date           31.01.15
  */
+
+declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
 interface IConfirmer
 {
-	const CLASSNAME = __CLASS__;
+	/**
+	 * Define class name
+	 */
+	const INTERFACE_NAME = __CLASS__;
 
 	/**
-	 * @param null|string $templateFile
+	 * @param string|NULL $templateFile
 	 *
 	 * @return Confirmer
 	 */
-	public function create($templateFile = NULL);
+	public function create(string $templateFile = NULL) : Confirmer;
 }

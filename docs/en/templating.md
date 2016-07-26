@@ -15,43 +15,44 @@ use IPub\ConfirmationDialog;
 
 class SomePresenter
 {
-	/**
-	 * Insert extension trait (only for PHP 5.4+)
-	 */
-	use ConfirmationDialog\TConfirmationDialog;
+    /**
+     * Insert extension trait (only for PHP 5.4+)
+     */
+    use ConfirmationDialog\TConfirmationDialog;
 
-	/**
-	 * Component for action confirmation
-	 *
-	 * @return ConfirmationDialog\Control
-	 */
-	protected function createComponentConfirmAction()
-	{
-		// Init action confirm
-		$dialog = $this->confirmationDialogFactory->create();
+    /**
+     * Component for action confirmation
+     *
+     * @return ConfirmationDialog\Control
+     */
+    protected function createComponentConfirmAction()
+    {
+        // Init action confirm
+        $dialog = $this->confirmationDialogFactory->create();
 
         // Define template
         $dialog->setTemplateFile('bootstrap.latte');
         
-		// Define confirm windows
-		$dialog
-			// First confirmation window
-			->addConfirmer(
-				'confirmerName',
-				array($this, 'handleCallback'),
-				array($this, 'questionCallback'),
-				'Heading of the window'
-			)
-			// Second confirmation window
-			->addConfirmer(
-				'nextConfirmerName',
-				array($this, 'handleCallbackTwo'),
-				array($this, 'questionCallbackTwo'),
-				'Heading of the second window'
-			);
+        // Define confirm windows
 
-		return $dialog;
-	}
+        // First confirmation window
+        $dialog->addConfirmer(
+            'confirmerName',
+            [$this, 'handleCallback'],
+            [$this, 'questionCallback'],
+            'Heading of the window'
+        );
+
+        // Second confirmation window
+        $dialog->addConfirmer(
+            'nextConfirmerName',
+            [$this, 'handleCallbackTwo'],
+            [$this, 'questionCallbackTwo'],
+            'Heading of the second window'
+        );
+
+        return $dialog;
+    }
 }
 ```
 
@@ -68,37 +69,38 @@ use IPub\ConfirmationDialog;
 
 class SomePresenter
 {
-	/**
-	 * Insert extension trait (only for PHP 5.4+)
-	 */
-	use ConfirmationDialog\TConfirmationDialog;
+    /**
+     * Insert extension trait (only for PHP 5.4+)
+     */
+    use ConfirmationDialog\TConfirmationDialog;
 
-	/**
-	 * Component for action confirmation
-	 *
-	 * @return ConfirmationDialog\Control
-	 */
-	protected function createComponentConfirmAction()
-	{
-		// Init action confirm
-		$dialog = $this->confirmationDialogFactory->create();
+    /**
+     * Component for action confirmation
+     *
+     * @return ConfirmationDialog\Control
+     */
+    protected function createComponentConfirmAction()
+    {
+        // Init action confirm
+        $dialog = $this->confirmationDialogFactory->create();
 
-		// Define confirm windows
-		$dialog
-			// First confirmation window
-			->addConfirmer(
-				'confirmerName',
-				array($this, 'handleCallback'),
-				array($this, 'questionCallback'),
-				'Heading of the window'
-			)
-			// Second confirmation window
-			->addConfirmer(
-				'nextConfirmerName',
-				array($this, 'handleCallbackTwo'),
-				array($this, 'questionCallbackTwo'),
-				'Heading of the second window'
-			);
+        // Define confirm windows
+
+        // First confirmation window
+        $dialog->addConfirmer(
+            'confirmerName',
+            [$this, 'handleCallback'],
+            [$this, 'questionCallback'],
+            'Heading of the window'
+        );
+
+        // Second confirmation window
+        $dialog->addConfirmer(
+            'nextConfirmerName',
+            [$this, 'handleCallbackTwo'],
+            [$this, 'questionCallbackTwo'],
+            'Heading of the second window'
+        );
 
         // Define template for first confirmer
         $dialog->getConfirmer('confirmerName')->setTemplateFile('bootstrap.latte');
@@ -106,8 +108,8 @@ class SomePresenter
         // Define template for second confirmer
         $dialog->getConfirmer('nextConfirmerName')->setTemplateFile('default.latte');
 
-		return $dialog;
-	}
+        return $dialog;
+    }
 }
 ```
 
@@ -124,23 +126,23 @@ use IPub\ConfirmationDialog;
 
 class SomePresenter
 {
-	/**
-	 * Insert extension trait (only for PHP 5.4+)
-	 */
-	use ConfirmationDialog\TConfirmationDialog;
+    /**
+     * Insert extension trait (only for PHP 5.4+)
+     */
+    use ConfirmationDialog\TConfirmationDialog;
 
-	/**
-	 * Component for action confirmation
-	 *
-	 * @return ConfirmationDialog\Control
-	 */
-	protected function createComponentConfirmAction()
-	{
-		// Init action confirm
-		$dialog = $this->confirmationDialogFactory->create();
-		
+    /**
+     * Component for action confirmation
+     *
+     * @return ConfirmationDialog\Control
+     */
+    protected function createComponentConfirmAction()
+    {
+        // Init action confirm
+        $dialog = $this->confirmationDialogFactory->create();
+
         $dialog->setTemplateFile('path/to/your/template.latte');
-        
+
         ....
     }
 }
@@ -157,21 +159,21 @@ use IPub\ConfirmationDialog;
 
 class SomePresenter
 {
-	/**
-	 * Insert extension trait (only for PHP 5.4+)
-	 */
-	use ConfirmationDialog\TConfirmationDialog;
+    /**
+     * Insert extension trait (only for PHP 5.4+)
+     */
+    use ConfirmationDialog\TConfirmationDialog;
 
-	/**
-	 * Component for action confirmation
-	 *
-	 * @return ConfirmationDialog\Control
-	 */
-	protected function createComponentConfirmAction()
-	{
-		// Init action confirm
-		$dialog = $this->confirmationDialogFactory->create();
-		
+    /**
+     * Component for action confirmation
+     *
+     * @return ConfirmationDialog\Control
+     */
+    protected function createComponentConfirmAction()
+    {
+        // Init action confirm
+        $dialog = $this->confirmationDialogFactory->create();
+        
         $dialog->setLayoutFile('path/to/your/layout.latte');
         
         ....
@@ -192,34 +194,34 @@ use IPub\ConfirmationDialog;
 
 class SomePresenter
 {
-	/**
-	 * Insert extension trait (only for PHP 5.4+)
-	 */
-	use ConfirmationDialog\TConfirmationDialog;
+    /**
+     * Insert extension trait (only for PHP 5.4+)
+     */
+    use ConfirmationDialog\TConfirmationDialog;
 
-	/**
-	 * Component for displaying messages
-	 *
-	 * @return ConfirmationDialog\Control
-	 */
-	protected function createComponentConfirmAction()
-	{
-		// Create control
-		$control = $this->confirmationDialogFactory->create('customlayout.latte', 'bootstrap.latte');
+    /**
+     * Component for displaying messages
+     *
+     * @return ConfirmationDialog\Control
+     */
+    protected function createComponentConfirmAction()
+    {
+        // Create control
+        $control = $this->confirmationDialogFactory->create('customlayout.latte', 'bootstrap.latte');
 
-		// or
+        // or
 
-		$control = $this->confirmationDialogFactory->create('path/to/your/custom/layout.latte', 'path/to/your/template.latte');
+        $control = $this->confirmationDialogFactory->create('path/to/your/custom/layout.latte', 'path/to/your/template.latte');
 
-		// or
-		
-		$control = $this->confirmationDialogFactory->create('customlayout.latte');
-		$control = $this->confirmationDialogFactory->create(NULL, 'bootstrap.latte');
+        // or
+        
+        $control = $this->confirmationDialogFactory->create('customlayout.latte');
+        $control = $this->confirmationDialogFactory->create(NULL, 'bootstrap.latte');
 
-		$control = $this->confirmationDialogFactory->create('path/to/your/custom/layout.latte');
-		$control = $this->confirmationDialogFactory->create(NULL, 'path/to/your/template.latte');
-		....
-	}
+        $control = $this->confirmationDialogFactory->create('path/to/your/custom/layout.latte');
+        $control = $this->confirmationDialogFactory->create(NULL, 'path/to/your/template.latte');
+        ....
+    }
 }
 ```
 
@@ -228,9 +230,9 @@ class SomePresenter
 Another way how to configure template is in extension configuration.
 
 ```neon
-	confirmationDialog:
-		layoutFile		: /path/to/your/layout/template.latte
-		templateFile	: bootstrap.latte // uikit.latte // default.latte // or/path/to/your/template.latte
+    confirmationDialog:
+        layoutFile      : /path/to/your/layout/template.latte
+        templateFile    : bootstrap.latte // uikit.latte // default.latte // or/path/to/your/template.latte
 ```
 
 System will automatically asset this template into components

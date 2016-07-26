@@ -2,15 +2,17 @@
 /**
  * Confirmer.php
  *
- * @copyright	More in license.md
- * @license		http://www.ipublikuj.eu
- * @author		Adam Kadlec http://www.ipublikuj.eu
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
- * @since		5.0
+ * @copyright      More in license.md
+ * @license        http://www.ipublikuj.eu
+ * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
+ * @since          1.0.0
  *
- * @date		31.03.14
+ * @date           31.03.14
  */
+
+declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
@@ -20,12 +22,13 @@ use Nette\Application;
 use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
+use IPub\ConfirmationDialog\Storage;
 
 /**
  * Confirmation dialog confirmer control
  *
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
  *
  * @property-read string $name
  */
@@ -35,9 +38,9 @@ abstract class ConfirmerAttributes extends BaseControl
 	 * @var array localization strings
 	 */
 	public static $strings = [
-		'yes'		=> 'Yes',
-		'no'		=> 'No',
-		'expired'	=> 'Confirmation token has expired. Please try action again.',
+		'yes'     => 'Yes',
+		'no'      => 'No',
+		'expired' => 'Confirmation token has expired. Please try action again.',
 	];
 
 	/**
@@ -58,7 +61,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	/**
 	 * @var string|callable icon
 	 */
-	protected $icon = FALSE;
+	protected $icon;
 
 	/**
 	 * @var callable
@@ -71,17 +74,17 @@ abstract class ConfirmerAttributes extends BaseControl
 	protected $useAjax = TRUE;
 
 	/**
-	 * @var ConfirmationDialog\SessionStorage
+	 * @var Storage\IStorage
 	 */
-	protected $sessionStorage;
+	protected $storage;
 
 	/**
-	 * @param ConfirmationDialog\SessionStorage $sessionStorage
+	 * @param Storage\IStorage $storage
 	 */
-	public function injectSessionStorage(ConfirmationDialog\SessionStorage $sessionStorage)
+	public function injectStorage(Storage\IStorage $storage)
 	{
-		// Get session section for confirmer
-		$this->sessionStorage = $sessionStorage;
+		// Get data storage for confirmer
+		$this->storage = $storage;
 	}
 
 	/**
@@ -89,7 +92,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @param string|callable $heading
 	 *
-	 * @return $this
+	 * @return void
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
@@ -100,28 +103,26 @@ abstract class ConfirmerAttributes extends BaseControl
 			// Update confirmation heading
 			$this->heading = $heading;
 		}
-
-		return $this;
 	}
 
 	/**
 	 * Get dialog heding
 	 *
-	 * @return string
+	 * @return string|NULL
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function getHeading()
+	public function getHeading() : string
 	{
 		// Check if attribute is callable
 		if (is_callable($this->heading)) {
-			$heading = (string) $this->callCallableAttribute($this->heading);
+			return (string) $this->callCallableAttribute($this->heading);
 
-		} else {
-			$heading = (string) $this->heading;
+		} elseif ($this->heading) {
+			return (string) $this->heading;
 		}
 
-		return $heading;
+		return NULL;
 	}
 
 	/**
@@ -129,7 +130,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @param string|callable $question
 	 *
-	 * @return $this
+	 * @return void
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
@@ -140,17 +141,17 @@ abstract class ConfirmerAttributes extends BaseControl
 			// Update confirmation question
 			$this->question = $question;
 		}
-
-		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return string|bool
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
 	public function getQuestion()
 	{
+		$question = FALSE;
+
 		// Check if attribute is callable
 		if (is_callable($this->question)) {
 			$question = $this->callCallableAttribute($this->question);
@@ -159,7 +160,7 @@ abstract class ConfirmerAttributes extends BaseControl
 				$question = (string) $question;
 			}
 
-		} else if (!is_bool($this->question)) {
+		} elseif (!is_bool($this->question)) {
 			$question = (string) $this->question;
 		}
 
@@ -171,7 +172,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @param string|callable $icon
 	 *
-	 * @return $this
+	 * @return void
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
@@ -182,26 +183,24 @@ abstract class ConfirmerAttributes extends BaseControl
 			// Update confirmation icon
 			$this->icon = $icon;
 		}
-
-		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return string|NULL
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function getIcon()
+	public function getIcon() : string
 	{
 		// Check if attribute is callable
 		if (is_callable($this->icon)) {
-			$icon = (string) $this->callCallableAttribute($this->icon);
+			return (string) $this->callCallableAttribute($this->icon);
 
-		} else {
-			$icon = (string) $this->icon;
+		} elseif ($this->icon) {
+			return (string) $this->icon;
 		}
 
-		return $icon;
+		return NULL;
 	}
 
 	/**
@@ -209,7 +208,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @param callable $handler
 	 *
-	 * @return $this
+	 * @return void
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
@@ -221,14 +220,12 @@ abstract class ConfirmerAttributes extends BaseControl
 
 		// Update confirmation handler
 		$this->handler = $handler;
-
-		return $this;
 	}
 
 	/**
 	 * @return callable
 	 */
-	public function getHandler()
+	public function getHandler() : callable
 	{
 		return $this->handler;
 	}
@@ -241,7 +238,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\HandlerNotCallableException
 	 */
-	public function callHandler($obj, array $params)
+	public function callHandler(Nette\ComponentModel\IContainer $obj, array $params)
 	{
 		$callback = $this->getHandler();
 
@@ -263,23 +260,19 @@ abstract class ConfirmerAttributes extends BaseControl
 	}
 
 	/**
-	 * @return $this
+	 * @return void
 	 */
 	public function enableAjax()
 	{
 		$this->useAjax = TRUE;
-
-		return $this;
 	}
 
 	/**
-	 * @return $this
+	 * @return void
 	 */
 	public function disableAjax()
 	{
 		$this->useAjax = FALSE;
-
-		return $this;
 	}
 
 	/**
@@ -313,10 +306,10 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	protected function checkCallableOrString($var)
+	protected function checkCallableOrString($var) : bool
 	{
 		if (!is_callable($var) && !is_string($var)) {
-			throw new Exceptions\InvalidArgumentException('$var must be callback or string.');
+			throw new Exceptions\InvalidArgumentException(sprintf('%s must be callback or string.', $var));
 		}
 
 		return TRUE;
@@ -329,7 +322,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	protected function callCallableAttribute($attribute)
+	protected function callCallableAttribute($attribute) : string
 	{
 		if ($this['form']['secureToken']->value === NULL) {
 			throw new Exceptions\InvalidStateException('Token is not set!');
@@ -338,21 +331,23 @@ abstract class ConfirmerAttributes extends BaseControl
 		// Get token from form
 		$token = $this['form']['secureToken']->value;
 
-		// Get values stored in session
+		// Get values stored in confirmer storage
 		$values = $this->getConfirmerValues($token);
 
 		return call_user_func_array($attribute, [$this, $values['params']]);
 	}
 
 	/**
+	 * @param string $token
+	 *
 	 * @return array
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	protected function getConfirmerValues($token)
+	protected function getConfirmerValues(string $token) : array
 	{
-		// Get values stored in session
-		$values = $this->sessionStorage->get($token);
+		// Get values stored in confirmer storage
+		$values = $this->storage->get($token);
 
 		// Check for correct values
 		if (!is_array($values) || !isset($values['confirmer']) || !isset($values['params'])) {

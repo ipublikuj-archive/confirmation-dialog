@@ -14,7 +14,7 @@ After that you have to register extension in config.neon.
 
 ```neon
 extensions:
-	confirmationDialog: IPub\ConfirmationDialog\DI\ConfirmationDialogExtension
+    confirmationDialog: IPub\ConfirmationDialog\DI\ConfirmationDialogExtension
 ```
 
 Package contains trait, which you will have to use in presenters or components to implement Confirmation Dialog component factory. This works only for PHP 5.4+, for older version you can simply copy trait content and paste it into class where you want to use it.
@@ -25,7 +25,7 @@ Package contains trait, which you will have to use in presenters or components t
 class BasePresenter extends Nette\Application\UI\Presenter
 {
 
-	use IPub\ConfirmationDialog\TConfirmationDialog;
+    use IPub\ConfirmationDialog\TConfirmationDialog;
 
 }
 ```
@@ -43,78 +43,79 @@ use IPub\ConfirmationDialog;
 
 class SomePresenter
 {
-	/**
-	 * Insert extension trait (only for PHP 5.4+)
-	 */
-	use ConfirmationDialog\TConfirmationDialog;
+    /**
+     * Insert extension trait (only for PHP 5.4+)
+     */
+    use ConfirmationDialog\TConfirmationDialog;
 
-	/**
-	 * Component for action confirmation
-	 *
-	 * @return ConfirmationDialog\Control
-	 */
-	protected function createComponentConfirmAction()
-	{
-		// Init action confirm
-		$dialog = $this->confirmationDialogFactory->create();
+    /**
+     * Component for action confirmation
+     *
+     * @return ConfirmationDialog\Components\Control
+     */
+    protected function createComponentConfirmAction()
+    {
+        // Init action confirm
+        $dialog = $this->confirmationDialogFactory->create();
 
-		// Define confirm windows
-		$dialog
-			// First confirmation window
-			->addConfirmer(
-				'confirmerName',
-				array($this, 'handleCallback'),
-				array($this, 'questionCallback'),
-				'Heading of the window'
-			)
-			// Second confirmation window
-			->addConfirmer(
-				'nextConfirmerName',
-				array($this, 'handleCallbackTwo'),
-				array($this, 'questionCallbackTwo'),
-				'Heading of the second window'
-			);
+        // Define confirm windows
 
-		return $dialog;
-	}
+        // First confirmation window
+        $dialog->addConfirmer(
+            'confirmerName',
+            [$this, 'handleCallback'],
+            [$this, 'questionCallback'],
+            'Heading of the window'
+        );
 
-	/**
-	 * Create question for confirmation dialog
-	 *
-	 * @param ConfirmationDialog\Components\Confirmer $confirmer
-	 * @param $params
-	 *
-	 * @return bool|string
-	 */
-	public function questionCallback(ConfirmationDialog\Components\Confirmer $confirmer, $params)
-	{
-		// Set dialog icon
-		$confirmer->setIcon('trash');
+        // Second confirmation window
+        $dialog->addConfirmer(
+            'nextConfirmerName',
+            [$this, 'handleCallbackTwo'],
+            [$this, 'questionCallbackTwo'],
+            'Heading of the second window'
+        );
 
-		// Find item to do some action
-		if ($item = $this->dataModel->findOneByIdentifier($params['id'])) {
-			// Create question
-			return 'Are you sure to do this action with: '. $item->title;
+        return $dialog;
+    }
 
-		// Item not exists
-		} else {
-			// Store info message
-			$this->flashMessage("Error, item not found!");
+    /**
+     * Create question for confirmation dialog
+     *
+     * @param ConfirmationDialog\Components\Confirmer $confirmer
+     * @param $params
+     *
+     * @return bool|string
+     */
+    public function questionCallback(ConfirmationDialog\Components\Confirmer $confirmer, $params)
+    {
+        // Set dialog icon
+        $confirmer->setIcon('trash');
 
-			return FALSE;
-		}
-	}
+        // Find item to do some action
+        if ($item = $this->dataModel->findOneByIdentifier($params['id'])) {
+            // Create question
+            return 'Are you sure to do this action with: '. $item->title;
+        }
 
-	/**
-	 * Handler for confirmed action
-	 *
-	 * @param int $id
-	 */
-	public function handleCallback($id)
-	{
-		// ...
-		// Classic handle like without confirm dialog
-	}
+        // Item not exists
+
+        // Store info message
+        $this->flashMessage("Error, item not found!");
+
+        return FALSE;
+    }
+
+    /**
+     * Handler for confirmed action
+     *
+     * @param int $id
+     */
+    public function handleCallback($id)
+    {
+        // ...
+        // Classic handle like without confirm dialog
+    }
 }
 ```
 

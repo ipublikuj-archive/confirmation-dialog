@@ -29,21 +29,22 @@ class SomePresenter
         $dialog = $this->confirmationDialogFactory->create();
 
         // Define confirm windows
-        $dialog
-            // First confirmation window
-            ->addConfirmer(
-                'delete',
-                array($this, 'deleteUser'),
-                'Are you sure to delete selected user?',
-                'Deleting of user'
-            )
-            // Second confirmation window
-            ->addConfirmer(
-                'forceDelete',
-                array($this, 'forceDeleteUser'),
-                'Are you sure to delete selected user with all articles etc.?',
-                'Deleting of user'
-            );
+
+        // First confirmation window
+        $dialog->addConfirmer(
+            'delete',
+            [$this, 'deleteUser'],
+            'Are you sure to delete selected user?',
+            'Deleting of user'
+        );
+
+        // Second confirmation window
+        $dialog->addConfirmer(
+            'forceDelete',
+            [$this, 'forceDeleteUser'],
+            'Are you sure to delete selected user with all articles etc.?',
+            'Deleting of user'
+        );
 
         return $dialog;
     }
@@ -55,17 +56,17 @@ Now you have to define handler for each confirmer
 /**
  * @param int $id
  */
-public function deleteUser($id)
+public function deleteUser(int $id)
 {
     if (!$db->getUser($id)->delete()) {
         // Store message
         $this->flashMessage('User can not be deleted. Selected user have some articles.', 'error');
-        
+
         $this->invalidateControl();
-        
+
         // Open second confirm window
         // The second parameter must contain all method parameters
-        $this['confirmAction']->showConfirm('forceDeleteUser', array('id' => $id));
+        $this['confirmAction']->showConfirm('forceDeleteUser', ['id' => $id]);
 
     } else {
         // Store message
@@ -76,10 +77,10 @@ public function deleteUser($id)
 /**
  * @param int $id
  */
-public function forceDeleteUser($id)
+public function forceDeleteUser(int $id)
 {
     ....
 }
 ```
 
-In case user have some articles, the error message will be shown and also the second confirmer will be opened.
+In case user has some articles, the error message will be shown and also the second confirmer will be opened.

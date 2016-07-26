@@ -2,15 +2,17 @@
 /**
  * Control.php
  *
- * @copyright	More in license.md
- * @license		http://www.ipublikuj.eu
- * @author		Adam Kadlec http://www.ipublikuj.eu
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
- * @since		5.0
+ * @copyright      More in license.md
+ * @license        http://www.ipublikuj.eu
+ * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
+ * @since          1.0.0
  *
- * @date		12.03.14
+ * @date           12.03.14
  */
+
+declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
@@ -25,27 +27,30 @@ use IPub\ConfirmationDialog\Exceptions;
 /**
  * Confirmation dialog control
  *
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
  */
-class Control extends BaseControl
+final class Control extends BaseControl
 {
-	const CLASSNAME = __CLASS__;
+	/**
+	 * Define class name
+	 */
+	const CLASS_NAME = __CLASS__;
 
 	/**
 	 * @var IConfirmer
 	 */
-	protected $confirmerFactory;
+	private $confirmerFactory;
 
 	/**
 	 * @var Confirmer
 	 */
-	protected $confirmer;
+	private $confirmer;
 
 	/**
 	 * @var bool
 	 */
-	protected $useAjax = TRUE;
+	private $useAjax = TRUE;
 
 	/**
 	 * @param IConfirmer $confirmerFactory
@@ -57,18 +62,16 @@ class Control extends BaseControl
 	}
 
 	/**
-	 * @param NULL|string $layoutFile
-	 * @param NULL|string $templateFile
-	 * @param Nette\ComponentModel\IContainer $parent
-	 * @param null $name
+	 * @param string|NULL $layoutFile
+	 * @param string|NULL $templateFile
 	 */
 	public function __construct(
-		$layoutFile = NULL,
-		$templateFile = NULL,
-		Nette\ComponentModel\IContainer $parent = NULL, $name = NULL
+		string $layoutFile = NULL,
+		string $templateFile = NULL
 	) {
-		// TODO: remove, only for tests
-		parent::__construct(NULL, NULL);
+		list(, , $parent, $name) = func_get_args() + [NULL, NULL, NULL, NULL];
+
+		parent::__construct($parent, $name);
 
 		if ($layoutFile !== NULL) {
 			$this->setLayoutFile($layoutFile);
@@ -84,13 +87,11 @@ class Control extends BaseControl
 	 *
 	 * @param string $layoutFile
 	 *
-	 * @return $this
+	 * @return void
 	 */
-	public function setLayoutFile($layoutFile)
+	public function setLayoutFile(string $layoutFile)
 	{
 		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_LAYOUT);
-
-		return $this;
 	}
 
 	/**
@@ -98,22 +99,20 @@ class Control extends BaseControl
 	 *
 	 * @param string $layoutFile
 	 *
-	 * @return $this
+	 * @return void
 	 */
-	public function setTemplateFile($layoutFile)
+	public function setTemplateFile(string $layoutFile)
 	{
 		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_CONFIRMER);
-
-		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTemplateFile()
+	public function getTemplateFile() : string
 	{
 		// ...try to get default component layout file
-		return !empty($this->templateFile) ? $this->templateFile : __DIR__ . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR .'default.latte';
+		return $this->templateFile !== NULL ? $this->templateFile : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'default.latte';
 	}
 
 	/**
@@ -124,7 +123,7 @@ class Control extends BaseControl
 	 *
 	 * @return string
 	 */
-	public static function formatSignalMethod($signal)
+	public static function formatSignalMethod($signal) : string
 	{
 		if (Utils\Strings::startsWith($signal, 'confirm')) {
 			return 'handleShowConfirmer';
@@ -136,36 +135,33 @@ class Control extends BaseControl
 	/**
 	 * Add confirmation handler to "dynamicaly named signals"
 	 *
-	 * @param string $name Confirmation/signal name
-	 * @param callback|Nette\Callback $handler Callback called when confirmation succeed
-	 * @param callback|string $question Callback ($confirmer, $params) or string containing question text
-	 * @param callback|string $heading Callback ($confirmer, $params) or string containing heading text
+	 * @param string $name                           Confirmation/signal name
+	 * @param callback|Nette\Utils\Callback $handler Callback called when confirmation succeed
+	 * @param callback|string $question              Callback ($confirmer, $params) or string containing question text
+	 * @param callback|string $heading               Callback ($confirmer, $params) or string containing heading text
 	 *
-	 * @return $this
+	 * @return void
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function addConfirmer($name, $handler, $question, $heading)
+	public function addConfirmer(string $name, $handler, $question, $heading)
 	{
 		// Confirmer name could be only A-z
 		if (!preg_match('/[A-Za-z_]+/', $name)) {
 			throw new Exceptions\InvalidArgumentException("Confirmation control name contain invalid characters.");
-
-		// Check confirmer
-		} else if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer || $confirmer->isConfigured()) {
-			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' could not be created.");
-
-		} else {
-			$confirmer
-				// Set confirmer handler
-				->setHandler($handler)
-				// Set confirmer heading
-				->setHeading($heading)
-				// Set confirmer question
-				->setQuestion($question);
 		}
 
-		return $this;
+		// Check confirmer
+		if ((!$confirmer = $this->getComponent('confirmer-' . $name)) || !$confirmer instanceof Confirmer || $confirmer->isConfigured()) {
+			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' could not be created.");
+		}
+
+		// Set confirmer handler
+		$confirmer->setHandler($handler);
+		// Set confirmer heading
+		$confirmer->setHeading($heading);
+		// Set confirmer question
+		$confirmer->setQuestion($question);
 	}
 
 	/**
@@ -175,9 +171,9 @@ class Control extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function getConfirmer($name)
+	public function getConfirmer(string $name) : Confirmer
 	{
-		if ((!$confirmer = $this->getComponent('confirmer-'. $name)) || !$confirmer instanceof Confirmer || !$confirmer->isConfigured()) {
+		if ((!$confirmer = $this->getComponent('confirmer-' . $name)) || !$confirmer instanceof Confirmer || !$confirmer->isConfigured()) {
 			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' does not exists.");
 		}
 
@@ -185,7 +181,7 @@ class Control extends BaseControl
 	}
 
 	/**
-	 * @return $this
+	 * @return void
 	 */
 	public function resetConfirmer()
 	{
@@ -193,8 +189,6 @@ class Control extends BaseControl
 
 		// Invalidate dialog snippets
 		$this->redrawControl();
-
-		return $this;
 	}
 
 	/**
@@ -202,20 +196,17 @@ class Control extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	protected function createComponentConfirmer()
+	protected function createComponentConfirmer() : Application\UI\Multiplier
 	{
-		$that = $this;
-
-		return new Application\UI\Multiplier((function() use ($that) {
+		return new Application\UI\Multiplier((function () {
 			// Check if confirmer factory is available
-			if ($that->confirmerFactory) {
-				$confirmer = $that->confirmerFactory->create($that->templateFile);
-
-			} else {
+			if (!$this->confirmerFactory) {
 				throw new Exceptions\InvalidStateException("Confirmation control factory does not exist.");
 			}
 
-			if ($that->useAjax) {
+			$confirmer = $this->confirmerFactory->create($this->templateFile);
+
+			if ($this->useAjax) {
 				$confirmer->enableAjax();
 
 			} else {
@@ -232,16 +223,18 @@ class Control extends BaseControl
 	 * @param string $name
 	 * @param array $params
 	 *
+	 * @return void
+	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function showConfirm($name, array $params = [])
+	public function showConfirm(string $name, array $params = [])
 	{
 		if (!is_string($name)) {
 			throw new Exceptions\InvalidArgumentException('$name must be string.');
 		}
 
-		if ((!$this->confirmer = $this['confirmer-'. $name]) || !$this->confirmer->isConfigured()) {
+		if ((!$this->confirmer = $this['confirmer-' . $name]) || !$this->confirmer->isConfigured()) {
 			throw new Exceptions\InvalidStateException("Confirmer '$name' do not exist.");
 		}
 
@@ -252,22 +245,23 @@ class Control extends BaseControl
 	/**
 	 * Dynamically named signal receiver
 	 *
+	 * @return void
+	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 * @throws Exceptions\InvalidStateException
 	 */
 	public function handleShowConfirmer()
 	{
-		if ($this->getPresenter() instanceof Application\UI\Presenter) {
-			list(, $signal) = $this->getPresenter()->getSignal();
-
-		} else {
+		if (!$this->getPresenter() instanceof Application\UI\Presenter) {
 			throw new Exceptions\InvalidArgumentException('Confirmer is not attached to presenter.');
 		}
+
+		list(, $signal) = $this->getPresenter()->getSignal();
 
 		$name = Utils\Strings::substring($signal, 7);
 		$name{0} = strtolower($name{0});
 
-		if (!$this['confirmer-'. $name]->isConfigured()) {
+		if (!$this['confirmer-' . $name]->isConfigured()) {
 			throw new Exceptions\InvalidArgumentException('Invalid confirmation control.');
 		}
 
@@ -277,27 +271,25 @@ class Control extends BaseControl
 	}
 
 	/**
-	 * @return $this
+	 * @return void
 	 */
 	public function enableAjax()
 	{
 		$this->useAjax = TRUE;
-
-		return $this;
 	}
 
 	/**
-	 * @return $this
+	 * @return void
 	 */
 	public function disableAjax()
 	{
 		$this->useAjax = FALSE;
-
-		return $this;
 	}
 
 	/**
 	 * Render control
+	 *
+	 * @return void
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
@@ -309,12 +301,12 @@ class Control extends BaseControl
 		// Check if control has template
 		if ($template instanceof Nette\Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
-			$template->confirmer = $this->confirmer;
+			$template->add('confirmer', $this->confirmer);
 
 			// If template was not defined before...
 			if ($template->getFile() === NULL) {
 				// ...try to get base component template file
-				$layoutFile = !empty($this->layoutFile) ? $this->layoutFile : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
+				$layoutFile = $this->layoutFile !== NULL ? $this->layoutFile : __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'layout.latte';
 				$template->setFile($layoutFile);
 			}
 

@@ -2,15 +2,17 @@
 /**
  * BaseControl.php
  *
- * @copyright	More in license.md
- * @license		http://www.ipublikuj.eu
- * @author		Adam Kadlec http://www.ipublikuj.eu
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
- * @since		5.0
+ * @copyright      More in license.md
+ * @license        http://www.ipublikuj.eu
+ * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
+ * @since          1.0.0
  *
- * @date		12.03.14
+ * @date           12.03.14
  */
+
+declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
@@ -24,23 +26,23 @@ use IPub\ConfirmationDialog\Exceptions;
 /**
  * Abstract control definition
  *
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
  *
  * @property Application\UI\ITemplate $template
  */
 abstract class BaseControl extends Application\UI\Control
 {
-	const TEMPLATE_LAYOUT		= 'layout';
-	const TEMPLATE_CONFIRMER	= 'template';
+	const TEMPLATE_LAYOUT = 'layout';
+	const TEMPLATE_CONFIRMER = 'template';
 
 	/**
-	 * @var null|string
+	 * @var string|NULL
 	 */
 	protected $templateFile = NULL;
 
 	/**
-	 * @var null|string
+	 * @var string|NULL
 	 */
 	protected $layoutFile = NULL;
 
@@ -63,14 +65,14 @@ abstract class BaseControl extends Application\UI\Control
 	 * @param string $templateFile
 	 * @param string $type
 	 *
-	 * @return $this
-	 *
+	 * @return void
+	 * 
 	 * @throws Exceptions\FileNotFoundException
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function setTemplateFilePath($templateFile, $type)
+	public function setTemplateFilePath(string $templateFile, string $type)
 	{
-		if (!in_array((string) $type, [self::TEMPLATE_CONFIRMER, self::TEMPLATE_LAYOUT])) {
+		if (!in_array($type, [self::TEMPLATE_CONFIRMER, self::TEMPLATE_LAYOUT])) {
 			throw new Exceptions\InvalidArgumentException('Wrong template type');
 		}
 
@@ -80,11 +82,11 @@ abstract class BaseControl extends Application\UI\Control
 			$dir = dirname($this->getReflection()->getFileName());
 
 			// ...check if extension template is used
-			if (is_file($dir . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templateFile)) {
+			if (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile)) {
 				$templateFile = $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile;
 
-			} else if (is_file($dir . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templateFile .'.latte')) {
-				$templateFile = $dir . DIRECTORY_SEPARATOR .'template'. DIRECTORY_SEPARATOR . $templateFile .'.latte';
+			} elseif (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile . '.latte')) {
+				$templateFile = $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile . '.latte';
 
 			} else {
 				// ...if not throw exception
@@ -98,24 +100,20 @@ abstract class BaseControl extends Application\UI\Control
 		} else {
 			$this->templateFile = $templateFile;
 		}
-
-		return $this;
 	}
 
 	/**
 	 * @param Localization\ITranslator $translator
-	 *
-	 * @return $this
+	 * 
+	 * @return void
 	 */
 	public function setTranslator(Localization\ITranslator $translator)
 	{
 		$this->translator = $translator;
-
-		return $this;
 	}
 
 	/**
-	 * @return Localization\ITranslator|null
+	 * @return Localization\ITranslator|NULL
 	 */
 	public function getTranslator()
 	{
@@ -144,9 +142,8 @@ abstract class BaseControl extends Application\UI\Control
 
 			// Render component template
 			return $this->template;
-
-		} else {
-			throw new Exceptions\InvalidStateException('Control is without template.');
 		}
+
+		throw new Exceptions\InvalidStateException('Control is without template.');
 	}
 }

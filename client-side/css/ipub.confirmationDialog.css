@@ -13,165 +13,168 @@
  *
  * @author		Adam Kadlec (http://www.ipublikuj.eu)
  * @package		iPublikuj:ConfirmationDialog!
- * @version		1.0
+ * @version		1.0.0
  */
 
 /* Custom alert icons */
 .confirmation-dialog .alert-icon {
-	position: absolute;
-	top: 35px; left: 20px;
-	height: 64px; width: 64px;
-	background-position: 0 0; background-repeat: no-repeat;
+    position: absolute;
+    top: 35px;
+    left: 20px;
+    height: 64px;
+    width: 64px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
 }
 
 .confirmation-dialog .alert-icon-calendar {
-	background: url(../img/calendar.png);
+    background: url(../img/calendar.png);
 }
 
 .confirmation-dialog .alert-icon-chat {
-	background: url(../img/chat.png);
+    background: url(../img/chat.png);
 }
 
 .confirmation-dialog .alert-icon-check {
-	background: url(../img/check.png);
+    background: url(../img/check.png);
 }
 
 .confirmation-dialog .alert-icon-config {
-	background: url(../img/wrench.png);
+    background: url(../img/wrench.png);
 }
 
 .confirmation-dialog .alert-icon-error {
-	background: url(../img/error.png);
+    background: url(../img/error.png);
 }
 
 .confirmation-dialog .alert-icon-pen {
-	background: url(../img/pen.png);
+    background: url(../img/pen.png);
 }
 
 .confirmation-dialog .alert-icon-help {
-	background: url(../img/help.png);
+    background: url(../img/help.png);
 }
 
 .confirmation-dialog .alert-icon-info {
-	background: url(../img/info.png);
+    background: url(../img/info.png);
 }
 
 .confirmation-dialog .alert-icon-lamp {
-	background: url(../img/lamp.png);
+    background: url(../img/lamp.png);
 }
 
 .confirmation-dialog .alert-icon-mail {
-	background: url(../img/mail.png);
+    background: url(../img/mail.png);
 }
 
 .confirmation-dialog .alert-icon-photo {
-	background: url(../img/camera.png);
+    background: url(../img/camera.png);
 }
 
 .confirmation-dialog .alert-icon-secure {
-	background: url(../img/unlock.png);
+    background: url(../img/unlock.png);
 }
 
 .confirmation-dialog .alert-icon-trash {
-	background: url(../img/trash.png);
+    background: url(../img/trash.png);
 }
 
 .confirmation-dialog .alert-icon-user {
-	background: url(../img/user.png);
+    background: url(../img/user.png);
 }
 
 .confirmation-dialog .alert-icon-up {
-	background: url(../img/up.png);
+    background: url(../img/up.png);
 }
 
 .confirmation-dialog .alert-icon-down {
-	background: url(../img/down.png);
+    background: url(../img/down.png);
 }
 
 .confirmation-dialog .alert-icon-left {
-	background: url(../img/left.png);
+    background: url(../img/left.png);
 }
 
 .confirmation-dialog .alert-icon-right {
-	background: url(../img/right.png);
+    background: url(../img/right.png);
 }
 
 .confirmation-dialog .alert-icon-at {
-	background: url(../img/at.png);
+    background: url(../img/at.png);
 }
 
 .confirmation-dialog .alert-icon-bar {
-	background: url(../img/bars.png);
+    background: url(../img/bars.png);
 }
 
 .confirmation-dialog .alert-icon-book {
-	background: url(../img/book.png);
+    background: url(../img/book.png);
 }
 
 .confirmation-dialog .alert-icon-chart {
-	background: url(../img/chart.png);
+    background: url(../img/chart.png);
 }
 
 .confirmation-dialog .alert-icon-clock {
-	background: url(../img/clock.png);
+    background: url(../img/clock.png);
 }
 
 .confirmation-dialog .alert-icon-gear {
-	background: url(../img/cog.png);
+    background: url(../img/cog.png);
 }
 
 .confirmation-dialog .alert-icon-document {
-	background: url(../img/document.png);
+    background: url(../img/document.png);
 }
 
 .confirmation-dialog .alert-icon-folder {
-	background: url(../img/folder.png);
+    background: url(../img/folder.png);
 }
 
 .confirmation-dialog .alert-icon-heart {
-	background: url(../img/heart.png);
+    background: url(../img/heart.png);
 }
 
 .confirmation-dialog .alert-icon-home {
-	background: url(../img/home.png);
+    background: url(../img/home.png);
 }
 
 .confirmation-dialog .alert-icon-key {
-	background: url(../img/key.png);
+    background: url(../img/key.png);
 }
 
 .confirmation-dialog .alert-icon-magnifier {
-	background: url(../img/magnifier.png);
+    background: url(../img/magnifier.png);
 }
 
 .confirmation-dialog .alert-icon-pin {
-	background: url(../img/pin.png);
+    background: url(../img/pin.png);
 }
 
 .confirmation-dialog .alert-icon-minus {
-	background: url(../img/minus.png);
+    background: url(../img/minus.png);
 }
 
 .confirmation-dialog .alert-icon-window {
-	background: url(../img/window.png);
+    background: url(../img/window.png);
 }
 
 .confirmation-dialog .alert-icon-plus {
-	background: url(../img/plus.png);
+    background: url(../img/plus.png);
 }
 
 .confirmation-dialog .alert-icon-reload {
-	background: url(../img/reload.png);
+    background: url(../img/reload.png);
 }
 
 .confirmation-dialog .alert-icon-quote {
-	background: url(../img/quote.png);
+    background: url(../img/quote.png);
 }
 
 .confirmation-dialog .alert-icon-star {
-	background: url(../img/star.png);
+    background: url(../img/star.png);
 }
 
 .confirmation-dialog .alert-icon-tag {
-	background: url(../img/tag.png);
+    background: url(../img/tag.png);
 }

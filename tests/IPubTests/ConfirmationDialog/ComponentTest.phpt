@@ -3,15 +3,17 @@
  * Test: IPub\ConfirmationDialog\Compiler
  * @testCase
  *
- * @copyright	More in license.md
- * @license		http://www.ipublikuj.eu
- * @author		Adam Kadlec http://www.ipublikuj.eu
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Tests
- * @since		5.0
+ * @copyright      More in license.md
+ * @license        http://www.ipublikuj.eu
+ * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Tests
+ * @since          1.0.0
  *
- * @date		30.01.15
+ * @date           30.01.15
  */
+
+declare(strict_types = 1);
 
 namespace IPubTests\ConfirmationDialog;
 
@@ -26,18 +28,19 @@ use Tester\Assert;
 
 use IPub;
 use IPub\ConfirmationDialog;
+use IPub\ConfirmationDialog\Exceptions;
 
 require __DIR__ . '/../bootstrap.php';
 
 class ComponentTest extends Tester\TestCase
 {
 	/**
-	 * @var Nette\Application\IPresenterFactory
+	 * @var Application\IPresenterFactory
 	 */
 	private $presenterFactory;
 
 	/**
-	 * @var \SystemContainer|\Nette\DI\Container
+	 * @var Nette\DI\Container
 	 */
 	private $container;
 
@@ -51,7 +54,7 @@ class ComponentTest extends Tester\TestCase
 		$this->container = $this->createContainer();
 
 		// Get presenter factory from container
-		$this->presenterFactory = $this->container->getByType('Nette\Application\IPresenterFactory');
+		$this->presenterFactory = $this->container->getByType(Application\IPresenterFactory::class);
 	}
 
 	public function testSetValidTemplate()
@@ -60,7 +63,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', array('action' => 'validTemplate'));
+		$request = new Application\Request('Test', 'GET', ['action' => 'validTemplate']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -70,7 +73,7 @@ class ComponentTest extends Tester\TestCase
 	}
 
 	/**
-	 * @throws \IPub\ConfirmationDialog\Exceptions\FileNotFoundException
+	 * @throws Exceptions\FileNotFoundException
 	 */
 	public function testSetInvalidTemplate()
 	{
@@ -78,7 +81,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', array('action' => 'invalidTemplate'));
+		$request = new Application\Request('Test', 'GET', ['action' => 'invalidTemplate']);
 		// & fire presenter & catch response
 		$presenter->run($request);
 	}
@@ -89,7 +92,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', array('action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete'));
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -114,7 +117,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', array('action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete'));
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -136,10 +139,10 @@ class ComponentTest extends Tester\TestCase
 
 		// Create GET request
 		$request = new Application\Request('Test', 'POST', ['action' => 'openDialog'], [
-			'do'			=> $do,
-			'secureToken'	=> $secureToken,
-			'_token_'		=> $token,
-			'yes'			=> 'confirmationDialog.buttons.bNo'
+			'do'          => $do,
+			'secureToken' => $secureToken,
+			'_token_'     => $token,
+			'yes'         => 'confirmationDialog.buttons.bNo'
 		]);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
@@ -153,7 +156,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', array('action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete'));
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -175,22 +178,22 @@ class ComponentTest extends Tester\TestCase
 
 		// Create GET request
 		$request = new Application\Request('Test', 'POST', ['action' => 'openDialog', 'headers' => ['X-Requested-With' => 'XMLHttpRequest']], [
-			'do'			=> $do,
-			'secureToken'	=> $secureToken,
-			'_token_'		=> $token,
-			'no'			=> 'confirmationDialog.buttons.bNo'
+			'do'          => $do,
+			'secureToken' => $secureToken,
+			'_token_'     => $token,
+			'no'          => 'confirmationDialog.buttons.bNo'
 		]);
 		// & fire presenter
 		$response = $presenter->run($request);
 
-		Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
+		Assert::true($response instanceof Application\Responses\RedirectResponse);
 		Assert::same(302, $response->getCode());
 	}
 
 	/**
 	 * @return Application\IPresenter
 	 */
-	protected function createPresenter()
+	private function createPresenter()
 	{
 		// Create test presenter
 		$presenter = $this->presenterFactory->createPresenter('Test');
@@ -201,9 +204,9 @@ class ComponentTest extends Tester\TestCase
 	}
 
 	/**
-	 * @return \SystemContainer|\Nette\DI\Container
+	 * @return Nette\DI\Container
 	 */
-	protected function createContainer()
+	private function createContainer()
 	{
 		$config = new Nette\Configurator();
 		$config->setTempDirectory(TEMP_DIR);
@@ -219,9 +222,9 @@ class ComponentTest extends Tester\TestCase
 class TestPresenter extends UI\Presenter
 {
 	/**
-	 * @var ConfirmationDialog\Components\IDialog
+	 * @var ConfirmationDialog\Components\IControl
 	 */
-	protected $factory;
+	private $factory;
 
 	public function actionValidTemplate()
 	{
@@ -238,13 +241,13 @@ class TestPresenter extends UI\Presenter
 	public function renderValidTemplate()
 	{
 		// Set template for component testing
-		$this->template->setFile(__DIR__ . DIRECTORY_SEPARATOR .'templates'. DIRECTORY_SEPARATOR .'validTemplate.latte');
+		$this->template->setFile(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'validTemplate.latte');
 	}
 
 	public function renderOpenDialog()
 	{
 		// Set template for component testing
-		$this->template->setFile(__DIR__ . DIRECTORY_SEPARATOR .'templates'. DIRECTORY_SEPARATOR .'openDialog.latte');
+		$this->template->setFile(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'openDialog.latte');
 	}
 
 	/**
@@ -265,16 +268,16 @@ class TestPresenter extends UI\Presenter
 		// Init confirmation dialog
 		$control = $this->factory->create();
 
-		$control
-			// Add first confirmer
-			->addConfirmer(
+		// Add first confirmer
+		$control->addConfirmer(
 				'delete',
 				[$this, 'handleDeleteItem'],
 				'Really delete this item?',
 				'Delete item'
-			)
-			// Add second confirmer
-			->addConfirmer(
+			);
+
+		// Add second confirmer
+		$control->addConfirmer(
 				'enable',
 				[$this, 'enableItem'],
 				[$this, 'questionEnable'],
@@ -290,7 +293,7 @@ class TestPresenter extends UI\Presenter
 	 *
 	 * @return string
 	 */
-	public function questionEnable(ConfirmationDialog\Components\Confirmer $confirmer, $params)
+	public function questionEnable(ConfirmationDialog\Components\Confirmer $confirmer, $params) : string
 	{
 		return 'Are your sure to enable this item?';
 	}
@@ -301,7 +304,7 @@ class TestPresenter extends UI\Presenter
 	 *
 	 * @return string
 	 */
-	public function headingEnable(ConfirmationDialog\Components\Confirmer $confirmer, $params)
+	public function headingEnable(ConfirmationDialog\Components\Confirmer $confirmer, $params) : string
 	{
 		return 'Enable item';
 	}

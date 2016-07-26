@@ -2,27 +2,32 @@
 /**
  * IControl.php
  *
- * @copyright	More in license.md
- * @license		http://www.ipublikuj.eu
- * @author		Adam Kadlec http://www.ipublikuj.eu
- * @package		iPublikuj:ConfirmationDialog!
- * @subpackage	Components
- * @since		5.0
+ * @copyright      More in license.md
+ * @license        http://www.ipublikuj.eu
+ * @author         Adam Kadlec http://www.ipublikuj.eu
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
+ * @since          1.0.0
  *
- * @date		12.03.14
+ * @date           12.03.14
  */
+
+declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
 interface IControl
 {
-	const CLASSNAME = __CLASS__;
+	/**
+	 * Define class name
+	 */
+	const INTERFACE_NAME = __CLASS__;
 
 	/**
-	 * @param null|string $layoutFile
-	 * @param null|string $templateFile
+	 * @param string|NULL $layoutFile
+	 * @param string|NULL $templateFile
 	 *
 	 * @return Control
 	 */
-	public function create($layoutFile = NULL, $templateFile = NULL);
+	public function create(string $layoutFile = NULL, string $templateFile = NULL) : Control;
 }
