@@ -19,6 +19,12 @@ namespace IPub\ConfirmationDialog\Storage;
 use Nette;
 use Nette\Http;
 
+/**
+ * Confirmer status storage interface
+ *
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Storage
+ */
 interface IStorage
 {
 	/**

@@ -22,6 +22,12 @@ use Nette\Application;
 use IPub;
 use IPub\ConfirmationDialog\Components;
 
+/**
+ * Confirmation control trait
+ *
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Storage
+ */
 trait TConfirmationDialog
 {
 	/**

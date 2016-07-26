@@ -19,6 +19,12 @@ namespace IPub\ConfirmationDialog\Storage;
 use Nette;
 use Nette\Http;
 
+/**
+ * Confirmer session status storage
+ *
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Storage
+ */
 final class Session implements IStorage
 {
 	/**

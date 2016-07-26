@@ -16,6 +16,12 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
+/**
+ * Confirmer control factroy
+ *
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Components
+ */
 interface IConfirmer
 {
 	/**
