@@ -236,3 +236,8 @@ Another way how to configure template is in extension configuration.
 ```
 
 System will automatically asset this template into components
+
+### More
+
+- [Read how to do default configuration](https://github.com/iPublikuj/confirmation-dialog/blob/master/docs/en/index.md)
+- [Read more how to chain confirmers](https://github.com/iPublikuj/confirmation-dialog/blob/master/docs/en/chaining.md)

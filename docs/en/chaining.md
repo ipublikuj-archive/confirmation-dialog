@@ -84,3 +84,8 @@ public function forceDeleteUser(int $id)
 ```
 
 In case user has some articles, the error message will be shown and also the second confirmer will be opened.
+
+### More
+
+- [Read how to do default configuration](https://github.com/iPublikuj/confirmation-dialog/blob/master/docs/en/index.md)
+- [Read more about templating system](https://github.com/iPublikuj/confirmation-dialog/blob/master/docs/en/templating.md)
