@@ -103,7 +103,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', "$this->doVar" => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -128,7 +128,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', "$this->doVar" => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -150,10 +150,10 @@ class ComponentTest extends Tester\TestCase
 
 		// Create GET request
 		$request = new Application\Request('Test', 'POST', ['action' => 'openDialog'], [
-			$this->doVar  => $do,
-			'secureToken' => $secureToken,
-			'_token_'     => $token,
-			'yes'         => 'confirmationDialog.buttons.bNo'
+			"$this->doVar" => $do,
+			'secureToken'  => $secureToken,
+			'_token_'      => $token,
+			'yes'          => 'confirmationDialog.buttons.bYes'
 		]);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
@@ -167,7 +167,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', "$this->doVar" => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -181,7 +181,7 @@ class ComponentTest extends Tester\TestCase
 		$token = $dq->find('input[name="_token_"]');
 		$token = (string) $token[0]->attributes()->{'value'};
 
-		$do = $dq->find('input[name="'. $this->doVar .'"]');
+		$do = $dq->find('input[name="' . $this->doVar . '"]');
 		$do = (string) $do[0]->attributes()->{'value'};
 
 		// Create test presenter
@@ -189,10 +189,10 @@ class ComponentTest extends Tester\TestCase
 
 		// Create GET request
 		$request = new Application\Request('Test', 'POST', ['action' => 'openDialog', 'headers' => ['X-Requested-With' => 'XMLHttpRequest']], [
-			$this->doVar          => $do,
-			'secureToken' => $secureToken,
-			'_token_'     => $token,
-			'no'          => 'confirmationDialog.buttons.bNo'
+			"$this->doVar" => $do,
+			'secureToken'  => $secureToken,
+			'_token_'      => $token,
+			'no'           => 'confirmationDialog.buttons.bNo'
 		]);
 		// & fire presenter
 		$response = $presenter->run($request);
