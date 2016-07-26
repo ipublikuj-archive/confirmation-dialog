@@ -45,6 +45,11 @@ class ComponentTest extends Tester\TestCase
 	private $container;
 
 	/**
+	 * @var string
+	 */
+	private $doVar = '_do';
+
+	/**
 	 * Set up
 	 */
 	public function setUp()
@@ -55,6 +60,12 @@ class ComponentTest extends Tester\TestCase
 
 		// Get presenter factory from container
 		$this->presenterFactory = $this->container->getByType(Application\IPresenterFactory::class);
+
+		$version = getenv('NETTE');
+
+		if ($version !== 'default') {
+			$this->doVar = 'do';
+		}
 	}
 
 	public function testSetValidTemplate()
@@ -92,7 +103,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -117,7 +128,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -131,7 +142,7 @@ class ComponentTest extends Tester\TestCase
 		$token = $dq->find('input[name="_token_"]');
 		$token = (string) $token[0]->attributes()->{'value'};
 
-		$do = $dq->find('input[name="do"]');
+		$do = $dq->find('input[name="' . $this->doVar . '"]');
 		$do = (string) $do[0]->attributes()->{'value'};
 
 		// Create test presenter
@@ -139,7 +150,7 @@ class ComponentTest extends Tester\TestCase
 
 		// Create GET request
 		$request = new Application\Request('Test', 'POST', ['action' => 'openDialog'], [
-			'do'          => $do,
+			$this->doVar  => $do,
 			'secureToken' => $secureToken,
 			'_token_'     => $token,
 			'yes'         => 'confirmationDialog.buttons.bNo'
@@ -156,7 +167,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -170,7 +181,7 @@ class ComponentTest extends Tester\TestCase
 		$token = $dq->find('input[name="_token_"]');
 		$token = (string) $token[0]->attributes()->{'value'};
 
-		$do = $dq->find('input[name="do"]');
+		$do = $dq->find('input[name="'. $this->doVar .'"]');
 		$do = (string) $do[0]->attributes()->{'value'};
 
 		// Create test presenter
@@ -178,7 +189,7 @@ class ComponentTest extends Tester\TestCase
 
 		// Create GET request
 		$request = new Application\Request('Test', 'POST', ['action' => 'openDialog', 'headers' => ['X-Requested-With' => 'XMLHttpRequest']], [
-			'do'          => $do,
+			$this->doVar          => $do,
 			'secureToken' => $secureToken,
 			'_token_'     => $token,
 			'no'          => 'confirmationDialog.buttons.bNo'
@@ -277,19 +288,19 @@ class TestPresenter extends UI\Presenter
 
 		// Add first confirmer
 		$control->addConfirmer(
-				'delete',
-				[$this, 'handleDeleteItem'],
-				'Really delete this item?',
-				'Delete item'
-			);
+			'delete',
+			[$this, 'handleDeleteItem'],
+			'Really delete this item?',
+			'Delete item'
+		);
 
 		// Add second confirmer
 		$control->addConfirmer(
-				'enable',
-				[$this, 'enableItem'],
-				[$this, 'questionEnable'],
-				[$this, 'headingEnable']
-			);
+			'enable',
+			[$this, 'enableItem'],
+			[$this, 'questionEnable'],
+			[$this, 'headingEnable']
+		);
 
 		return $control;
 	}
