@@ -78,27 +78,18 @@ abstract class BaseControl extends Application\UI\Control
 
 		// Check if template file exists...
 		if (!is_file($templateFile)) {
-			// Get component actual dir
-			$dir = dirname($this->getReflection()->getFileName());
-
-			// ...check if extension template is used
-			if (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile)) {
-				$templateFile = $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile;
-
-			} elseif (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile . '.latte')) {
-				$templateFile = $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile . '.latte';
-
-			} else {
-				// ...if not throw exception
-				throw new Exceptions\FileNotFoundException(sprintf('Template file "%s" was not found.', $templateFile));
-			}
+			$templateFile = $this->transformToTemplateFilePath($templateFile);
 		}
 
-		if ($type == self::TEMPLATE_LAYOUT) {
-			$this->layoutFile = $templateFile;
+		switch ($type)
+		{
+			case self::TEMPLATE_LAYOUT:
+				$this->layoutFile = $templateFile;
+				break;
 
-		} else {
-			$this->templateFile = $templateFile;
+			case self::TEMPLATE_CONFIRMER:
+				$this->templateFile = $templateFile;
+				break;
 		}
 	}
 
@@ -145,5 +136,27 @@ abstract class BaseControl extends Application\UI\Control
 		}
 
 		throw new Exceptions\InvalidStateException('Control is without template.');
+	}
+
+	/**
+	 * @param string $templateFile
+	 *
+	 * @return string
+	 */
+	private function transformToTemplateFilePath(string $templateFile) : string
+	{
+		// Get component actual dir
+		$dir = dirname($this->getReflection()->getFileName());
+
+		// ...check if extension template is used
+		if (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile)) {
+			return $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile;
+
+		} elseif (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile . '.latte')) {
+			return $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile . '.latte';
+		}
+
+		// ...if not throw exception
+		throw new Exceptions\FileNotFoundException(sprintf('Template file "%s" was not found.', $templateFile));
 	}
 }
