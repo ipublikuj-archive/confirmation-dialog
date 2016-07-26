@@ -133,3 +133,8 @@ And finally you have to add confirmer to the template.
 ```
 
 The link for signal is always created with prefix "confirm" like in example!
+
+### More
+
+- [Read more how to chain confirmers](https://github.com/iPublikuj/confirmation-dialog/blob/master/docs/en/chaining.md)
+- [Read more about templating system](https://github.com/iPublikuj/confirmation-dialog/blob/master/docs/en/templating.md)
