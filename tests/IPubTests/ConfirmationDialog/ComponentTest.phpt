@@ -213,7 +213,14 @@ class ComponentTest extends Tester\TestCase
 
 		ConfirmationDialog\DI\ConfirmationDialogExtension::register($config);
 
-		$config->addConfig(__DIR__ . '/files/presenters.neon');
+		$version = getenv('NETTE');
+
+		if (!$version || $version == 'default') {
+			$config->addConfig(__DIR__ . '/files/presenters.neon');
+
+		} else {
+			$config->addConfig(__DIR__ . '/files/presenters_2.3.neon');
+		}
 
 		return $config->createContainer();
 	}

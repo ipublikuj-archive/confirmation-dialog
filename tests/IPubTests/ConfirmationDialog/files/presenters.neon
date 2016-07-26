@@ -1,7 +1,6 @@
-nette:
-	application:
-		mapping:
-			*: IPubTests\ConfirmationDialog\*Presenter
+application:
+	mapping:
+		*: IPubTests\ConfirmationDialog\*Presenter
 
 services:
 	# Test presenter
