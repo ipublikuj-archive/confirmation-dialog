@@ -148,12 +148,14 @@ final class Control extends BaseControl
 	{
 		// Confirmer name could be only A-z
 		if (!preg_match('/[A-Za-z_]+/', $name)) {
-			throw new Exceptions\InvalidArgumentException("Confirmation control name contain invalid characters.");
+			throw new Exceptions\InvalidArgumentException('Confirmation control name contain invalid characters.');
 		}
 
+		$confirmer = $this->getConfirmerControl($name);
+
 		// Check confirmer
-		if ((!$confirmer = $this->getComponent('confirmer-' . $name)) || !$confirmer instanceof Confirmer || $confirmer->isConfigured()) {
-			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' could not be created.");
+		if ($confirmer->isConfigured()) {
+			throw new Exceptions\InvalidArgumentException(sprintf('Confirmation control "%s" could not be created.', $name));
 		}
 
 		// Set confirmer handler
@@ -173,8 +175,11 @@ final class Control extends BaseControl
 	 */
 	public function getConfirmer(string $name) : Confirmer
 	{
-		if ((!$confirmer = $this->getComponent('confirmer-' . $name)) || !$confirmer instanceof Confirmer || !$confirmer->isConfigured()) {
-			throw new Exceptions\InvalidArgumentException("Confirmation control '$name' does not exists.");
+		$confirmer = $this->getConfirmerControl($name);
+
+		// Check confirmer
+		if (!$confirmer->isConfigured()) {
+			throw new Exceptions\InvalidArgumentException(sprintf('Confirmation control "%s" does not exists.', $name));
 		}
 
 		return $confirmer;
@@ -201,7 +206,7 @@ final class Control extends BaseControl
 		return new Application\UI\Multiplier((function () {
 			// Check if confirmer factory is available
 			if (!$this->confirmerFactory) {
-				throw new Exceptions\InvalidStateException("Confirmation control factory does not exist.");
+				throw new Exceptions\InvalidStateException('Confirmation control factory does not exist.');
 			}
 
 			$confirmer = $this->confirmerFactory->create($this->templateFile);
@@ -235,7 +240,7 @@ final class Control extends BaseControl
 		}
 
 		if ((!$this->confirmer = $this['confirmer-' . $name]) || !$this->confirmer->isConfigured()) {
-			throw new Exceptions\InvalidStateException("Confirmer '$name' do not exist.");
+			throw new Exceptions\InvalidStateException(sprintf('Confirmer "%s" do not exist.', $name));
 		}
 
 		// Prepare confirmer for displaying
@@ -316,5 +321,23 @@ final class Control extends BaseControl
 		} else {
 			throw new Exceptions\InvalidStateException('Dialog control is without template.');
 		}
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @return Confirmer
+	 *
+	 * @throws Exceptions\InvalidArgumentException
+	 */
+	private function getConfirmerControl(string $name) : Confirmer
+	{
+		$confirmer = $this->getComponent('confirmer-' . $name);
+
+		if (!$confirmer instanceof Confirmer) {
+			throw new Exceptions\InvalidArgumentException(sprintf('Confirmation control "%s" does not exists.', $name));
+		}
+
+		return $confirmer;
 	}
 }
