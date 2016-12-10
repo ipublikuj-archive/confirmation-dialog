@@ -25,8 +25,17 @@ use Tester\Assert;
 use IPub;
 use IPub\ConfirmationDialog;
 
-require __DIR__ . '/../bootstrap.php';
+require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
+require __DIR__ . DS . 'libs' . DS . 'RouterFactory.php';
 
+/**
+ * Extension registration tests
+ *
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Tests
+ *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
+ */
 class ExtensionTest extends Tester\TestCase
 {
 	public function testCompilersServices()

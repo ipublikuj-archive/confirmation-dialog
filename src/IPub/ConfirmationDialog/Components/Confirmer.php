@@ -31,17 +31,14 @@ use IPub\ConfirmationDialog\Exceptions;
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Components
  *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
+ *
  * @property-read string $name
  * @property-read string $cssClass
  * @property-read string $useAjax
  */
 final class Confirmer extends ConfirmerAttributes
 {
-	/**
-	 * Define class name
-	 */
-	const CLASS_NAME = __CLASS__;
-
 	/**
 	 * @var Control|Nette\ComponentModel\IContainer
 	 */
@@ -227,16 +224,6 @@ final class Confirmer extends ConfirmerAttributes
 	}
 
 	/**
-	 * Generate unique token key
-	 *
-	 * @return string
-	 */
-	protected function generateToken() : string
-	{
-		return base_convert(md5(uniqid('confirm' . $this->getName(), TRUE)), 16, 36);
-	}
-
-	/**
 	 * Get parent dialog control
 	 *
 	 * @return Control
@@ -265,6 +252,16 @@ final class Confirmer extends ConfirmerAttributes
 		}
 
 		return $this->dialog;
+	}
+
+	/**
+	 * Generate unique token key
+	 *
+	 * @return string
+	 */
+	private function generateToken() : string
+	{
+		return base_convert(md5(uniqid('confirm' . $this->getName(), TRUE)), 16, 36);
 	}
 
 	/**

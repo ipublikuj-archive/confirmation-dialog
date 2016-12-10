@@ -24,14 +24,11 @@ use Nette\Http;
  *
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Storage
+ *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  */
 interface IStorage
 {
-	/**
-	 * Define class name
-	 */
-	const INTERFACE_NAME = __CLASS__;
-
 	/**
 	 * Stores the given ($key, $value) pair, so that future calls to
 	 * get($key) return $value. This call may be in another request.

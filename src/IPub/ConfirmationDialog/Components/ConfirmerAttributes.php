@@ -1,6 +1,6 @@
 <?php
 /**
- * Confirmer.php
+ * ConfirmerAttributes.php
  *
  * @copyright      More in license.md
  * @license        http://www.ipublikuj.eu
@@ -29,6 +29,8 @@ use IPub\ConfirmationDialog\Storage;
  *
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Components
+ *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  *
  * @property-read string $name
  */
@@ -284,44 +286,6 @@ abstract class ConfirmerAttributes extends BaseControl
 	}
 
 	/**
-	 * @param callable|string $var
-	 *
-	 * @return bool
-	 *
-	 * @throws Exceptions\InvalidArgumentException
-	 */
-	protected function checkCallableOrString($var) : bool
-	{
-		if (!is_callable($var) && !is_string($var)) {
-			throw new Exceptions\InvalidArgumentException(sprintf('%s must be callback or string.', $var));
-		}
-
-		return TRUE;
-	}
-
-	/**
-	 * @param callable $attribute
-	 *
-	 * @return string
-	 *
-	 * @throws Exceptions\InvalidStateException
-	 */
-	protected function callCallableAttribute($attribute) : string
-	{
-		if ($this['form']['secureToken']->value === NULL) {
-			throw new Exceptions\InvalidStateException('Token is not set!');
-		}
-
-		// Get token from form
-		$token = $this['form']['secureToken']->value;
-
-		// Get values stored in confirmer storage
-		$values = $this->getConfirmerValues($token);
-
-		return call_user_func_array($attribute, [$this, $values['params']]);
-	}
-
-	/**
 	 * @param string $token
 	 *
 	 * @return array
@@ -339,6 +303,44 @@ abstract class ConfirmerAttributes extends BaseControl
 		}
 
 		return $values;
+	}
+
+	/**
+	 * @param callable|string $var
+	 *
+	 * @return bool
+	 *
+	 * @throws Exceptions\InvalidArgumentException
+	 */
+	private function checkCallableOrString($var) : bool
+	{
+		if (!is_callable($var) && !is_string($var)) {
+			throw new Exceptions\InvalidArgumentException(sprintf('%s must be callback or string.', $var));
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * @param callable $attribute
+	 *
+	 * @return string
+	 *
+	 * @throws Exceptions\InvalidStateException
+	 */
+	private function callCallableAttribute($attribute) : string
+	{
+		if ($this['form']['secureToken']->value === NULL) {
+			throw new Exceptions\InvalidStateException('Token is not set!');
+		}
+
+		// Get token from form
+		$token = $this['form']['secureToken']->value;
+
+		// Get values stored in confirmer storage
+		$values = $this->getConfirmerValues($token);
+
+		return call_user_func_array($attribute, [$this, $values['params']]);
 	}
 
 	/**

@@ -4,9 +4,11 @@
 		"client-side/css/ipub.confirmationDialog.css"
 	],
 	"ignore": [
+		"docs",
 		"src",
 		"tests",
 		".gitignore",
+		".scrutinizer.yml",
 		".travis.composer.php",
 		".travis.yml",
 		"composer.json"

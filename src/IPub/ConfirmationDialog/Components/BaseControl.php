@@ -29,6 +29,8 @@ use IPub\ConfirmationDialog\Exceptions;
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Components
  *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
+ *
  * @property Application\UI\ITemplate $template
  */
 abstract class BaseControl extends Application\UI\Control
