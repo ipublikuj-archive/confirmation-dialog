@@ -9,14 +9,12 @@ This component is created as usual, define two confirmers, one is for soft delet
 ```php
 namespace Your\Coool\Namespace\Presenter;
 
-use IPub\ConfirmationDialog;
-
 class SomePresenter
 {
     /**
      * Insert extension trait (only for PHP 5.4+)
      */
-    use ConfirmationDialog\TConfirmationDialog;
+    use \IPub\ConfirmationDialog\TConfirmationDialog;
 
     /**
      * Component for action confirmation
