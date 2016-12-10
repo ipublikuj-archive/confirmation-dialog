@@ -7,4 +7,4 @@ services:
 	presenters.test:
 		class: IPubTests\ConfirmationDialog\TestPresenter
 
-	router: IPubTests\ConfirmationDialog\RouterFactory::createRouter
+	router: IPubTests\ConfirmationDialog\Libs\RouterFactory::createRouter
