@@ -62,42 +62,8 @@ abstract class BaseControl extends Application\UI\Control
 	}
 
 	/**
-	 * Change default control template path
-	 *
-	 * @param string $templateFile
-	 * @param string $type
-	 *
-	 * @return void
-	 * 
-	 * @throws Exceptions\FileNotFoundException
-	 * @throws Exceptions\InvalidArgumentException
-	 */
-	public function setTemplateFilePath(string $templateFile, string $type)
-	{
-		if (!in_array($type, [self::TEMPLATE_CONFIRMER, self::TEMPLATE_LAYOUT])) {
-			throw new Exceptions\InvalidArgumentException('Wrong template type');
-		}
-
-		// Check if template file exists...
-		if (!is_file($templateFile)) {
-			$templateFile = $this->transformToTemplateFilePath($templateFile);
-		}
-
-		switch ($type)
-		{
-			case self::TEMPLATE_LAYOUT:
-				$this->layoutFile = $templateFile;
-				break;
-
-			case self::TEMPLATE_CONFIRMER:
-				$this->templateFile = $templateFile;
-				break;
-		}
-	}
-
-	/**
 	 * @param Localization\ITranslator $translator
-	 * 
+	 *
 	 * @return void
 	 */
 	public function setTranslator(Localization\ITranslator $translator)
@@ -141,6 +107,40 @@ abstract class BaseControl extends Application\UI\Control
 	}
 
 	/**
+	 * Change default control template path
+	 *
+	 * @param string $templateFile
+	 * @param string $type
+	 *
+	 * @return void
+	 *
+	 * @throws Exceptions\FileNotFoundException
+	 * @throws Exceptions\InvalidArgumentException
+	 */
+	protected function setTemplateFilePath(string $templateFile, string $type)
+	{
+		if (!in_array($type, [self::TEMPLATE_CONFIRMER, self::TEMPLATE_LAYOUT])) {
+			throw new Exceptions\InvalidArgumentException('Wrong template type');
+		}
+
+		// Check if template file exists...
+		if (!is_file($templateFile)) {
+			$templateFile = $this->transformToTemplateFilePath($templateFile);
+		}
+
+		switch ($type)
+		{
+			case self::TEMPLATE_LAYOUT:
+				$this->layoutFile = $templateFile;
+				break;
+
+			case self::TEMPLATE_CONFIRMER:
+				$this->templateFile = $templateFile;
+				break;
+		}
+	}
+
+	/**
 	 * @param string $templateFile
 	 *
 	 * @return string
@@ -150,12 +150,11 @@ abstract class BaseControl extends Application\UI\Control
 		// Get component actual dir
 		$dir = dirname($this->getReflection()->getFileName());
 
-		// ...check if extension template is used
-		if (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile)) {
-			return $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile;
+		$templateName = preg_replace('/.latte/', '', $templateFile);
 
-		} elseif (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile . '.latte')) {
-			return $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateFile . '.latte';
+		// ...check if extension template is used
+		if (is_file($dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateName . '.latte')) {
+			return $dir . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $templateName . '.latte';
 		}
 
 		// ...if not throw exception

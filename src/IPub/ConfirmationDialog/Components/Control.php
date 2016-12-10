@@ -50,23 +50,16 @@ final class Control extends BaseControl
 	private $useAjax = TRUE;
 
 	/**
-	 * @param IConfirmer $confirmerFactory
-	 */
-	public function injectFactories(IConfirmer $confirmerFactory)
-	{
-		// Get confirmer component factory
-		$this->confirmerFactory = $confirmerFactory;
-	}
-
-	/**
 	 * @param string|NULL $layoutFile
 	 * @param string|NULL $templateFile
+	 * @param IConfirmer $confirmerFactory
 	 */
 	public function __construct(
 		string $layoutFile = NULL,
-		string $templateFile = NULL
+		string $templateFile = NULL,
+		IConfirmer $confirmerFactory
 	) {
-		list(, , $parent, $name) = func_get_args() + [NULL, NULL, NULL, NULL];
+		list(, , , $parent, $name) = func_get_args() + [NULL, NULL, NULL, NULL, NULL];
 
 		parent::__construct($parent, $name);
 
@@ -77,6 +70,9 @@ final class Control extends BaseControl
 		if ($templateFile !== NULL) {
 			$this->setTemplateFile($templateFile);
 		}
+
+		// Get confirmer component factory
+		$this->confirmerFactory = $confirmerFactory;
 	}
 
 	/**

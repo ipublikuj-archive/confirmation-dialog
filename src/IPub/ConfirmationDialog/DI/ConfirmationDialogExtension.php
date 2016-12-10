@@ -52,25 +52,30 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 		$builder->addDefinition($this->prefix('storage'))
 			->setClass(Storage\Session::class);
 
-		// Define components factories
-		$dialog = $builder->addDefinition($this->prefix('dialog'))
-			->setClass(Components\Control::class)
-			->setImplement(Components\IControl::class)
-			->setArguments([new Code\PhpLiteral('$layoutFile'), new Code\PhpLiteral('$templateFile')])
-			->setInject(TRUE);
-
-		$builder->addDefinition($this->prefix('confirmer'))
+		$confirmerFactory = $builder->addDefinition($this->prefix('confirmer'))
 			->setClass(Components\Confirmer::class)
 			->setImplement(Components\IConfirmer::class)
 			->setArguments([new Code\PhpLiteral('$templateFile')])
+			->setAutowired(FALSE)
+			->setInject(TRUE);
+
+		// Define components factories
+		$dialogFactory = $builder->addDefinition($this->prefix('dialog'))
+			->setClass(Components\Control::class)
+			->setImplement(Components\IControl::class)
+			->setArguments([
+				new Code\PhpLiteral('$layoutFile'),
+				new Code\PhpLiteral('$templateFile'),
+				$confirmerFactory,
+			])
 			->setInject(TRUE);
 
 		if ($config['layoutFile']) {
-			$dialog->addSetup('$service->setLayoutFile(?)', [$config['layoutFile']]);
+			$dialogFactory->addSetup('$service->setLayoutFile(?)', [$config['layoutFile']]);
 		}
 
 		if ($config['templateFile']) {
-			$dialog->addSetup('$service->setTemplateFile(?)', [$config['templateFile']]);
+			$dialogFactory->addSetup('$service->setTemplateFile(?)', [$config['templateFile']]);
 		}
 	}
 

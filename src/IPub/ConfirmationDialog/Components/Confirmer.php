@@ -24,6 +24,7 @@ use Nette\Localization;
 use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
+use IPub\ConfirmationDialog\Storage;
 
 /**
  * Confirmation dialog confirmer control
@@ -45,13 +46,16 @@ final class Confirmer extends ConfirmerAttributes
 	private $dialog;
 
 	/**
-	 * @param NULL|string $templateFile
+	 * @param string|NULL $templateFile
+	 * @param Storage\IStorage $storage
 	 */
-	public function __construct(string $templateFile = NULL)
-	{
-		list(, $parent, $name) = func_get_args() + [NULL, NULL, NULL];
+	public function __construct(
+		string $templateFile = NULL,
+		Storage\IStorage $storage
+	) {
+		list(, , $parent, $name) = func_get_args() + [NULL, NULL, NULL, NULL];
 
-		parent::__construct($parent, $name);
+		parent::__construct($storage, $parent, $name);
 
 		if ($templateFile !== NULL) {
 			$this->setTemplateFile($templateFile);

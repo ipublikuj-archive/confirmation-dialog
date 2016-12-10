@@ -83,8 +83,12 @@ abstract class ConfirmerAttributes extends BaseControl
 	/**
 	 * @param Storage\IStorage $storage
 	 */
-	public function injectStorage(Storage\IStorage $storage)
+	public function __construct(Storage\IStorage $storage)
 	{
+		list(, $parent, $name) = func_get_args() + [NULL, NULL, NULL];
+
+		parent::__construct($parent, $name);
+
 		// Get data storage for confirmer
 		$this->storage = $storage;
 	}
