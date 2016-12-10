@@ -2,23 +2,21 @@
 
 This extension come with three predefined templates:
 
-* bootstrap.latte if you are using [Twitter Bootstrap](http://getbootstrap.com/)
-* uikit.latte if you are using [YooTheme UIKit](http://getuikit.com/)
-* default.latte for custom styling (this template is loaded as default)
+* bootstrap if you are using [Twitter Bootstrap](http://getbootstrap.com/)
+* uikit if you are using [YooTheme UIKit](http://getuikit.com/)
+* default for custom styling (this template is loaded as default)
 
 If you are using one of the front-end framework you can just define it:
 
 ```php
 namespace Your\Coool\Namespace\Presenter;
 
-use IPub\ConfirmationDialog;
-
 class SomePresenter
 {
     /**
      * Insert extension trait (only for PHP 5.4+)
      */
-    use ConfirmationDialog\TConfirmationDialog;
+    use \IPub\ConfirmationDialog\TConfirmationDialog;
 
     /**
      * Component for action confirmation
@@ -31,7 +29,7 @@ class SomePresenter
         $dialog = $this->confirmationDialogFactory->create();
 
         // Define template
-        $dialog->setTemplateFile('bootstrap.latte');
+        $dialog->setTemplateFile('bootstrap');
         
         // Define confirm windows
 
@@ -65,14 +63,12 @@ If you need to define custom different templates for specific confirmer, you can
 ```php
 namespace Your\Coool\Namespace\Presenter;
 
-use IPub\ConfirmationDialog;
-
 class SomePresenter
 {
     /**
      * Insert extension trait (only for PHP 5.4+)
      */
-    use ConfirmationDialog\TConfirmationDialog;
+    use \IPub\ConfirmationDialog\TConfirmationDialog;
 
     /**
      * Component for action confirmation
@@ -103,17 +99,17 @@ class SomePresenter
         );
 
         // Define template for first confirmer
-        $dialog->getConfirmer('confirmerName')->setTemplateFile('bootstrap.latte');
+        $dialog->getConfirmer('confirmerName')->setTemplateFile('bootstrap');
 
         // Define template for second confirmer
-        $dialog->getConfirmer('nextConfirmerName')->setTemplateFile('default.latte');
+        $dialog->getConfirmer('nextConfirmerName')->setTemplateFile('default');
 
         return $dialog;
     }
 }
 ```
 
-So now when you open first **confirmerName** confirmer, the bootstrap.latte template will be used. But for the second confirmer **nextConfirmerName**, the default.latte will be used instead.
+So now when you open first **confirmerName** confirmer, the bootstrap template will be used. But for the second confirmer **nextConfirmerName**, the default will be used instead.
 
 ## Custom templates
 
@@ -122,14 +118,12 @@ If you don't want to use one of the predefined template from extension, you can 
 ```php
 namespace Your\Coool\Namespace\Presenter;
 
-use IPub\ConfirmationDialog;
-
 class SomePresenter
 {
     /**
      * Insert extension trait (only for PHP 5.4+)
      */
-    use ConfirmationDialog\TConfirmationDialog;
+    use \IPub\ConfirmationDialog\TConfirmationDialog;
 
     /**
      * Component for action confirmation
@@ -155,14 +149,12 @@ As this extension is created from one control with sub-controls, you can define 
 ```php
 namespace Your\Coool\Namespace\Presenter;
 
-use IPub\ConfirmationDialog;
-
 class SomePresenter
 {
     /**
      * Insert extension trait (only for PHP 5.4+)
      */
-    use ConfirmationDialog\TConfirmationDialog;
+    use \IPub\ConfirmationDialog\TConfirmationDialog;
 
     /**
      * Component for action confirmation
@@ -190,14 +182,12 @@ Factory which is creating component can pass info about what template should be 
 ```php
 namespace Your\Coool\Namespace\Presenter;
 
-use IPub\ConfirmationDialog;
-
 class SomePresenter
 {
     /**
      * Insert extension trait (only for PHP 5.4+)
      */
-    use ConfirmationDialog\TConfirmationDialog;
+    use \IPub\ConfirmationDialog\TConfirmationDialog;
 
     /**
      * Component for displaying messages
@@ -207,7 +197,7 @@ class SomePresenter
     protected function createComponentConfirmAction()
     {
         // Create control
-        $control = $this->confirmationDialogFactory->create('customlayout.latte', 'bootstrap.latte');
+        $control = $this->confirmationDialogFactory->create('customlayout.latte', 'bootstrap');
 
         // or
 
@@ -216,7 +206,7 @@ class SomePresenter
         // or
         
         $control = $this->confirmationDialogFactory->create('customlayout.latte');
-        $control = $this->confirmationDialogFactory->create(NULL, 'bootstrap.latte');
+        $control = $this->confirmationDialogFactory->create(NULL, 'bootstrap');
 
         $control = $this->confirmationDialogFactory->create('path/to/your/custom/layout.latte');
         $control = $this->confirmationDialogFactory->create(NULL, 'path/to/your/template.latte');
@@ -232,7 +222,7 @@ Another way how to configure template is in extension configuration.
 ```neon
     confirmationDialog:
         layoutFile      : /path/to/your/layout/template.latte
-        templateFile    : bootstrap.latte // uikit.latte // default.latte // or/path/to/your/template.latte
+        templateFile    : bootstrap // uikit // default // or/path/to/your/template.latte
 ```
 
 System will automatically asset this template into components

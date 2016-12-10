@@ -62,7 +62,7 @@ public function deleteUser(int $id)
         // Store message
         $this->flashMessage('User can not be deleted. Selected user have some articles.', 'error');
 
-        $this->invalidateControl();
+        $this->redrawControl();
 
         // Open second confirm window
         // The second parameter must contain all method parameters
