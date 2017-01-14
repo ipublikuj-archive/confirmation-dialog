@@ -1,7 +1,7 @@
 {
 	"name": "ipub/confirmation-dialog",
 	"main": [
-		"client-side/css/ipub.confirmationDialog.css"
+		"public/css/ipub.confirmationDialog.css"
 	],
 	"ignore": [
 		"docs",

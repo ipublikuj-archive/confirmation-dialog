@@ -33,12 +33,12 @@ use IPub\ConfirmationDialog\Storage;
  *
  * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  */
-class ConfirmationDialogExtension extends DI\CompilerExtension
+final class ConfirmationDialogExtension extends DI\CompilerExtension
 {
 	/**
 	 * @var array
 	 */
-	protected $defaults = [
+	private $defaults = [
 		'layoutFile'   => NULL,
 		'templateFile' => NULL
 	];
