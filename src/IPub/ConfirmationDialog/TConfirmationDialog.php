@@ -26,7 +26,9 @@ use IPub\ConfirmationDialog\Components;
  * Confirmation control trait
  *
  * @package        iPublikuj:ConfirmationDialog!
- * @subpackage     Storage
+ * @subpackage     common
+ *                 
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  */
 trait TConfirmationDialog
 {
@@ -37,6 +39,8 @@ trait TConfirmationDialog
 
 	/**
 	 * @param Components\IControl $confirmationDialogFactory
+	 * 
+	 * @return void
 	 */
 	public function injectConfirmationDialog(Components\IControl $confirmationDialogFactory)
 	{

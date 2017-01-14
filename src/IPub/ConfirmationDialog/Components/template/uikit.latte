@@ -1,16 +1,19 @@
 <div n:class="confirmation-dialog, uk-modal, modal, display, $class ? $class" tabindex="-1" role="dialog">
-	<div class="uk-modal-dialog">
-		<form n:name="form" n:class="uk-form, $useAjax ? ajax" data-ajax-off="['history','scrollTo']">
-			<button n:name="no" class="uk-modal-close uk-close" data-ajax-off="['history','scrollTo']" />
+	<form n:name="form" n:class="uk-modal-dialog, uk-form, uk-padding-top-remove, $useAjax ? ajax" data-ajax-off="['history','scrollTo']">
+		<button n:name="no" class="uk-modal-close uk-close uk-margin-small-top" data-ajax-off="['history','scrollTo']" type="button"></button>
+
+		<div class="uk-modal-header">
 			<h3 class="modal-title">{$heading}</h3>
+		</div>
 
-			<p>
-				<div n:if="$icon" class="alert-icon alert-icon-{$icon}">&nbsp;</div>
-				{$question}
-			</p>
+		<p>
+			<div n:if="$icon" class="alert-icon alert-icon-{$icon}">&nbsp;</div>
+			{$question}
+		</p>
 
+		<div class="uk-modal-footer">
 			<button n:name="yes" class="uk-button uk-button-primary" data-dismiss="modal" data-ajax-off="['scrollTo']"><i class="uk-icon-check"></i> {$form['yes']->getControl()->attrs['value']}</button>
 			<button n:name="no" class="uk-button" data-dismiss="modal" data-ajax-off="['history','scrollTo']"><i class="uk-icon-remove"></i> {$form['no']->getControl()->attrs['value']}</button>
-		</form>
-	</div>
+		</div>
+	</form>
 </div>

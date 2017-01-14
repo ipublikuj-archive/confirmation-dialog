@@ -17,18 +17,15 @@ declare(strict_types = 1);
 namespace IPub\ConfirmationDialog\Components;
 
 /**
- * Confirmer control factroy
+ * Confirmer control factory
  *
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Components
+ *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  */
 interface IConfirmer
 {
-	/**
-	 * Define class name
-	 */
-	const INTERFACE_NAME = __CLASS__;
-
 	/**
 	 * @param string|NULL $templateFile
 	 *

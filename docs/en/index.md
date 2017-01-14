@@ -25,7 +25,7 @@ Package contains trait, which you will have to use in presenters or components t
 class BasePresenter extends Nette\Application\UI\Presenter
 {
 
-    use IPub\ConfirmationDialog\TConfirmationDialog;
+    use \IPub\ConfirmationDialog\TConfirmationDialog;
 
 }
 ```
@@ -39,14 +39,12 @@ Extension create component factory which could be used to create confirmation di
 ```php
 namespace Your\Coool\Namespace\Presenter;
 
-use IPub\ConfirmationDialog;
-
 class SomePresenter
 {
     /**
      * Insert extension trait (only for PHP 5.4+)
      */
-    use ConfirmationDialog\TConfirmationDialog;
+    use \IPub\ConfirmationDialog\TConfirmationDialog;
 
     /**
      * Component for action confirmation

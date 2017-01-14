@@ -24,12 +24,15 @@ use Nette\Localization;
 use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
+use IPub\ConfirmationDialog\Storage;
 
 /**
  * Confirmation dialog confirmer control
  *
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Components
+ *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  *
  * @property-read string $name
  * @property-read string $cssClass
@@ -38,23 +41,21 @@ use IPub\ConfirmationDialog\Exceptions;
 final class Confirmer extends ConfirmerAttributes
 {
 	/**
-	 * Define class name
-	 */
-	const CLASS_NAME = __CLASS__;
-
-	/**
 	 * @var Control|Nette\ComponentModel\IContainer
 	 */
 	private $dialog;
 
 	/**
-	 * @param NULL|string $templateFile
+	 * @param string|NULL $templateFile
+	 * @param Storage\IStorage $storage
 	 */
-	public function __construct(string $templateFile = NULL)
-	{
-		list(, $parent, $name) = func_get_args() + [NULL, NULL, NULL];
+	public function __construct(
+		string $templateFile = NULL,
+		Storage\IStorage $storage
+	) {
+		list(, , $parent, $name) = func_get_args() + [NULL, NULL, NULL, NULL];
 
-		parent::__construct($parent, $name);
+		parent::__construct($storage, $parent, $name);
 
 		if ($templateFile !== NULL) {
 			$this->setTemplateFile($templateFile);
@@ -227,16 +228,6 @@ final class Confirmer extends ConfirmerAttributes
 	}
 
 	/**
-	 * Generate unique token key
-	 *
-	 * @return string
-	 */
-	protected function generateToken() : string
-	{
-		return base_convert(md5(uniqid('confirm' . $this->getName(), TRUE)), 16, 36);
-	}
-
-	/**
 	 * Get parent dialog control
 	 *
 	 * @return Control
@@ -265,6 +256,16 @@ final class Confirmer extends ConfirmerAttributes
 		}
 
 		return $this->dialog;
+	}
+
+	/**
+	 * Generate unique token key
+	 *
+	 * @return string
+	 */
+	private function generateToken() : string
+	{
+		return base_convert(md5(uniqid('confirm' . $this->getName(), TRUE)), 16, 36);
 	}
 
 	/**

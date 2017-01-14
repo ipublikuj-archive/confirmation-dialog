@@ -24,14 +24,11 @@ use Nette\Http;
  *
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Storage
+ *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  */
 final class Session implements IStorage
 {
-	/**
-	 * Define class name
-	 */
-	const CLASS_NAME = __CLASS__;
-
 	/**
 	 * @var Http\SessionSection
 	 */

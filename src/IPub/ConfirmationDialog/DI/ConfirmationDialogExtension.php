@@ -20,7 +20,10 @@ use Nette;
 use Nette\DI;
 use Nette\PhpGenerator as Code;
 
+use IPub;
 use IPub\ConfirmationDialog;
+use IPub\ConfirmationDialog\Components;
+use IPub\ConfirmationDialog\Storage;
 
 /**
  * Confirmation dialog extension container
@@ -28,7 +31,7 @@ use IPub\ConfirmationDialog;
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     DI
  *
- * @author         Adam Kadlec <adam.kadlec@fastybird.com>
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  */
 class ConfirmationDialogExtension extends DI\CompilerExtension
 {
@@ -47,29 +50,32 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 
 		// Session storage
 		$builder->addDefinition($this->prefix('storage'))
-			->setClass(ConfirmationDialog\Storage\Session::CLASS_NAME);
+			->setClass(Storage\Session::class);
+
+		$confirmerFactory = $builder->addDefinition($this->prefix('confirmer'))
+			->setClass(Components\Confirmer::class)
+			->setImplement(Components\IConfirmer::class)
+			->setArguments([new Code\PhpLiteral('$templateFile')])
+			->setAutowired(FALSE)
+			->setInject(TRUE);
 
 		// Define components factories
-		$dialog = $builder->addDefinition($this->prefix('dialog'))
-			->setClass(ConfirmationDialog\Components\Control::CLASS_NAME)
-			->setImplement(ConfirmationDialog\Components\IControl::INTERFACE_NAME)
-			->setArguments([new Nette\PhpGenerator\PhpLiteral('$layoutFile'), new Nette\PhpGenerator\PhpLiteral('$templateFile')])
-			->setInject(TRUE)
-			->addTag('cms.components');
-
-		$builder->addDefinition($this->prefix('confirmer'))
-			->setClass(ConfirmationDialog\Components\Confirmer::CLASS_NAME)
-			->setImplement(ConfirmationDialog\Components\IConfirmer::INTERFACE_NAME)
-			->setArguments([new Nette\PhpGenerator\PhpLiteral('$templateFile')])
-			->setInject(TRUE)
-			->addTag('cms.components');
+		$dialogFactory = $builder->addDefinition($this->prefix('dialog'))
+			->setClass(Components\Control::class)
+			->setImplement(Components\IControl::class)
+			->setArguments([
+				new Code\PhpLiteral('$layoutFile'),
+				new Code\PhpLiteral('$templateFile'),
+				$confirmerFactory,
+			])
+			->setInject(TRUE);
 
 		if ($config['layoutFile']) {
-			$dialog->addSetup('$service->setLayoutFile(?)', [$config['layoutFile']]);
+			$dialogFactory->addSetup('$service->setLayoutFile(?)', [$config['layoutFile']]);
 		}
 
 		if ($config['templateFile']) {
-			$dialog->addSetup('$service->setTemplateFile(?)', [$config['templateFile']]);
+			$dialogFactory->addSetup('$service->setTemplateFile(?)', [$config['templateFile']]);
 		}
 	}
 
@@ -79,7 +85,7 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 	 */
 	public static function register(Nette\Configurator $config, $extensionName = 'confirmationDialog')
 	{
-		$config->onCompile[] = function (Nette\Configurator $config, Nette\DI\Compiler $compiler) use ($extensionName) {
+		$config->onCompile[] = function (Nette\Configurator $config, DI\Compiler $compiler) use ($extensionName) {
 			$compiler->addExtension($extensionName, new ConfirmationDialogExtension());
 		};
 	}
@@ -92,7 +98,7 @@ class ConfirmationDialogExtension extends DI\CompilerExtension
 	public function getTranslationResources()
 	{
 		return [
-			__DIR__ . '/../Translations'
+			__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Translations'
 		];
 	}
 }

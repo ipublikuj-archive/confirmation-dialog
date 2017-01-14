@@ -1,6 +1,6 @@
 <?php
 /**
- * Test: IPub\ConfirmationDialog\Compiler
+ * Test: IPub\ConfirmationDialog\Component
  * @testCase
  *
  * @copyright      More in license.md
@@ -30,8 +30,17 @@ use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
 
-require __DIR__ . '/../bootstrap.php';
+require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
+require __DIR__ . DS . 'libs' . DS . 'RouterFactory.php';
 
+/**
+ * Component creation tests
+ *
+ * @package        iPublikuj:ConfirmationDialog!
+ * @subpackage     Tests
+ *
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
+ */
 class ComponentTest extends Tester\TestCase
 {
 	/**
@@ -227,10 +236,10 @@ class ComponentTest extends Tester\TestCase
 		$version = getenv('NETTE');
 
 		if (!$version || $version == 'default') {
-			$config->addConfig(__DIR__ . '/files/presenters.neon');
+			$config->addConfig(__DIR__ . DS . 'files' . DS . 'presenters.neon');
 
 		} else {
-			$config->addConfig(__DIR__ . '/files/presenters_2.3.neon');
+			$config->addConfig(__DIR__ . DS . 'files' . DS . 'presenters_2.3.neon');
 		}
 
 		return $config->createContainer();
@@ -330,20 +339,6 @@ class TestPresenter extends UI\Presenter
 	public function handleDeleteItem()
 	{
 		$this->sendResponse(new Application\Responses\TextResponse('deleting'));
-	}
-}
-
-class RouterFactory
-{
-	/**
-	 * @return \Nette\Application\IRouter
-	 */
-	public static function createRouter()
-	{
-		$router = new Routers\  RouteList();
-		$router[] = new Routers\Route('<presenter>/<action>[/<id>]', 'Test:default');
-
-		return $router;
 	}
 }
 
