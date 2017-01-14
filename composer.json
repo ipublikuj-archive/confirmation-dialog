@@ -19,6 +19,16 @@
 		"issues"	:"https://github.com/iPublikuj/confirmation-dialog/issues"
 	},
 
+	"extra": {
+		"ipub"	: {
+			"configuration" : {
+				"extensions" : {
+					"confirmationDialog" : "IPub\\ConfirmationDialog\\DI\\ConfirmationDialogExtension"
+				}
+			}
+		}
+	},
+
 	"require": {
 		"php"	: ">=7.0.0",
 
