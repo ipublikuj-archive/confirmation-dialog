@@ -58,7 +58,7 @@ class ExtensionTest extends Tester\TestCase
 	/**
 	 * @return Nette\DI\Container
 	 */
-	private function createContainer()
+	private function createContainer() : Nette\DI\Container
 	{
 		$config = new Nette\Configurator();
 		$config->setTempDirectory(TEMP_DIR);

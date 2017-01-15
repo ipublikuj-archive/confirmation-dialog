@@ -59,7 +59,7 @@ class ComponentTest extends Tester\TestCase
 	private $doVar = '_do';
 
 	/**
-	 * Set up
+	 * {@inheritdoc}
 	 */
 	public function setUp()
 	{
@@ -112,7 +112,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -137,7 +137,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -176,7 +176,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter = $this->createPresenter();
 
 		// Create GET request
-		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', 'do' => 'confirmationDialog-confirmDelete']);
+		$request = new Application\Request('Test', 'GET', ['action' => 'openDialog', $this->doVar => 'confirmationDialog-confirmDelete']);
 		// & fire presenter & catch response
 		$response = $presenter->run($request);
 
@@ -213,7 +213,7 @@ class ComponentTest extends Tester\TestCase
 	/**
 	 * @return Application\IPresenter
 	 */
-	private function createPresenter()
+	private function createPresenter() : Application\IPresenter
 	{
 		// Create test presenter
 		$presenter = $this->presenterFactory->createPresenter('Test');
@@ -226,7 +226,7 @@ class ComponentTest extends Tester\TestCase
 	/**
 	 * @return Nette\DI\Container
 	 */
-	private function createContainer()
+	private function createContainer() : Nette\DI\Container
 	{
 		$config = new Nette\Configurator();
 		$config->setTempDirectory(TEMP_DIR);
@@ -279,6 +279,8 @@ class TestPresenter extends UI\Presenter
 
 	/**
 	 * @param ConfirmationDialog\Components\IControl $factory
+	 *
+	 * @return void
 	 */
 	public function injectDialogFactory(ConfirmationDialog\Components\IControl $factory)
 	{
@@ -290,7 +292,7 @@ class TestPresenter extends UI\Presenter
 	 *
 	 * @return ConfirmationDialog\Components\Control
 	 */
-	protected function createComponentConfirmationDialog()
+	protected function createComponentConfirmationDialog() : ConfirmationDialog\Components\Control
 	{
 		// Init confirmation dialog
 		$control = $this->factory->create();
@@ -336,6 +338,9 @@ class TestPresenter extends UI\Presenter
 		return 'Enable item';
 	}
 
+	/**
+	 * @return void
+	 */
 	public function handleDeleteItem()
 	{
 		$this->sendResponse(new Application\Responses\TextResponse('deleting'));
