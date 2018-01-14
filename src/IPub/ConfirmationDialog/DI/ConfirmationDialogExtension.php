@@ -43,7 +43,10 @@ final class ConfirmationDialogExtension extends DI\CompilerExtension
 		'templateFile' => NULL
 	];
 
-	public function loadConfiguration()
+	/**
+	 * @return void
+	 */
+	public function loadConfiguration() : void
 	{
 		$config = $this->getConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
