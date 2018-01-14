@@ -55,8 +55,10 @@ abstract class BaseControl extends Application\UI\Control
 
 	/**
 	 * @param Localization\ITranslator $translator
+	 *
+	 * @return void
 	 */
-	public function injectTranslator(Localization\ITranslator $translator = NULL)
+	public function injectTranslator(Localization\ITranslator $translator = NULL) : void
 	{
 		$this->translator = $translator;
 	}
@@ -66,7 +68,7 @@ abstract class BaseControl extends Application\UI\Control
 	 *
 	 * @return void
 	 */
-	public function setTranslator(Localization\ITranslator $translator)
+	public function setTranslator(Localization\ITranslator $translator) : void
 	{
 		$this->translator = $translator;
 	}
@@ -74,7 +76,7 @@ abstract class BaseControl extends Application\UI\Control
 	/**
 	 * @return Localization\ITranslator|NULL
 	 */
-	public function getTranslator()
+	public function getTranslator() : ?Localization\ITranslator
 	{
 		if ($this->translator instanceof Localization\ITranslator) {
 			return $this->translator;
@@ -117,7 +119,7 @@ abstract class BaseControl extends Application\UI\Control
 	 * @throws Exceptions\FileNotFoundException
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	protected function setTemplateFilePath(string $templateFile, string $type)
+	protected function setTemplateFilePath(string $templateFile, string $type) : void
 	{
 		if (!in_array($type, [self::TEMPLATE_CONFIRMER, self::TEMPLATE_LAYOUT])) {
 			throw new Exceptions\InvalidArgumentException('Wrong template type');

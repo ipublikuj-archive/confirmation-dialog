@@ -69,7 +69,7 @@ final class Confirmer extends ConfirmerAttributes
 	 * 
 	 * @return void
 	 */
-	public function showConfirm(array $params = [])
+	public function showConfirm(array $params = []) : void
 	{
 		// Generate protection token
 		$token = $this->generateToken();
@@ -83,7 +83,7 @@ final class Confirmer extends ConfirmerAttributes
 			'params'    => $params,
 		]);
 
-		if ($this->getQuestion() !== FALSE) {
+		if ($this->getQuestion() !== NULL) {
 			// Invalidate confirmer snippets
 			$this->redrawControl();
 			// Invalidate dialog snippets
@@ -101,7 +101,7 @@ final class Confirmer extends ConfirmerAttributes
 	 * @throws Exceptions\HandlerNotCallableException
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function confirmClicked(Forms\Controls\SubmitButton $button)
+	public function confirmClicked(Forms\Controls\SubmitButton $button) : void
 	{
 		// Get submitted values from form
 		$values = $button->getForm(TRUE)->getValues();
@@ -144,7 +144,7 @@ final class Confirmer extends ConfirmerAttributes
 	 *
 	 * @param Forms\Controls\SubmitButton $button
 	 */
-	public function cancelClicked(Forms\Controls\SubmitButton $button)
+	public function cancelClicked(Forms\Controls\SubmitButton $button) : void
 	{
 		// Get submitted values from form
 		$values = $button->getForm(TRUE)->getValues();
@@ -222,7 +222,7 @@ final class Confirmer extends ConfirmerAttributes
 	 * 
 	 * @return void
 	 */
-	public function setTemplateFile(string $layoutFile)
+	public function setTemplateFile(string $layoutFile) : void
 	{
 		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_CONFIRMER);
 	}
@@ -271,7 +271,7 @@ final class Confirmer extends ConfirmerAttributes
 	/**
 	 * @return void
 	 */
-	private function refreshPage()
+	private function refreshPage() : void
 	{
 		// Check if request is done via ajax...
 		if ($this->getPresenter() instanceof Application\UI\Presenter && !$this->getPresenter()->isAjax()) {

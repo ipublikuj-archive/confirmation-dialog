@@ -38,7 +38,7 @@ interface IStorage
 	 *
 	 * @return void
 	 */
-	function set(string $key, $value);
+	public function set(string $key, $value) : void;
 
 	/**
 	 * Get the data for $key
@@ -48,7 +48,7 @@ interface IStorage
 	 *
 	 * @return mixed
 	 */
-	function get(string $key, $default = FALSE);
+	public function get(string $key, $default = FALSE);
 
 	/**
 	 * Clear the data with $key from the persistent storage
@@ -57,12 +57,12 @@ interface IStorage
 	 *
 	 * @return void
 	 */
-	function clear(string $key);
+	public function clear(string $key) : void;
 
 	/**
 	 * Clear all data from the persistent storage
 	 *
 	 * @return void
 	 */
-	function clearAll();
+	public function clearAll() : void;
 }

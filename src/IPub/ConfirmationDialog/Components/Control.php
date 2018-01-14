@@ -137,7 +137,7 @@ final class Control extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function addConfirmer(string $name, $handler, $question, $heading)
+	public function addConfirmer(string $name, $handler, $question, $heading) : void
 	{
 		// Confirmer name could be only A-z
 		if (!preg_match('/[A-Za-z_]+/', $name)) {
@@ -226,7 +226,7 @@ final class Control extends BaseControl
 	 * @throws Exceptions\InvalidArgumentException
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function showConfirm(string $name, array $params = [])
+	public function showConfirm(string $name, array $params = []) : void
 	{
 		if (!is_string($name)) {
 			throw new Exceptions\InvalidArgumentException('$name must be string.');
@@ -248,7 +248,7 @@ final class Control extends BaseControl
 	 * @throws Exceptions\InvalidArgumentException
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function handleShowConfirmer()
+	public function handleShowConfirmer() : void
 	{
 		if (!$this->getPresenter() instanceof Application\UI\Presenter) {
 			throw new Exceptions\InvalidArgumentException('Confirmer is not attached to presenter.');
@@ -271,7 +271,7 @@ final class Control extends BaseControl
 	/**
 	 * @return void
 	 */
-	public function enableAjax()
+	public function enableAjax() : void
 	{
 		$this->useAjax = TRUE;
 	}
@@ -279,7 +279,7 @@ final class Control extends BaseControl
 	/**
 	 * @return void
 	 */
-	public function disableAjax()
+	public function disableAjax() : void
 	{
 		$this->useAjax = FALSE;
 	}

@@ -102,7 +102,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function setHeading($heading)
+	public function setHeading($heading) : void
 	{
 		// Check variable type
 		if ($this->checkCallableOrString($heading)) {
@@ -118,7 +118,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function getHeading()
+	public function getHeading() : ?string
 	{
 		return $this->getAttribute('heading');
 	}
@@ -132,7 +132,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function setQuestion($question)
+	public function setQuestion($question) : void
 	{
 		// Check variable type
 		if ($this->checkCallableOrString($question)) {
@@ -142,27 +142,27 @@ abstract class ConfirmerAttributes extends BaseControl
 	}
 
 	/**
-	 * @return string|bool
+	 * @return string|NULL
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function getQuestion()
+	public function getQuestion() : ?string
 	{
-		$question = FALSE;
+		$question = NULL;
 
 		// Check if attribute is callable
 		if (is_callable($this->question)) {
 			$question = $this->callCallableAttribute($this->question);
 
-			if (!is_bool($question)) {
+			if ($question !== NULL) {
 				$question = (string) $question;
 			}
 
-		} elseif (!is_bool($this->question)) {
+		} elseif ($this->question !== NULL) {
 			$question = (string) $this->question;
 		}
 
-		return $question;
+		return is_bool($question) && $question === FALSE ? NULL : $question;
 	}
 
 	/**
@@ -174,7 +174,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function setIcon($icon)
+	public function setIcon($icon) : void
 	{
 		// Check variable type
 		if ($this->checkCallableOrString($icon)) {
@@ -188,7 +188,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function getIcon()
+	public function getIcon() : ?string
 	{
 		return $this->getAttribute('icon');
 	}
@@ -202,12 +202,8 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidArgumentException
 	 */
-	public function setHandler($handler)
+	public function setHandler(callable $handler) : void
 	{
-		if (!is_callable($handler)) {
-			throw new Exceptions\InvalidArgumentException('$handler must be callable.');
-		}
-
 		// Update confirmation handler
 		$this->handler = $handler;
 	}
@@ -252,7 +248,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	/**
 	 * @return void
 	 */
-	public function enableAjax()
+	public function enableAjax() : void
 	{
 		$this->useAjax = TRUE;
 	}
@@ -260,7 +256,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	/**
 	 * @return void
 	 */
-	public function disableAjax()
+	public function disableAjax() : void
 	{
 		$this->useAjax = FALSE;
 	}
@@ -268,7 +264,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	/**
 	 * @return Application\UI\Form
 	 */
-	protected function createComponentForm()
+	protected function createComponentForm() : Application\UI\Form
 	{
 		// Create confirmation form
 		$form = new Application\UI\Form();
@@ -332,7 +328,7 @@ abstract class ConfirmerAttributes extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	private function callCallableAttribute($attribute) : string
+	private function callCallableAttribute(callable $attribute) : string
 	{
 		if ($this['form']['secureToken']->value === NULL) {
 			throw new Exceptions\InvalidStateException('Token is not set!');

@@ -85,7 +85,7 @@ final class ConfirmationDialogExtension extends DI\CompilerExtension
 	 */
 	public static function register(Nette\Configurator $config, $extensionName = 'confirmationDialog')
 	{
-		$config->onCompile[] = function (Nette\Configurator $config, DI\Compiler $compiler) use ($extensionName) {
+		$config->onCompile[] = function (Nette\Configurator $config, DI\Compiler $compiler) use ($extensionName) : void {
 			$compiler->addExtension($extensionName, new ConfirmationDialogExtension());
 		};
 	}
@@ -95,7 +95,7 @@ final class ConfirmationDialogExtension extends DI\CompilerExtension
 	 *
 	 * @return string[]
 	 */
-	public function getTranslationResources()
+	public function getTranslationResources() : array
 	{
 		return [
 			__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Translations'
