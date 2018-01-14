@@ -71,10 +71,6 @@ class ComponentTest extends Tester\TestCase
 		$this->presenterFactory = $this->container->getByType(Application\IPresenterFactory::class);
 
 		$version = getenv('NETTE');
-
-		if ($version !== 'default') {
-			$this->doVar = 'do';
-		}
 	}
 
 	public function testSetValidTemplate()
