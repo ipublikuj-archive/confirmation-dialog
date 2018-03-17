@@ -17,6 +17,8 @@ declare(strict_types = 1);
 namespace IPub\ConfirmationDialog\Components;
 
 use Nette\Application;
+use Nette\Bridges;
+use Nette\ComponentModel;
 use Nette\Forms;
 use Nette\Localization;
 
@@ -39,7 +41,7 @@ use IPub\ConfirmationDialog\Storage;
 final class Confirmer extends ConfirmerAttributes
 {
 	/**
-	 * @var Control|Nette\ComponentModel\IContainer
+	 * @var Control|ComponentModel\IContainer
 	 */
 	private $dialog;
 
@@ -189,7 +191,7 @@ final class Confirmer extends ConfirmerAttributes
 		$template = parent::render();
 
 		// Check if control has template
-		if ($template instanceof Nette\Bridges\ApplicationLatte\Template) {
+		if ($template instanceof Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
 			$template->add('name', $this->name);
 			$template->add('class', $this->cssClass);

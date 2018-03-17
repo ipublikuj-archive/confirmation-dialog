@@ -17,6 +17,7 @@ declare(strict_types = 1);
 namespace IPub\ConfirmationDialog\Components;
 
 use Nette\Application;
+use Nette\ComponentModel;
 
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
@@ -215,14 +216,14 @@ abstract class ConfirmerAttributes extends BaseControl
 	}
 
 	/**
-	 * @param Nette\ComponentModel\IContainer $obj
+	 * @param ComponentModel\IContainer $obj
 	 * @param array $params
 	 *
 	 * @return mixed
 	 *
 	 * @throws Exceptions\HandlerNotCallableException
 	 */
-	public function callHandler(Nette\ComponentModel\IContainer $obj, array $params)
+	public function callHandler(ComponentModel\IContainer $obj, array $params)
 	{
 		$callback = $this->getHandler();
 

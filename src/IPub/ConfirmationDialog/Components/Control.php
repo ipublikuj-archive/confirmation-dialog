@@ -17,6 +17,7 @@ declare(strict_types = 1);
 namespace IPub\ConfirmationDialog\Components;
 
 use Nette\Application;
+use Nette\Bridges;
 use Nette\Localization;
 use Nette\Utils;
 
@@ -126,10 +127,10 @@ final class Control extends BaseControl
 	/**
 	 * Add confirmation handler to "dynamicaly named signals"
 	 *
-	 * @param string $name                           Confirmation/signal name
-	 * @param callback|Nette\Utils\Callback $handler Callback called when confirmation succeed
-	 * @param callback|string $question              Callback ($confirmer, $params) or string containing question text
-	 * @param callback|string $heading               Callback ($confirmer, $params) or string containing heading text
+	 * @param string $nam                      Confirmation/signal name
+	 * @param callback|Utils\Callback $handler Callback called when confirmation succeed
+	 * @param callback|string $question        Callback ($confirmer, $params) or string containing question text
+	 * @param callback|string $heading         Callback ($confirmer, $params) or string containing heading text
 	 *
 	 * @return void
 	 *
@@ -295,7 +296,7 @@ final class Control extends BaseControl
 		$template = parent::render();
 
 		// Check if control has template
-		if ($template instanceof Nette\Bridges\ApplicationLatte\Template) {
+		if ($template instanceof Bridges\ApplicationLatte\Template) {
 			// Assign vars to template
 			$template->confirmer = $this->confirmer;
 
