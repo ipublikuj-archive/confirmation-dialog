@@ -195,7 +195,7 @@ final class Control extends BaseControl
 	 */
 	protected function createComponentConfirmer() : Application\UI\Multiplier
 	{
-		return new Application\UI\Multiplier((function () {
+		return new Application\UI\Multiplier((function () : Confirmer {
 			// Check if confirmer factory is available
 			if (!$this->confirmerFactory) {
 				throw new Exceptions\InvalidStateException('Confirmation control factory does not exist.');
