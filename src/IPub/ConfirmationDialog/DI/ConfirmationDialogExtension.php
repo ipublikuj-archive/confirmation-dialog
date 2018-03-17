@@ -16,6 +16,7 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\DI;
 
+use Nette;
 use Nette\DI;
 use Nette\PhpGenerator as Code;
 
