@@ -29,4 +29,4 @@ extensions:
 Learn how to use smart confirmation dialogs in [documentation](https://github.com/iPublikuj/confirmation-dialog/blob/master/docs/en/index.md).
 
 ***
-Homepage [http://www.ipublikuj.eu](http://www.ipublikuj.eu) and repository [http://github.com/iPublikuj/confirmation-dialog](http://github.com/iPublikuj/confirmation-dialog).
+Homepage [https://www.ipublikuj.eu](https://www.ipublikuj.eu) and repository [http://github.com/iPublikuj/confirmation-dialog](http://github.com/iPublikuj/confirmation-dialog).

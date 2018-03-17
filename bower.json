@@ -9,7 +9,7 @@
 		{
 			"name"		: "iPublikuj:cms",
 			"email"		: "info@ipublikuj.eu",
-			"homepage"	: "http://www.ipublikuj.eu/"
+			"homepage"	: "https://www.ipublikuj.eu/"
 		}
 	],
 	"license": ["GPL-2.0", "GPL-3.0"],
