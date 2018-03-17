@@ -16,10 +16,8 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
-use Nette;
 use Nette\Application;
 
-use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
 use IPub\ConfirmationDialog\Storage;
@@ -347,9 +345,10 @@ abstract class ConfirmerAttributes extends BaseControl
 	 * @param string $attribute
 	 *
 	 * @return string|NULL
+	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	private function getAttribute(string $attribute)
+	private function getAttribute(string $attribute) : ?string
 	{
 		// Check if attribute is callable
 		if (is_callable($this->{$attribute})) {

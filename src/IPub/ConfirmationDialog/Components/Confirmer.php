@@ -16,12 +16,10 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
-use Nette;
 use Nette\Application;
 use Nette\Forms;
 use Nette\Localization;
 
-use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
 use IPub\ConfirmationDialog\Storage;
@@ -185,7 +183,7 @@ final class Confirmer extends ConfirmerAttributes
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function render()
+	public function render() : void
 	{
 		// Create template
 		$template = parent::render();

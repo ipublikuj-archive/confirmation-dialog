@@ -16,11 +16,9 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\DI;
 
-use Nette;
 use Nette\DI;
 use Nette\PhpGenerator as Code;
 
-use IPub;
 use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Components;
 use IPub\ConfirmationDialog\Storage;
@@ -86,7 +84,7 @@ final class ConfirmationDialogExtension extends DI\CompilerExtension
 	 * @param Nette\Configurator $config
 	 * @param string $extensionName
 	 */
-	public static function register(Nette\Configurator $config, $extensionName = 'confirmationDialog')
+	public static function register(Nette\Configurator $config, $extensionName = 'confirmationDialog') : void
 	{
 		$config->onCompile[] = function (Nette\Configurator $config, DI\Compiler $compiler) use ($extensionName) : void {
 			$compiler->addExtension($extensionName, new ConfirmationDialogExtension());

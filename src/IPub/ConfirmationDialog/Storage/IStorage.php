@@ -16,9 +16,6 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Storage;
 
-use Nette;
-use Nette\Http;
-
 /**
  * Confirmer status storage interface
  *

@@ -30,6 +30,11 @@ use Nette\Http;
 final class Session implements IStorage
 {
 	/**
+	 * Implement nette smart magic
+	 */
+	use Nette\SmartObject;
+
+	/**
 	 * @var Http\SessionSection
 	 */
 	private $session;

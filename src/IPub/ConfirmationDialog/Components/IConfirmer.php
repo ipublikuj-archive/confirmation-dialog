@@ -31,5 +31,5 @@ interface IConfirmer
 	 *
 	 * @return Confirmer
 	 */
-	public function create(string $templateFile = NULL) : Confirmer;
+	public function create(?string $templateFile = NULL) : Confirmer;
 }

@@ -16,11 +16,9 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
-use Nette;
 use Nette\Application;
 use Nette\Localization;
 
-use IPub;
 use IPub\ConfirmationDialog\Exceptions;
 
 /**
@@ -35,8 +33,8 @@ use IPub\ConfirmationDialog\Exceptions;
  */
 abstract class BaseControl extends Application\UI\Control
 {
-	const TEMPLATE_LAYOUT = 'layout';
-	const TEMPLATE_CONFIRMER = 'template';
+	protected const TEMPLATE_LAYOUT = 'layout';
+	protected const TEMPLATE_CONFIRMER = 'template';
 
 	/**
 	 * @var string|NULL

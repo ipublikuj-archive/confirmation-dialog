@@ -34,7 +34,7 @@ class RouterFactory
 	/**
 	 * @return Application\IRouter
 	 */
-	public static function createRouter()
+	public static function createRouter() : Application\IRouter
 	{
 		$router = new Routers\RouteList();
 		$router[] = new Routers\Route('<presenter>/<action>[/<id>]', 'Test:default');

@@ -38,7 +38,7 @@ require __DIR__ . DS . 'libs' . DS . 'RouterFactory.php';
  */
 class ExtensionTest extends Tester\TestCase
 {
-	public function testCompilersServices()
+	public function testCompilersServices() : void
 	{
 		$dic = $this->createContainer();
 

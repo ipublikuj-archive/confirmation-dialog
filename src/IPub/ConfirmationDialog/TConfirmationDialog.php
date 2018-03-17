@@ -16,10 +16,6 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog;
 
-use Nette;
-use Nette\Application;
-
-use IPub;
 use IPub\ConfirmationDialog\Components;
 
 /**

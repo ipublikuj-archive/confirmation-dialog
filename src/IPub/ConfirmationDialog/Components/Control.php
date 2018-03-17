@@ -16,12 +16,10 @@ declare(strict_types = 1);
 
 namespace IPub\ConfirmationDialog\Components;
 
-use Nette;
 use Nette\Application;
 use Nette\Localization;
 use Nette\Utils;
 
-use IPub;
 use IPub\ConfirmationDialog\Exceptions;
 
 /**
@@ -82,7 +80,7 @@ final class Control extends BaseControl
 	 *
 	 * @return void
 	 */
-	public function setLayoutFile(string $layoutFile)
+	public function setLayoutFile(string $layoutFile) : void
 	{
 		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_LAYOUT);
 	}
@@ -94,7 +92,7 @@ final class Control extends BaseControl
 	 *
 	 * @return void
 	 */
-	public function setTemplateFile(string $layoutFile)
+	public function setTemplateFile(string $layoutFile) : void
 	{
 		$this->setTemplateFilePath($layoutFile, self::TEMPLATE_CONFIRMER);
 	}
@@ -181,7 +179,7 @@ final class Control extends BaseControl
 	/**
 	 * @return void
 	 */
-	public function resetConfirmer()
+	public function resetConfirmer() : void
 	{
 		$this->confirmer = NULL;
 
@@ -291,7 +289,7 @@ final class Control extends BaseControl
 	 *
 	 * @throws Exceptions\InvalidStateException
 	 */
-	public function render()
+	public function render() : void
 	{
 		// Create template
 		$template = parent::render();

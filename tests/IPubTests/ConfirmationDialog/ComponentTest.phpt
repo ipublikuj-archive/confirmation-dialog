@@ -61,7 +61,7 @@ class ComponentTest extends Tester\TestCase
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -73,7 +73,7 @@ class ComponentTest extends Tester\TestCase
 		$version = getenv('NETTE');
 	}
 
-	public function testSetValidTemplate()
+	public function testSetValidTemplate() : void
 	{
 		// Create test presenter
 		$presenter = $this->createPresenter();
@@ -91,7 +91,7 @@ class ComponentTest extends Tester\TestCase
 	/**
 	 * @throws IPub\ConfirmationDialog\Exceptions\FileNotFoundException
 	 */
-	public function testSetInvalidTemplate()
+	public function testSetInvalidTemplate() : void
 	{
 		// Create test presenter
 		$presenter = $this->createPresenter();
@@ -102,7 +102,7 @@ class ComponentTest extends Tester\TestCase
 		$presenter->run($request);
 	}
 
-	public function testOpenDialogTemplate()
+	public function testOpenDialogTemplate() : void
 	{
 		// Create test presenter
 		$presenter = $this->createPresenter();
@@ -127,7 +127,7 @@ class ComponentTest extends Tester\TestCase
 		Assert::match('Really delete this item?', trim((string) $question[0]));
 	}
 
-	public function testClickYes()
+	public function testClickYes() : void
 	{
 		// Create test presenter
 		$presenter = $this->createPresenter();
@@ -166,7 +166,7 @@ class ComponentTest extends Tester\TestCase
 		Assert::equal('deleting', (string) $response->getSource());
 	}
 
-	public function testClickNo()
+	public function testClickNo() : void
 	{
 		// Create test presenter
 		$presenter = $this->createPresenter();
@@ -244,25 +244,25 @@ class TestPresenter extends UI\Presenter
 	 */
 	private $factory;
 
-	public function actionValidTemplate()
+	public function actionValidTemplate() : void
 	{
 		// Set valid template name
 		$this['confirmationDialog']->setTemplateFile('bootstrap.latte');
 	}
 
-	public function actionInvalidTemplate()
+	public function actionInvalidTemplate() : void
 	{
 		// Set invalid template name
 		$this['confirmationDialog']->setTemplateFile('invalid.latte');
 	}
 
-	public function renderValidTemplate()
+	public function renderValidTemplate() : void
 	{
 		// Set template for component testing
 		$this->template->setFile(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'validTemplate.latte');
 	}
 
-	public function renderOpenDialog()
+	public function renderOpenDialog() : void
 	{
 		// Set template for component testing
 		$this->template->setFile(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'openDialog.latte');
@@ -273,7 +273,7 @@ class TestPresenter extends UI\Presenter
 	 *
 	 * @return void
 	 */
-	public function injectDialogFactory(ConfirmationDialog\Components\IControl $factory)
+	public function injectDialogFactory(ConfirmationDialog\Components\IControl $factory) : void
 	{
 		$this->factory = $factory;
 	}
@@ -332,7 +332,7 @@ class TestPresenter extends UI\Presenter
 	/**
 	 * @return void
 	 */
-	public function handleDeleteItem()
+	public function handleDeleteItem() : void
 	{
 		$this->sendResponse(new Application\Responses\TextResponse('deleting'));
 	}
