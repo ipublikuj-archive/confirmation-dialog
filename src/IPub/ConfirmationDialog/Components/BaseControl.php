@@ -17,6 +17,7 @@ declare(strict_types = 1);
 namespace IPub\ConfirmationDialog\Components;
 
 use Nette\Application;
+use Nette\Bridges;
 use Nette\Localization;
 
 use IPub\ConfirmationDialog\Exceptions;
@@ -93,7 +94,7 @@ abstract class BaseControl extends Application\UI\Control
 	public function render()
 	{
 		// Check if control has template
-		if ($this->template instanceof Nette\Bridges\ApplicationLatte\Template) {
+		if ($this->template instanceof Bridges\ApplicationLatte\Template) {
 			// Check if translator is available
 			if ($this->getTranslator() instanceof Localization\ITranslator) {
 				$this->template->setTranslator($this->getTranslator());
