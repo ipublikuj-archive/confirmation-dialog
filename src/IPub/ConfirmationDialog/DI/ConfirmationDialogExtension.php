@@ -52,10 +52,10 @@ final class ConfirmationDialogExtension extends DI\CompilerExtension
 
 		// Session storage
 		$builder->addDefinition($this->prefix('storage'))
-			->setClass(Storage\Session::class);
+			->setType(Storage\Session::class);
 
 		$confirmerFactory = $builder->addDefinition($this->prefix('confirmer'))
-			->setClass(Components\Confirmer::class)
+			->setType(Components\Confirmer::class)
 			->setImplement(Components\IConfirmer::class)
 			->setArguments([new Code\PhpLiteral('$templateFile')])
 			->setAutowired(FALSE)
@@ -63,7 +63,7 @@ final class ConfirmationDialogExtension extends DI\CompilerExtension
 
 		// Define components factories
 		$dialogFactory = $builder->addDefinition($this->prefix('dialog'))
-			->setClass(Components\Control::class)
+			->setType(Components\Control::class)
 			->setImplement(Components\IControl::class)
 			->setArguments([
 				new Code\PhpLiteral('$layoutFile'),
