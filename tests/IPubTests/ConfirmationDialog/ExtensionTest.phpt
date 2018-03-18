@@ -22,7 +22,6 @@ use Nette;
 use Tester;
 use Tester\Assert;
 
-use IPub;
 use IPub\ConfirmationDialog;
 
 require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -45,14 +44,14 @@ class ExtensionTest extends Tester\TestCase
 		// Get component factory
 		$factory = $dic->getService('confirmationDialog.dialog');
 
-		Assert::true($factory instanceof IPub\ConfirmationDialog\Components\IControl);
-		Assert::true($factory->create() instanceof IPub\ConfirmationDialog\Components\Control);
+		Assert::true($factory instanceof ConfirmationDialog\Components\IControl);
+		Assert::true($factory->create() instanceof ConfirmationDialog\Components\Control);
 
 		// Get confirmer factory
 		$factory = $dic->getService('confirmationDialog.confirmer');
 
-		Assert::true($factory instanceof IPub\ConfirmationDialog\Components\IConfirmer);
-		Assert::true($factory->create() instanceof IPub\ConfirmationDialog\Components\Confirmer);
+		Assert::true($factory instanceof ConfirmationDialog\Components\IConfirmer);
+		Assert::true($factory->create() instanceof ConfirmationDialog\Components\Confirmer);
 	}
 
 	/**

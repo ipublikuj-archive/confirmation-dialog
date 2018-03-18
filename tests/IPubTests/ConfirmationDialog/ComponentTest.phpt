@@ -19,16 +19,13 @@ namespace IPubTests\ConfirmationDialog;
 
 use Nette;
 use Nette\Application;
-use Nette\Application\Routers;
 use Nette\Application\UI;
-use Nette\Utils;
 
 use Tester;
 use Tester\Assert;
 
 use IPub;
 use IPub\ConfirmationDialog;
-use IPub\ConfirmationDialog\Exceptions;
 
 require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 require __DIR__ . DS . 'libs' . DS . 'RouterFactory.php';
