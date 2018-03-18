@@ -4,7 +4,7 @@
  *
  * @copyright      More in license.md
  * @license        https://www.ipublikuj.eu
- * @author         Adam Kadlec https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Components
  * @since          1.0.0
@@ -18,7 +18,6 @@ namespace IPub\ConfirmationDialog\Components;
 
 use Nette\Application;
 use Nette\Bridges;
-use Nette\Localization;
 use Nette\Utils;
 
 use IPub\ConfirmationDialog\Exceptions;
@@ -52,6 +51,8 @@ final class Control extends BaseControl
 	 * @param string|NULL $layoutFile
 	 * @param string|NULL $templateFile
 	 * @param IConfirmer $confirmerFactory
+	 *
+	 * @throws Exceptions\InvalidArgumentException
 	 */
 	public function __construct(
 		string $layoutFile = NULL,
@@ -80,6 +81,8 @@ final class Control extends BaseControl
 	 * @param string $layoutFile
 	 *
 	 * @return void
+	 *
+	 * @throws Exceptions\InvalidArgumentException
 	 */
 	public function setLayoutFile(string $layoutFile) : void
 	{
@@ -92,6 +95,8 @@ final class Control extends BaseControl
 	 * @param string $layoutFile
 	 *
 	 * @return void
+	 *
+	 * @throws Exceptions\InvalidArgumentException
 	 */
 	public function setTemplateFile(string $layoutFile) : void
 	{
@@ -127,7 +132,7 @@ final class Control extends BaseControl
 	/**
 	 * Add confirmation handler to "dynamicaly named signals"
 	 *
-	 * @param string $nam                      Confirmation/signal name
+	 * @param string $name                     Confirmation/signal name
 	 * @param callback|Utils\Callback $handler Callback called when confirmation succeed
 	 * @param callback|string $question        Callback ($confirmer, $params) or string containing question text
 	 * @param callback|string $heading         Callback ($confirmer, $params) or string containing heading text
@@ -190,8 +195,6 @@ final class Control extends BaseControl
 
 	/**
 	 * @return Application\UI\Multiplier
-	 *
-	 * @throws Exceptions\InvalidArgumentException
 	 */
 	protected function createComponentConfirmer() : Application\UI\Multiplier
 	{

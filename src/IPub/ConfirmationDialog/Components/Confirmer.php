@@ -4,7 +4,7 @@
  *
  * @copyright      More in license.md
  * @license        https://www.ipublikuj.eu
- * @author         Adam Kadlec https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Components
  * @since          1.0.0
@@ -20,9 +20,7 @@ use Nette\Application;
 use Nette\Bridges;
 use Nette\ComponentModel;
 use Nette\Forms;
-use Nette\Localization;
 
-use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
 use IPub\ConfirmationDialog\Storage;
 
@@ -48,6 +46,8 @@ final class Confirmer extends ConfirmerAttributes
 	/**
 	 * @param string|NULL $templateFile
 	 * @param Storage\IStorage $storage
+	 *
+	 * @throws Exceptions\InvalidArgumentException
 	 */
 	public function __construct(
 		string $templateFile = NULL,
@@ -68,6 +68,8 @@ final class Confirmer extends ConfirmerAttributes
 	 * @param array $params
 	 * 
 	 * @return void
+	 *
+	 * @throws Exceptions\InvalidStateException
 	 */
 	public function showConfirm(array $params = []) : void
 	{
@@ -98,6 +100,7 @@ final class Confirmer extends ConfirmerAttributes
 	 * 
 	 * @return void
 	 *
+	 * @throws Application\AbortException
 	 * @throws Exceptions\HandlerNotCallableException
 	 * @throws Exceptions\InvalidStateException
 	 */
@@ -143,6 +146,9 @@ final class Confirmer extends ConfirmerAttributes
 	 * @return void
 	 *
 	 * @param Forms\Controls\SubmitButton $button
+	 *
+	 * @throws Application\AbortException
+	 * @throws Exceptions\InvalidStateException
 	 */
 	public function cancelClicked(Forms\Controls\SubmitButton $button) : void
 	{
@@ -221,6 +227,8 @@ final class Confirmer extends ConfirmerAttributes
 	 * @param string $layoutFile
 	 * 
 	 * @return void
+	 *
+	 * @throws Exceptions\InvalidArgumentException
 	 */
 	public function setTemplateFile(string $layoutFile) : void
 	{
@@ -270,6 +278,8 @@ final class Confirmer extends ConfirmerAttributes
 
 	/**
 	 * @return void
+	 *
+	 * @throws Application\AbortException
 	 */
 	private function refreshPage() : void
 	{

@@ -4,7 +4,7 @@
  *
  * @copyright      More in license.md
  * @license        https://www.ipublikuj.eu
- * @author         Adam Kadlec https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     DI
  * @since          1.0.0
@@ -20,7 +20,6 @@ use Nette;
 use Nette\DI;
 use Nette\PhpGenerator as Code;
 
-use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Components;
 use IPub\ConfirmationDialog\Storage;
 

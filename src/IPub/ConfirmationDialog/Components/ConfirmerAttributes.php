@@ -4,7 +4,7 @@
  *
  * @copyright      More in license.md
  * @license        https://www.ipublikuj.eu
- * @author         Adam Kadlec https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Components
  * @since          1.0.0
@@ -19,7 +19,6 @@ namespace IPub\ConfirmationDialog\Components;
 use Nette\Application;
 use Nette\ComponentModel;
 
-use IPub\ConfirmationDialog;
 use IPub\ConfirmationDialog\Exceptions;
 use IPub\ConfirmationDialog\Storage;
 
@@ -198,8 +197,6 @@ abstract class ConfirmerAttributes extends BaseControl
 	 * @param callable $handler
 	 *
 	 * @return void
-	 *
-	 * @throws Exceptions\InvalidArgumentException
 	 */
 	public function setHandler(callable $handler) : void
 	{

@@ -5,7 +5,7 @@
  *
  * @copyright      More in license.md
  * @license        https://www.ipublikuj.eu
- * @author         Adam Kadlec https://www.ipublikuj.eu
+ * @author         Adam Kadlec <adam.kadlec@ipublikuj.eu>
  * @package        iPublikuj:ConfirmationDialog!
  * @subpackage     Tests
  * @since          2.1.1
@@ -17,7 +17,6 @@ declare(strict_types = 1);
 
 namespace IPubTests\ConfirmationDialog\Libs;
 
-use Nette;
 use Nette\Application;
 use Nette\Application\Routers;
 
