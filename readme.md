@@ -1,8 +1,8 @@
 # Confirmation dialog
 
-[![Build Status](https://img.shields.io/travis/iPublikuj/confirmation-dialog.svg?style=flat-square)](https://travis-ci.org/iPublikuj/confirmation-dialog)
-[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/iPublikuj/confirmation-dialog.svg?style=flat-square)](https://scrutinizer-ci.com/g/iPublikuj/confirmation-dialog/?branch=master)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/iPublikuj/confirmation-dialog.svg?style=flat-square)](https://scrutinizer-ci.com/g/iPublikuj/confirmation-dialog/?branch=master)
+[![Build Status](https://img.shields.io/travis/ipublikuj-ui/confirmation-dialog.svg?style=flat-square)](https://travis-ci.org/ipublikuj-ui/confirmation-dialog)
+[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ipublikuj-ui/confirmation-dialog.svg?style=flat-square)](https://scrutinizer-ci.com/g/ipublikuj-ui/confirmation-dialog/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ipublikuj-ui/confirmation-dialog.svg?style=flat-square)](https://scrutinizer-ci.com/g/ipublikuj-ui/confirmation-dialog/?branch=master)
 [![Latest Stable Version](https://img.shields.io/packagist/v/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
 [![Composer Downloads](https://img.shields.io/packagist/dt/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
 [![License](https://img.shields.io/packagist/l/ipub/confirmation-dialog.svg?style=flat-square)](https://packagist.org/packages/ipub/confirmation-dialog)
